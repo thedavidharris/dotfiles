@@ -1,0 +1,30 @@
+{
+  "entries": {
+    "cask": {
+      "charles": {
+        "version": "4.5.5"
+      },
+      "iterm2": {
+        "version": "3.2.3"
+      },
+      "slack": {
+        "version": "3.3.3"
+      },
+      "sublime-merge": {
+        "version": "1070"
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "mojave": {
+        "HOMEBREW_VERSION": "2.2.1",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "1c35868dc06bd04ee744a9d3912b71b58032f4f3",
+        "CLT": "10.3.0.0.1.1562985497",
+        "Xcode": "11.1",
+        "macOS": "10.14.6"
+      }
+    }
+  }
+}
