@@ -17,7 +17,8 @@ files=(\
   .vim \
   .vimrc \
   .wgetrc \
-  # zshrc \
+  .zsh \
+  .zshrc \
 )
 
 custom_path() {
