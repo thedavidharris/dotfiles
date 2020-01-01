@@ -6,5 +6,3 @@ for file in "${configs[@]}"
 do
   source "$file"
 done
-
-export PS1="(\w \j) \$ "
