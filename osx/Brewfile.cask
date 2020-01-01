@@ -1,0 +1,4 @@
+cask 'charles'
+cask "iterm2"
+cask "slack"
+cask "sublime-merge"

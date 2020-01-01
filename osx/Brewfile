@@ -1,0 +1,27 @@
+tap 'homebrew/bundle'
+
+brew 'bash'
+brew 'bash-completion@2'
+brew 'chisel'
+brew 'chruby'
+brew 'cocoapods'
+brew 'coreutils'
+brew 'docker'
+brew 'findutils'
+brew 'git', args: ['with-curl']
+brew 'git-lfs'
+brew 'gnu-sed', args: ['with-default-names']
+brew 'grep', args: ['with-default-names']
+brew 'moreutils'
+brew 'nmap'
+brew 'openssh'
+brew 'ruby-install'
+brew 'screen'
+brew 'speedtest-cli'
+brew 'swiftlint'
+brew 'thefuck'
+brew 'tree'
+brew 'vim', args: ['with-override-system-vi']
+brew 'wget'
+brew 'zsh'
+brew 'zsh-completions'
