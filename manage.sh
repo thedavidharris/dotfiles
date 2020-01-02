@@ -1,6 +1,7 @@
 #!/bin/bash
 
 files=(\
+  .antigenrc \
   .bin \
   .curlrc \
   .gemrc \
