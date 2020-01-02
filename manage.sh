@@ -1,8 +1,6 @@
 #!/bin/bash
 
 files=(\
-  .bash_profile \
-  .bashrc \
   .bin \
   .curlrc \
   .gemrc \
@@ -17,7 +15,7 @@ files=(\
   .vim \
   .vimrc \
   .wgetrc \
-  .zsh \
+  zsh \
   .zshrc \
 )
 
