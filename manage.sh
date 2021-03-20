@@ -2,7 +2,6 @@
 
 files=(\
   .antigenrc \
-  .bin \
   .curlrc \
   .gemrc \
   .gitattributes \

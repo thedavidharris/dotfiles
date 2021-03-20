@@ -8,7 +8,7 @@ brew 'cocoapods'
 brew 'coreutils'
 brew 'docker'
 brew 'findutils'
-brew 'git', args: ['with-curl']
+brew 'git'
 brew 'git-lfs'
 brew 'gnu-sed', args: ['with-default-names']
 brew 'grep', args: ['with-default-names']

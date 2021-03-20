@@ -2,16 +2,28 @@
   "entries": {
     "cask": {
       "charles": {
-        "version": "4.5.5"
+        "version": "4.5.6",
+        "options": {
+          "full_name": "charles"
+        }
       },
       "iterm2": {
-        "version": "3.2.3"
+        "version": "3.3.12",
+        "options": {
+          "full_name": "iterm2"
+        }
       },
       "slack": {
-        "version": "3.3.3"
+        "version": "4.9.0",
+        "options": {
+          "full_name": "slack"
+        }
       },
       "sublime-merge": {
-        "version": "1070"
+        "version": "2032",
+        "options": {
+          "full_name": "sublime-merge"
+        }
       }
     }
   },
@@ -24,6 +36,14 @@
         "CLT": "10.3.0.0.1.1562985497",
         "Xcode": "11.1",
         "macOS": "10.14.6"
+      },
+      "catalina": {
+        "HOMEBREW_VERSION": "2.2.5",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "f0427b5559efa781b6b9de1d4efd70a7b458d170",
+        "CLT": "1103.0.32.62",
+        "Xcode": "11.7",
+        "macOS": "10.15.6"
       }
     }
   }

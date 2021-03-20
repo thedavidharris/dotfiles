@@ -10,7 +10,7 @@ fi
 
 ./manage.sh install
 
-if [[ ! -e "$HOME/.bashrc" ]]; then
+if [[ ! -e "$HOME/.zshrc" ]]; then
   echo "Looks like the manage script failed, try and run it manually"
   exit 1
 fi
@@ -23,13 +23,6 @@ fi
 # Set correct netrc permissions
 touch "$HOME/.netrc"
 chmod 0600 "$HOME/.netrc"
-
-# Correct gnupg permissions after linking, this must be done before a private
-# key is added otherwise it will bork the key setup
-# https://superuser.com/a/954536
-# chown -R "$(whoami)" ~/.gnupg/
-# chmod 600 ~/.gnupg/*
-# chmod 700 ~/.gnupg
 
 # Install some default software
 brew bundle --file="./osx/Brewfile"

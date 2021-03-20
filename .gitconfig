@@ -309,3 +309,9 @@
 [user]
 	name = David Harris
 	email = dharr419@ford.com
+[http]
+	postBuffer = 524288000
+[credential]
+	helper = osxkeychain
+[maintenance]
+	repo = /Users/dharr419/workspace/mobileapp-ios
