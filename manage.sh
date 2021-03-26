@@ -1,7 +1,6 @@
 #!/bin/bash
 
 files=(\
-  .antigenrc \
   .curlrc \
   .gemrc \
   .gitattributes \

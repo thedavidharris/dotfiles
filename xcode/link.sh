@@ -16,12 +16,11 @@ if [ ! -d xcode ]; then
   exit 1
 fi
 
-#bindings="$HOME/Library/Developer/Xcode/UserData/KeyBindings"
-#rm -f "$bindings/custom.idekeybindings"
-#mkdir -p "$bindings"
-#ln -s "$DOTFILES/xcode/custom.idekeybindings" "$bindings"
-
 colors="$HOME/Library/Developer/Xcode/UserData/FontAndColorThemes"
 rm -f "$colors/panic.xccolortheme"
+rm -f "$colors/gruvbox-dark.xccolortheme"
+rm -f "$colors/gruvbox-light.xccolortheme"
 mkdir -p "$colors"
 ln -s "$DOTFILES/xcode/panic.xccolortheme" "$colors"
+ln -s "$DOTFILES/xcode/gruvbox-dark.xccolortheme" "$colors"
+ln -s "$DOTFILES/xcode/gruvbox-light.xccolortheme" "$colors"

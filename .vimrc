@@ -137,6 +137,9 @@ call minpac#add('airblade/vim-gitgutter')
 call minpac#add('tpope/vim-fugitive')
 
 "Language Packages
+call minpac#add('leafgarland/typescript-vim')
+call minpac#add('elzr/vim-json')
+call minpac#add('othree/html5.vim')
 
 
 

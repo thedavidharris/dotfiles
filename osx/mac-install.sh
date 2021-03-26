@@ -26,13 +26,9 @@ chmod 0600 "$HOME/.netrc"
 
 # Install some default software
 brew bundle --file="./osx/Brewfile"
-brew bundle --file="./osx/Brewfile.cask"
 
 # Set many default settings
 ./osx/defaults.sh
 
-# Install Oh My Zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
 # Add Terminal.app theme
-open ./osx/parsec.terminal
+open ./osx/gruvbox-dark.terminal
