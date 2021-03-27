@@ -19,3 +19,5 @@ gnupg/*
 !gnupg/gpg-agent.conf
 
 *.zwc
+
+.vim/pack/minpack/start
