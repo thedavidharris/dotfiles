@@ -20,4 +20,4 @@ gnupg/*
 
 *.zwc
 
-.vim/pack/minpack/start
+.vim/pack/minpac/start
