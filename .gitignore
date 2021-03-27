@@ -20,4 +20,6 @@ gnupg/*
 
 *.zwc
 
+# Submodules
 .vim/pack/minpac/start
+zsh/plugins
