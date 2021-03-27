@@ -18,4 +18,4 @@ gnupg/*
 !gnupg/gpg.conf
 !gnupg/gpg-agent.conf
 
-.antigenrc.zwc
+*.zwc

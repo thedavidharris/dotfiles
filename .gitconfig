@@ -181,9 +181,11 @@
 
 [color "branch"]
 
-	current = yellow reverse
-	local = yellow
-	remote = green
+	current = brightcyan blue
+	local = brightcyan normal
+	remote = brightmagenta normal
+	upstream = brightmagenta normal
+	plain = brightcyan normal
 
 [color "diff"]
 
@@ -191,12 +193,22 @@
 	frag = magenta bold # line info
 	old = red # deletions
 	new = green # additions
+	whitespace = normal normal
+	commit = yellow normal
+	func = brightgreen normal
 
 [color "status"]
 
-	added = yellow
-	changed = green
-	untracked = cyan
+	added = green normal
+	changed = yellow normal
+	untracked = normal normal dim
+	unmerged = red normal
+	nobranch = red normal italic
+	updated = green normal
+	localbranch = brightcyan normal
+	header = normal normal
+	remotebranch = brightmagenta normal
+	branch = brightcyan normal
 
 [commit]
 
@@ -315,3 +327,24 @@
 	helper = osxkeychain
 [maintenance]
 	repo = /Users/dharr419/workspace/mobileapp-ios
+[color "decorate"]
+	HEAD = brightcyan normal italic
+	remotebranch = brightmagenta normal
+	grafted = red normal italic
+	tag = yellow normal bold
+	stash = brightblack normal
+	branch = brightcyan normal
+[color "grep"]
+	filename = white normal
+	function = brightgreen normal
+	column = brightblack normal
+	linenumber = brightblack normal
+[color "interactive"]
+	header = normal normal
+	help = brightblack normal
+	error = red normal italic
+[color "remote"]
+	success = green normal
+	error = red normal
+	hint = normal normal dim
+	warning = yellow normal
