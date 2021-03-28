@@ -22,4 +22,4 @@ gnupg/*
 
 # Submodules
 .vim/pack/minpac/start
-zsh/plugins
+zsh/znap-plugins
