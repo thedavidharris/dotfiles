@@ -9,19 +9,9 @@ source $DOTFILES/zsh/zsh-snap/znap.zsh
 znap prompt pure
 
 # Oh-My-Zsh Extensions
-# Would like to remove sometime
-
-# Options
-
-
-# Environment variables
-# export LANG='en_US.UTF-8'
-# export EDITOR='code'
-# export VISUAL='code'
-# export CLICOLOR=1
-# export CLICOLOR_FORCE=1
-
-# Syntax highlighting in `less` and `man`
+znap source ohmyzsh/ohmyzsh plugins/chruby
+znap source ohmyzsh/ohmyzsh plugins/colored-man-pages
+znap source ohmyzsh/ohmyzsh plugins/jenv
 
 
 # Completions
@@ -57,6 +47,9 @@ znap source zsh-users/zsh-syntax-highlighting
 
 # nvm
 znap source lukechilds/zsh-nvm
+
+# Touchbar
+znap source zsh-users/zsh-apple-touchbar
 
 # Find all zsh custom plugin files
 plugins=($DOTFILES/zsh/plugins/*.zsh)

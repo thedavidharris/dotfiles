@@ -55,6 +55,10 @@ export MANPAGER="sh -c 'col -bpx | bat -l man -p'"
 export BAT_PAGER="less $LESS"
 
 
+export CLICOLOR=1
+export CLICOLOR_FORCE=1
+
+
 # OSX Things
 
 
