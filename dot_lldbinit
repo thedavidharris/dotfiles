@@ -1,0 +1,29 @@
+settings set target.x86-disassembly-flavor intel
+# Allow stepping in to code you don't have the debug symbols for
+settings set target.process.thread.step-in-avoid-nodebug false
+# Load local .lldbinit files
+settings set target.load-cwd-lldbinit true
+
+# Add type summary for Unmanaged in Swift
+type summary add --category swift --summary-string "Unmanaged Contains: ${var._value%@}" Swift.Unmanaged<AnyObject>
+
+command script import ~/.lldbhelpers/aslr.py
+command script import ~/.lldbhelpers/break_here.py
+command script import ~/.lldbhelpers/breakpoints.py
+command script import ~/.lldbhelpers/context.py
+command script import ~/.lldbhelpers/delete_breakpoint.py
+command script import ~/.lldbhelpers/function_address.py
+command script import ~/.lldbhelpers/iblog.py
+command script import ~/.lldbhelpers/keypath.py
+command script import ~/.lldbhelpers/symbol_address.py
+
+command regex fw 's/(.+)/expr -l objective-c -O -- @import %1/'
+
+command alias rs process launch --stop-at-entry
+command alias reveal expr -l objc++ -- (void*)dlopen("/Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/libReveal.dylib", 0x2); (void)[(NSNotificationCenter*)[NSNotificationCenter defaultCenter] postNotificationName:@"IBARevealRequestStart" object:nil];
+
+# log enable -f /tmp/types.log lldb types
+# log enable -f /tmp/dwarf.log dwarf all
+# log enable -f /tmp/breakpoints.log lldb break
+# log enable -f /tmp/all.log lldb all
+# log enable -f /tmp/expr.log lldb expr
