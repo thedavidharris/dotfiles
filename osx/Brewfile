@@ -1,0 +1,33 @@
+tap 'homebrew/bundle'
+tap 'homebrew/cask-fonts'
+tap 'maralla/pack'
+
+brew 'chisel'
+brew 'chruby'
+brew 'coreutils'
+brew 'findutils'
+brew 'git'
+brew 'git-lfs'
+brew 'gnu-sed', args: ['with-default-names']
+brew 'grep', args: ['with-default-names']
+brew 'moreutils'
+brew 'nmap'
+brew 'openssh'
+brew 'ruby-install'
+brew 'pack'
+brew 'screen'
+brew 'speedtest-cli'
+brew 'swiftlint'
+brew 'swiftformat'
+brew 'thefuck'
+brew 'tree'
+brew 'vim', args: ['with-override-system-vi']
+brew 'wget'
+brew 'zsh'
+brew 'zsh-completions'
+
+cask 'charles'
+cask "iterm2"
+cask 'font-jetbrains-mono'
+cask "slack"
+cask "sublime-merge"

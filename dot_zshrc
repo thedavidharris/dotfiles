@@ -4,6 +4,9 @@ export DOTFILES="$(dirname "$(readlink "$HOME/.zshrc")")"
 zstyle ':znap:*' plugins-dir $DOTFILES/zsh/znap-plugins
 source $DOTFILES/zsh/zsh-snap/znap.zsh
 
+# Configure VIM to run chezmoi apply whenever you save a dotfile
+autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path "%"
+
 
 # Prompt
 znap prompt sindresorhus/pure
