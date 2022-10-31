@@ -288,34 +288,7 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[user]
-	name = David Harris
-	email = dharr419@ford.com
 [http]
 	postBuffer = 524288000
 [credential]
 	helper = osxkeychain
-[maintenance]
-	repo = /Users/dharr419/workspace/mobileapp-ios
-[color "decorate"]
-	HEAD = 14 normal dim
-	remotebranch = 13 normal
-	grafted = 1 normal italic
-	tag = 3 normal
-	stash = 8 normal
-	branch = 14 normal
-[color "grep"]
-	filename = white normal
-	function = brightgreen normal
-	column = brightblack normal
-	linenumber = brightblack normal
-[color "interactive"]
-	header = 8 normal bold
-	help = 8 normal
-	error = 1 normal italic
-	prompt = 15 4
-[color "remote"]
-	success = 2 normal
-	error = 1 normal
-	hint = normal dim
-	warning = 3 normal
