@@ -1,70 +1,59 @@
 # Path to dotfiles repo
 export DOTFILES="$(dirname "$(readlink "$HOME/.zshrc")")"
 
-zstyle ':znap:*' plugins-dir $DOTFILES/zsh/znap-plugins
-source $DOTFILES/zsh/zsh-snap/znap.zsh
+# Source zshenv again after macOS /etc/zprofile nukes PATH
+source ~/.zshenv
 
-# Configure VIM to run chezmoi apply whenever you save a dotfile
-autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path "%"
-
+# Load znap so everything else can be loaded in the background
+source ~/.zsh/znap/zsh-snap/znap.zsh
 
 # Prompt
 znap prompt sindresorhus/pure
+fpath+=($HOME/.zsh/znap/pure)
 
-# Oh-My-Zsh Extensions
-znap source ohmyzsh/ohmyzsh plugins/chruby
-znap source ohmyzsh/ohmyzsh plugins/colored-man-pages
-znap source ohmyzsh/ohmyzsh plugins/jenv
-
-
-# Completions
 znap source zsh-users/zsh-completions
-
-# Real-time auto-completion
-# https://github.com/marlonrichert/zsh-autocomplete
-# znap source marlonrichert/zsh-autocomplete
-
-# In-line suggestions
+znap source marlonrichert/zsh-autocomplete
 znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+# znap source softmoth/zsh-vim-mode
+znap source zsh-users/zsh-history-substring-search
+znap source scriptingosx/mac-zsh-completions
+znap source MichaelAquilina/zsh-you-should-use
+znap source unixorn/fzf-zsh-plugin
+znap source marlonrichert/zsh-edit
+znap source marlonrichert/zcolors
+
+# znap eval zoxide "zoxide init zsh"
+# znap eval fzf    "cat $BREW_PREFIX/opt/fzf/shell/*.zsh"
+
+# Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=( "${ZSH_AUTOSUGGEST_ACCEPT_WIDGETS[@]:#*forward-char}" )
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char vi-forward-char )
 
-# Better line editing tools
-# https://github.com/marlonrichert/zsh-edit
-znap source marlonrichert/zsh-edit
+# Highlight colors
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
+# Line editing
 WORDCHARS='*?\'
 
 # History editing tools
-# https://github.com/marlonrichert/zsh-hist
-znap source marlonrichert/zsh-hist
 bindkey '^[q' push-line-or-edit
 
 # Colors
-# https://github.com/marlonrichert/
-znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
-# Command-line syntax highlighting
-export ZSH_HIGHLIGHT_HIGHLIGHTERS=( main brackets )
-znap source zsh-users/zsh-syntax-highlighting
+# comppaths=(
+#   ~/.zsh/functions
+#   $BREW_PREFIX/share/zsh-completions
+#   $BREW_PREFIX/share/zsh/site-functions
+# )
 
-# nvm
-znap source lukechilds/zsh-nvm
-
-# Touchbar
-znap source zsh-users/zsh-apple-touchbar
+# for path in $comppaths; do
+#   fpath+=$path
+#   autoload -U $path/*(.:t)
+# done
 
 # Find all zsh custom plugin files
-plugins=($DOTFILES/zsh/plugins/*.zsh)
-for file in "${plugins[@]}"
-do
-  source "$file"
+for file in ~/.zsh/*.zsh; do
+  znap eval $file(.:t) "cat $file"
 done
-
-# Source something from all shells for private ENV vars
-if [[ -f "$HOME/.secrets" ]]; then
-  source "$HOME/.secrets"
-fi
-
-
-

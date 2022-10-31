@@ -179,51 +179,6 @@
 	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
 	ui = auto
 
-[color "branch"]
-
-	current = 14 normal
-	local = 14 normal dim
-	remote = 13 normal dim
-	upstream = 13 normal
-	plain = 14 normal dim
-
-[color "diff"]
-
-	meta = 8 normal
-	frag = 8 normal ul
-	old = 9 normal dim
-	new = 10 normal
-	whitespace = normal 9
-	commit = 3 normal
-	func = 8 normal ul
-	newMoved = 14 normal
-	oldMovedAlternativeDimmed = 4 normal dim
-	oldMovedAlternative = 12 normal dim
-	contextBold = normal bold
-	newBold = 10 normal bold
-	context = normal
-	oldMoved = 14 normal dim
-	oldBold = 9 normal dim bold
-	newMovedDimmed = 6 normal
-	newDimmed = 2 normal
-	newMovedAlternative = 12 normal
-	newMovedAlternativeDimmed = 4 normal
-	oldMovedDimmed = 6 normal dim
-	oldDimmed = 1 normal dim
-
-[color "status"]
-
-	added = 10 normal
-	changed = 11 normal
-	untracked = normal dim
-	unmerged = 9 normal
-	nobranch = 1 normal italic
-	updated = 10 normal
-	localbranch = 14 normal
-	header = normal
-	remotebranch = 13 normal
-	branch = 14 normal
-
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/

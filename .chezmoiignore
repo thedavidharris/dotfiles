@@ -1,0 +1,6 @@
+LICENSE
+README.md
+script
+support
+{{ if stat (joinPath .chezmoi.homeDir ".config/age/chezmoi_key.txt") }}.config/age/chezmoi_key.txt{{ end }}
+{{ if stat (joinPath .chezmoi.homeDir ".zsh/znap") }}.zsh/znap{{ end }}
