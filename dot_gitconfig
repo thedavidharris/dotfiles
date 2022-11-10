@@ -1,3 +1,6 @@
+[advice]
+  waitingForEditor = false
+  skippedCherryPicks = false
 [alias]
 
 	# List git aliases
@@ -26,9 +29,6 @@
 
 	# Switch to a branch, creating it if necessary
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-	
-	# Push and set upstream
-#	gpo="git push --set-upstream origin $(git branch | awk '/^\* / { print $2 }')"
 
 	# Show verbose output about tags, branches or remotes
 	tags = tag -l
@@ -119,12 +119,6 @@
 	# Applying `alias gitsu='git submodule update --init --recursive'` as a bash alias is another way to accomplish this
 	smu = submodule update
 
-	# Create a WIP commit and amend previous commit if previous commit is a WIP commit
-	# TODO: fix this, there's a syntax error somewhere
-	# wip = "!f() { if [ "$(git log -1 --pretty=%B)" = "WIP" ]; then git commit --amend --no-edit else git commit -m "WIP" fi}; f"
-	# Soft pop a previous WIP commit
-	# unwip = "!f() { if [ "$(git log -1 --pretty=%B)" = "WIP" ]; then git reset HEAD^ else echo "No work in progress" fi}; f"
-
 	# Sort by date for branches
   	refs-by-date = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
 
@@ -143,22 +137,42 @@
 	# Show which commits are safe to amend/rebase
     unpushed = log @{u}.
 
-	# Git-Duet
-	dci = duet-commit
-	drv = duet-revert
-	dmg = duet-merge
-	drb = rebase -i --exec "git duet-commit --amend --reset-author"
-
 [apply]
-
 	# Detect whitespace errors when applying a patch
 	whitespace = fix
 
+[branch]
+	autosetupmerge = true
+
+[branch "main"]
+  pushRemote = NOPE
+[branch "master"]
+  pushRemote = NOPE
+
+[checkout]
+	guess = true
+
+[color]
+
+	# Use colors in Git commands that are capable of colored output when
+	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+	ui = auto
+
+[commit]
+
+	# https://help.github.com/articles/signing-commits-using-gpg/
+	# gpgsign = true
+
 [core]
+	excludesfile = ~/.gitignore
+  	attributesfile = ~/.gitattributes
+  	editor = vim
+  	pager = pager
+  	fsmonitor = true
 
 	# Use custom `.gitignore` and `.gitattributes`
-	# excludesfile = ~/.gitignore
-	# attributesfile = ~/.gitattributes
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
 	# [default] trailing-space: looks for spaces at the end of a line
@@ -173,44 +187,71 @@
 	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
 	precomposeunicode = false
 
-[color]
-
-	# Use colors in Git commands that are capable of colored output when
-	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	ui = auto
-
-[commit]
-
-	# https://help.github.com/articles/signing-commits-using-gpg/
-	# gpgsign = true
-
 [diff]
+	# tool = nvim -d
 
 	# Detect copies as well as renames
 	renames = copies
+
+	algorithm = patience
+
 	# Enable an experimental heuristic that shifts the hunk boundary in an
 	# attempt to make the resulting patch easier to read.
 	compactionHeuristic = true
+	indentHeuristic = true
 	colorMoved = zebra
 
 [diff "bin"]
-
 	# Use `hexdump` to diff binary files
 	textconv = hexdump -v -C
+[diff "plist"]
+  textconv = plutil -convert xml1 -o -
+[diff "provision"]
+  textconv = normalize-profile --ignore-invalid --shorten-certs
+[diff "exif"]
+  textconv = exiftool
+[diff "zip"]
+  textconv = textconv-zip
+  cachetextconv = true
+
+[difftool]
+	prompt = false
+
+[fetch]
+	prune = true
+
+[grep]
+	column = true
+	lineNumber = true
 
 [help]
 
 	# Automatically correct and execute mistyped commands
-	# autocorrect = 1
+	autocorrect = 1
+
+[http]
+#   cookiefile = ~/.gitcookies
+
+[init]
+  	defaultBranch = main
+  	# templatedir = ~/.git_template
+
+[interactive]
+	diffFilter = diff-highlight
 
 [log]
 	# Always decorate git log
 	decorate = full
 
+	follow = true
 [merge]
+
+	# tool = nvim
 
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+
+	stat = true
 
 	# Ensure every merge is a fast-forward merge. Helpful when working with a git rebase flow and prevents accidentally creating merge commits when not wanted
 	# To override, use git merge --ff
@@ -219,19 +260,28 @@
 
 	# Add a third section for original changes to merge diffs
 	# https://git-scm.com/docs/git-config#git-config-mergeconflictStyle
-	conflictstyle = diff3
+	conflictstyle = zdiff3
+
+[mergetool]
+	keepBackup = false
+
+[mergetool "nvim"]
+	cmd = nvim -c "normal\\ gg]c" -f \"$MERGED\"
+	prompt = false
+	trustExitCode = true
+
+[pager]
+	branch = false
 
 [pull]
 	# Don't allow non-fast forward pulls into local branches
 	# Override with `git pull --rebase` or `git pull --no-ff`
 	ff = only
 
-[push]
+	rebase = true
 
-	# Simplify pushing to a remote branch with same name as local working branch
-	# Refuse to push to remote braches with different names
-	# https://git-scm.com/docs/git-config#git-config-pushdefault
-	default = simple
+[push]
+  	default = upstream
 
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	# https://git-scm.com/docs/git-config#git-config-pushfollowTags
@@ -245,15 +295,20 @@
 	# When the commit log message begins with "squash! ..." (or "fixup! ..."), and there is a commit whose title begins with the same ..., automatically modify the todo list of rebase -i so that the commit marked for squashing comes right after the commit to be modified, and change the action of the moved commit from pick to squash (or fixup).
 	autosquash = true
 
+	stat = true
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
 [status]
 	# Shows all files underneath an untracked directory instead of just the directory
 	# https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
 	showUntrackedFiles = all
 
 [stash]
-
 	showPatch = true
-
+	showIncludeUntracked = true
 [transfer]
 	# Extra checks for data corruption when sending or receiving data
 	# Note: could make things slower
@@ -283,12 +338,17 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+
+[user]
+	name = David Harris
+	email = davidaharris@outlook.com
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[http]
-	postBuffer = 524288000
-[credential]
-	helper = osxkeychain
+
+[pile]
+  cleanupRemoteOnSubmitFailure = true
+

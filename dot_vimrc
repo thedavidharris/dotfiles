@@ -45,7 +45,10 @@ Plug 'othree/html5.vim'
 " Allow direnv environment handling
 Plug 'direnv/direnv.vim'
 
-Plug 'morhetz/gruvbox'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
+Plug 'ghifarit53/tokyonight-vim'
+
 
 Plug 'vim-airline/vim-airline'
 
@@ -89,9 +92,21 @@ set wildignore+=.DS_Store
 " Theme/Styling
 " =======================================
 syntax on
-set background=dark
 
-autocmd vimenter * ++nested colorscheme gruvbox
+set termguicolors
+
+if has('nvim')
+  " There are also colorschemes for the different styles
+  colorscheme tokyonight-night
+  "  colorscheme tokyonight-storm
+  "  colorscheme tokyonight-day
+  "  colorscheme tokyonight-moon
+else
+  let g:tokyonight_style = 'night' " available: night, storm
+  let g:tokyonight_enable_italic = 1
+
+  colorscheme tokyonight
+endif
 
 " =======================================
 " Scrolling

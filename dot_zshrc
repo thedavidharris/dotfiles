@@ -42,16 +42,16 @@ bindkey '^[q' push-line-or-edit
 # Colors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
-# comppaths=(
-#   ~/.zsh/functions
-#   $BREW_PREFIX/share/zsh-completions
-#   $BREW_PREFIX/share/zsh/site-functions
-# )
+comppaths=(
+  ~/.zsh/functions
+  $BREW_PREFIX/share/zsh-completions
+  $BREW_PREFIX/share/zsh/site-functions
+)
 
-# for path in $comppaths; do
-#   fpath+=$path
-#   autoload -U $path/*(.:t)
-# done
+for path in $comppaths; do
+  fpath+=$path
+  autoload -U $path/*(.:t)
+done
 
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
