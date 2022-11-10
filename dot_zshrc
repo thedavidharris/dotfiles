@@ -43,7 +43,7 @@ bindkey '^[q' push-line-or-edit
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
 comppaths=(
-  ~/.zsh/functions
+  # ~/.zsh/functions
   $BREW_PREFIX/share/zsh-completions
   $BREW_PREFIX/share/zsh/site-functions
 )
