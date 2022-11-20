@@ -6,8 +6,10 @@ fi
 SAVEHIST=2000
 HISTSIZE=$(( 1.2 * SAVEHIST))  # Zsh recommended value
 
-# Set default editor to Vim
-export EDITOR=vim
+# Set default editor to Neovim
+export EDITOR=nvim
+
+export VISUAL=code
 
 # i - Vim's smart case
 # j.5 - Center search results
@@ -48,13 +50,17 @@ export BAT_PAGER="less $LESS"
 export CLICOLOR=1
 export CLICOLOR_FORCE=1
 
-
-# OSX Things
-
-
 # Disable fastlane stuff
 export FASTLANE_OPT_OUT_USAGE=1
 export FASTLANE_SKIP_UPDATE_CHECK=1
 
 # Disable CocoaPods stats
 export COCOAPODS_DISABLE_STATS=1
+
+export \
+    HOMEBREW_BAT=1 \
+    HOMEBREW_COLOR=1 \
+    HOMEBREW_NO_AUTO_UPDATE=1
+
+export NVM_DIR=$HOME/nvm
+export GRADLE_USER_HOME=$HOME/gradle

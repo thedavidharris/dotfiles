@@ -7,31 +7,29 @@ source ~/.zshenv
 # Load znap so everything else can be loaded in the background
 source ~/.zsh/znap/zsh-snap/znap.zsh
 
-# Prompt
-znap prompt sindresorhus/pure
-fpath+=($HOME/.zsh/znap/pure)
-
-znap source zsh-users/zsh-completions
 znap source marlonrichert/zsh-autocomplete
-znap source zsh-users/zsh-autosuggestions
-znap source zsh-users/zsh-syntax-highlighting
+znap source zsh-users/zsh-completions
+
 # znap source softmoth/zsh-vim-mode
 znap source zsh-users/zsh-history-substring-search
 znap source scriptingosx/mac-zsh-completions
 znap source MichaelAquilina/zsh-you-should-use
 znap source unixorn/fzf-zsh-plugin
 znap source marlonrichert/zsh-edit
-znap source marlonrichert/zcolors
 
 # znap eval zoxide "zoxide init zsh"
 # znap eval fzf    "cat $BREW_PREFIX/opt/fzf/shell/*.zsh"
 
 # Autosuggest config
-ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=( "${ZSH_AUTOSUGGEST_ACCEPT_WIDGETS[@]:#*forward-char}" )
-ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char vi-forward-char )
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
+ZSH_AUTOSUGGEST_STRATEGY=( history )
+ZSH_AUTOSUGGEST_HISTORY_IGNORE=$'(*\n*|?(#c80,)|*\\#:hist:push-line:)'
+znap source zsh-users/zsh-autosuggestions
 
 # Highlight colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+znap source zsh-users/zsh-syntax-highlighting
 
 # Line editing
 WORDCHARS='*?\'
@@ -39,21 +37,26 @@ WORDCHARS='*?\'
 # History editing tools
 bindkey '^[q' push-line-or-edit
 
-# Colors
+# Generate theme colors for Git & Zsh.
+znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
-comppaths=(
+# TODO: this seems to not work if it's run before completions are installed
+# comppaths=(
   # ~/.zsh/functions
-  $BREW_PREFIX/share/zsh-completions
-  $BREW_PREFIX/share/zsh/site-functions
-)
+  # $BREW_PREFIX/share/zsh-completions
+  # $BREW_PREFIX/share/zsh/site-functions
+# )
 
-for path in $comppaths; do
-  fpath+=$path
-  autoload -U $path/*(.:t)
-done
+# for path in $comppaths; do
+#   fpath+=$path
+#   autoload -U $path/*(.:t)
+# done
 
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
   znap eval $file(.:t) "cat $file"
 done
+
+# Prompt
+eval "$(starship init zsh)"

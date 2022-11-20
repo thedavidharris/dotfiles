@@ -1,3 +1,5 @@
+# TODO: Might be easier to use zsh notation instead of the older ones
+
 # Append history to the zsh_history file
 setopt APPEND_HISTORY
 
@@ -34,7 +36,6 @@ setopt EXTENDED_GLOB
 setopt GLOB_STAR_SHORT
 setopt NUMERIC_GLOB_SORT
 
-
 # Jump to end after completion
 setopt ALWAYS_TO_END
 
@@ -48,3 +49,5 @@ unsetopt LIST_BEEP
 
 # Warn before quitting with background jobs
 setopt CHECK_JOBS
+
+setopt interactivecomments

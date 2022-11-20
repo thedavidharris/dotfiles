@@ -455,14 +455,16 @@ defaults write com.apple.terminal SecureKeyboardEntry -bool true
 defaults write com.apple.Terminal AutoMarkPromptLines -bool false
 defaults write com.apple.Terminal ShowLineMarks -bool false
 
-# Install themes for Terminal and iTerm
-# open "${HOME}/init/Solarized Dark.itermcolors"
-
 # Hide scrollbars in terminal
 defaults write com.apple.Terminal AppleShowScrollBars -string "Automatic"
 
 # Don’t display the annoying prompt when quitting iTerm
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+
+# Specify the preferences directory
+defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$HOME/.config/iterm2"
+# Tell iTerm2 to use the custom preferences in the directory
+defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 
 ###############################################################################
 # Activity Monitor                                                            #

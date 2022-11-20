@@ -166,7 +166,7 @@
 [core]
 	excludesfile = ~/.gitignore
   	attributesfile = ~/.gitattributes
-  	editor = vim
+  	editor = nvim
   	pager = pager
   	fsmonitor = true
 
