@@ -1,9 +1,3 @@
-[includeIf "gitdir:~/Developer/work/"]
-    path = ~/.config/git/config.work
-
-[includeIf "gitdir:~/Developer/personal/"]
-    path = ~/.config/git/config.personal
-
 [advice]
   waitingForEditor = false
   skippedCherryPicks = false
@@ -339,3 +333,9 @@
 
 [pile]
   cleanupRemoteOnSubmitFailure = true
+
+[includeIf "gitdir:~/Developer/work/"]
+    path = ~/.config/git/config.work
+
+[includeIf "gitdir:~/Developer/personal/"]
+    path = ~/.config/git/config.personal
