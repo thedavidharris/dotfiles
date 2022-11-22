@@ -442,10 +442,6 @@ sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Vol
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
 
-# Setup the correct theme
-defaults write com.apple.Terminal "Default Window Settings" -string "gruvbox-dark"
-defaults write com.apple.Terminal "Startup Window Settings" -string "gruvbox-dark"
-
 # Enable Secure Keyboard Entry in Terminal.app
 # See: https://security.stackexchange.com/a/47786/8918
 defaults write com.apple.terminal SecureKeyboardEntry -bool true
@@ -649,8 +645,8 @@ defaults write com.apple.dt.XCBuild EnableDebugActivityLogs -bool true
 defaults write com.apple.dt.Xcode DVTTextTabKeyIndentBehavior -string Never
 
 # Set custom colorscheme
-defaults write com.apple.dt.Xcode XCFontAndColorCurrentTheme -string gruvbox-dark.xccolortheme
-defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string gruvbox-dark.xccolortheme
+defaults write com.apple.dt.Xcode XCFontAndColorCurrentTheme -string 'Tokyo Night Storm.xccolortheme'
+defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string 'Tokyo Night Storm.xccolortheme'
 
 # Make command click jump to definition instead of showing the menu
 defaults write com.apple.dt.Xcode IDECommandClickNavigates -bool true

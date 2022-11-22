@@ -7,7 +7,6 @@ source ~/.zshenv
 # Load znap so everything else can be loaded in the background
 source ~/.zsh/znap/zsh-snap/znap.zsh
 
-znap source marlonrichert/zsh-autocomplete
 znap source zsh-users/zsh-completions
 
 # znap source softmoth/zsh-vim-mode
@@ -19,6 +18,13 @@ znap source marlonrichert/zsh-edit
 
 # znap eval zoxide "zoxide init zsh"
 # znap eval fzf    "cat $BREW_PREFIX/opt/fzf/shell/*.zsh"
+
+# Autocomplete conffiguration
+# zstyle ':autocomplete:*' fzf-completion no
+zstyle ':autocomplete:*' widget-style menu-complete
+znap source marlonrichert/zsh-autocomplete
+zstyle ':autocomplete:*' insert-unambiguous yes
+
 
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
