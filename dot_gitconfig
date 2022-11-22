@@ -1,3 +1,9 @@
+[includeIf "gitdir:~/Developer/work/"]
+    path = ~/.config/git/config.work
+
+[includeIf "gitdir:~/Developer/personal/"]
+    path = ~/.config/git/config.personal
+
 [advice]
   waitingForEditor = false
   skippedCherryPicks = false
@@ -159,9 +165,7 @@
 	ui = auto
 
 [commit]
-
-	# https://help.github.com/articles/signing-commits-using-gpg/
-	# gpgsign = true
+	gpgsign = true
 
 [core]
 	excludesfile = ~/.gitignore
@@ -223,6 +227,12 @@
 [grep]
 	column = true
 	lineNumber = true
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [help]
 
@@ -316,32 +326,10 @@
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 	fsckobjects = true
 
-
-# URL shorthands
-
-[url "git@github.com:"]
-
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
-
-[url "git://github.com/"]
-
-	insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-
-	insteadOf = "gist:"
-
 [user]
 	name = David Harris
 	email = davidaharris@outlook.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyvPLbNCtrhJWYqFrBdtd0Hx7RmgHYEYk22HCcaErgH
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -351,4 +339,3 @@
 
 [pile]
   cleanupRemoteOnSubmitFailure = true
-

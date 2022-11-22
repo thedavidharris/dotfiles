@@ -1,0 +1,7 @@
+[url "github_work:"]
+    insteadOf = git@github.com:
+
+[user]
+	name = David Harris
+	email = davidaharris@outlook.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyvPLbNCtrhJWYqFrBdtd0Hx7RmgHYEYk22HCcaErgH
