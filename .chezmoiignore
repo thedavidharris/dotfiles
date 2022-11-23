@@ -1,6 +1,13 @@
 LICENSE
 README.md
-script
-support
-{{ if stat (joinPath .chezmoi.homeDir ".config/age/chezmoi_key.txt") }}.config/age/chezmoi_key.txt{{ end }}
+
+./.config/iterm2/com.googlecode.iterm2.plist
+
+# znap
 {{ if stat (joinPath .chezmoi.homeDir ".zsh/znap") }}.zsh/znap{{ end }}
+
+# Ignore non-macOS files.
+{{ if ne .chezmoi.os "darwin" -}}
+dot_config/iterm
+dot_Brewfile
+{{- end }}
