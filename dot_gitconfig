@@ -165,7 +165,7 @@
 	excludesfile = ~/.gitignore
   	attributesfile = ~/.gitattributes
   	editor = nvim
-  	pager = pager
+  	pager = delta
   	fsmonitor = true
 
 	# Use custom `.gitignore` and `.gitattributes`
@@ -186,8 +186,6 @@
 	precomposeunicode = false
 
 [diff]
-	# tool = nvim -d
-
 	# Detect copies as well as renames
 	renames = copies
 
@@ -197,7 +195,7 @@
 	# attempt to make the resulting patch easier to read.
 	compactionHeuristic = true
 	indentHeuristic = true
-	colorMoved = zebra
+	colorMoved = default
 
 [diff "bin"]
 	# Use `hexdump` to diff binary files
@@ -241,7 +239,7 @@
   	# templatedir = ~/.git_template
 
 [interactive]
-	diffFilter = diff-highlight
+	diffFilter = delta --color-only
 
 [log]
 	# Always decorate git log
@@ -333,6 +331,10 @@
 
 [pile]
   cleanupRemoteOnSubmitFailure = true
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
 
 [includeIf "gitdir:~/Developer/work/"]
     path = ~/.config/git/config.work
