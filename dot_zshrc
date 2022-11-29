@@ -47,17 +47,7 @@ bindkey '^[q' push-line-or-edit
 znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
-# TODO: this seems to not work if it's run before completions are installed
-# comppaths=(
-  # ~/.zsh/functions
-  # $BREW_PREFIX/share/zsh-completions
-  # $BREW_PREFIX/share/zsh/site-functions
-# )
-
-# for path in $comppaths; do
-#   fpath+=$path
-#   autoload -U $path/*(.:t)
-# done
+. /usr/local/opt/asdf/libexec/asdf.sh
 
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
