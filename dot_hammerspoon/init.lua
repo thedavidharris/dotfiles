@@ -136,6 +136,14 @@ end
 watcher = hs.caffeinate.watcher.new(f)
 watcher:start()
 
+-- Appliction ID Helper
+function appID(app)
+    return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
+end
+
+chromeBrowser = appID('/Applications/Google Chrome.app')
+safari = appID('/Applications/Safari.app')
+
 
 -- Smart config reload
 function reloadConfig(files)
