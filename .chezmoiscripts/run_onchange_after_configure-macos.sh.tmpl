@@ -626,8 +626,6 @@ defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool true
 defaults write com.apple.dt.Xcode ExplainWhyBuildCommandsAreRun -bool true
 
 # Stop Xcode from reopening files (specifically storyboards) on launch.
-# I also have a `xcuser` shell command to wipe this state so you don't reopen
-# storyboards and dirty the diff, or just take 30 seconds to launch
 defaults write com.apple.dt.Xcode IDEDisableStateRestoration -bool true
 
 # Write detailed build system info into derived data
@@ -648,6 +646,10 @@ defaults write com.apple.dt.Xcode DVTTextTabKeyIndentBehavior -string Never
 defaults write com.apple.dt.Xcode XCFontAndColorCurrentTheme -string 'Tokyo Night Storm.xccolortheme'
 defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string 'Tokyo Night Storm.xccolortheme'
 
+# Show indexing progress
+# https://twitter.com/dmartincy/status/1034930612543676418
+defaults write com.apple.dt.Xcode IDEIndexerActivityShowNumericProgress -bool true
+
 # Make command click jump to definition instead of showing the menu
 defaults write com.apple.dt.Xcode IDECommandClickNavigates -bool true
 
@@ -662,6 +664,9 @@ defaults write com.apple.dt.Xcode ShowDVTDebugMenu -bool true
 
 # Show all file extensions
 # defaults write com.apple.dt.Xcode IDEFileExtensionDisplayMode -int 1
+
+# https://twitter.com/iKenndac/status/1587867958348599308
+defaults write com.apple.dt.Xcode XcodeCloudUpsellPromptEnabled -bool false
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
 

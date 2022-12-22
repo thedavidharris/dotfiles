@@ -1,7 +1,7 @@
 LICENSE
 README.md
 
-symlinks
+support/config/iterm2/AppSupport
 
 # znap
 {{ if stat (joinPath .chezmoi.homeDir ".zsh/znap") }}.zsh/znap{{ end }}
