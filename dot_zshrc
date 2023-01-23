@@ -47,7 +47,10 @@ bindkey '^[q' push-line-or-edit
 znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
-. /usr/local/opt/asdf/libexec/asdf.sh
+# asdf
+echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+
+# chxode
 
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
