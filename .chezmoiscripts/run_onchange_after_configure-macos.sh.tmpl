@@ -459,6 +459,7 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 # Specify the preferences directory
 defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$HOME/.config/iterm2"
+
 # Tell iTerm2 to use the custom preferences in the directory
 defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
 
@@ -631,13 +632,13 @@ defaults write com.apple.dt.Xcode IDEDisableStateRestoration -bool true
 # Write detailed build system info into derived data
 # If you don't enable this but `mkdir /tmp/xcode_dependency_logs` the logs will
 # be created there instead
-defaults write com.apple.dt.Xcode EnableBuildSystemLogging -bool true
+# defaults write com.apple.dt.Xcode EnableBuildSystemLogging -bool true
 
 # Disable the print keyboard shortcut in Xcode. I accidentally hit this a lot
 defaults write com.apple.dt.Xcode NSUserKeyEquivalents -dict-add "Print..." "nil"
 
 # Enable extra logging for XCBuild
-defaults write com.apple.dt.XCBuild EnableDebugActivityLogs -bool true
+# defaults write com.apple.dt.XCBuild EnableDebugActivityLogs -bool true
 
 # Make the tab key actually be a tab key
 defaults write com.apple.dt.Xcode DVTTextTabKeyIndentBehavior -string Never

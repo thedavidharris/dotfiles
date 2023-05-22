@@ -11,15 +11,6 @@ export EDITOR=nvim
 
 export VISUAL=code
 
-# i - Vim's smart case
-# j.5 - Center search results
-# K - Quit on CTRL-C
-# M - Longer prompt
-# R - output colors correctly
-# X - Don't send clear screen signal
-export LESS="ij.5KMRX"
-export PAGER="less"
-
 # Disable ^-S in the terminal
 stty -ixon -ixoff
 
@@ -37,30 +28,8 @@ export LC_ALL='en_US.UTF-8';
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
 
-# Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
-
-export PAGER='less'
-export LESS='-giR'
-export READNULLCMD='bat'
-export MANPAGER="sh -c 'col -bpx | bat -l man -p'"
-export BAT_PAGER="less $LESS"
-
-
 export CLICOLOR=1
 export CLICOLOR_FORCE=1
-
-# Disable fastlane stuff
-export FASTLANE_OPT_OUT_USAGE=1
-export FASTLANE_SKIP_UPDATE_CHECK=1
-
-# Disable CocoaPods stats
-export COCOAPODS_DISABLE_STATS=1
-
-export \
-    HOMEBREW_BAT=1 \
-    HOMEBREW_COLOR=1 \
-    HOMEBREW_NO_AUTO_UPDATE=1
 
 export NVM_DIR=$HOME/nvm
 export GRADLE_USER_HOME=$HOME/gradle
