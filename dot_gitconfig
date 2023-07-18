@@ -1,6 +1,7 @@
 [advice]
   waitingForEditor = false
   skippedCherryPicks = false
+
 [alias]
 
 	# List git aliases
@@ -137,6 +138,9 @@
 	# Show which commits are safe to amend/rebase
     unpushed = log @{u}.
 
+	# Add SSH identity for repo
+	identity = "!f() { git config core.sshCommand \"ssh -i $1  -F /dev/null -o 'IdentitiesOnly yes'\"; }; f"
+
 [apply]
 	# Detect whitespace errors when applying a patch
 	whitespace = fix
@@ -151,12 +155,6 @@
 
 [checkout]
 	guess = true
-
-[color]
-
-	# Use colors in Git commands that are capable of colored output when
-	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	ui = auto
 
 [commit]
 	gpgsign = true
