@@ -48,7 +48,7 @@ znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
 # asdf
-echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+$(brew --prefix asdf)/libexec/asdf.sh
 
 # chxode
 
@@ -59,3 +59,7 @@ done
 
 # Prompt
 eval "$(starship init zsh)"
+
+# direnv
+
+eval "$(direnv hook zsh)"
