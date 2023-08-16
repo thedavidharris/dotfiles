@@ -48,7 +48,7 @@ znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
 # asdf
-$(brew --prefix asdf)/libexec/asdf.sh
+. $(brew --prefix asdf)/libexec/asdf.sh
 
 # chxode
 
