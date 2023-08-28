@@ -1,13 +1,13 @@
-Host *
-    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-    IdentityFile ~/.ssh/id_ed25519_personal.pub
-    IdentitiesOnly yes
-
 Include configs/work
 
 Host github_personal
     Hostname github.com
     User git
+    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    IdentityFile ~/.ssh/id_ed25519_personal.pub
+    IdentitiesOnly yes
+
+Host github.com
     IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     IdentityFile ~/.ssh/id_ed25519_personal.pub
     IdentitiesOnly yes
