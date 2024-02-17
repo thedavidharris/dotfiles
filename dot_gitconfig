@@ -147,6 +147,7 @@
 
 [branch]
 	autosetupmerge = true
+  	sort = -committerdate
 
 [branch "main"]
   pushRemote = NOPE
@@ -184,16 +185,10 @@
 	precomposeunicode = false
 
 [diff]
-	# Detect copies as well as renames
 	renames = copies
-
-	algorithm = patience
-
-	# Enable an experimental heuristic that shifts the hunk boundary in an
-	# attempt to make the resulting patch easier to read.
-	compactionHeuristic = true
+	algorithm = histogram
 	indentHeuristic = true
-	colorMoved = default
+	colorMoved = zebra
 
 [diff "bin"]
 	# Use `hexdump` to diff binary files
@@ -213,6 +208,7 @@
 
 [fetch]
 	prune = true
+	prunetags = true
 
 [grep]
 	column = true
@@ -281,7 +277,7 @@
 	rebase = true
 
 [push]
-  	default = upstream
+  	default = current
 
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	# https://git-scm.com/docs/git-config#git-config-pushfollowTags
@@ -297,6 +293,9 @@
 
 	stat = true
 
+	missingCommitsCheck = error
+
+	updateRefs = true
 [rerere]
 	enabled = true
 	autoupdate = true
@@ -339,3 +338,7 @@
 
 [includeIf "gitdir:~/Developer/personal/"]
     path = ~/.config/git/config.personal
+
+# https://juripakaste.fi/swift-git-attributes
+[diff "swift"]
+  xfuncname = ^[ \t]*(((private |public |internal |final |open )*class|(private |public |internal )*struct|(private |public |internal )*actor|(private |public |internal )*func|(private |public |internal )*extension|(private |public |internal )*enum)[ \t].*)$
