@@ -47,11 +47,6 @@ bindkey '^[q' push-line-or-edit
 znap source marlonrichert/zcolors
 znap eval zcolors "zcolors ${(q)LS_COLORS}"
 
-# asdf
-. $(brew --prefix asdf)/libexec/asdf.sh
-
-# chxode
-
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
   znap eval $file(.:t) "cat $file"
@@ -61,5 +56,4 @@ done
 eval "$(starship init zsh)"
 
 # direnv
-
 eval "$(direnv hook zsh)"
