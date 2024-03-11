@@ -1,0 +1,11 @@
+zsh-users/zsh-history-substring-search
+scriptingosx/mac-zsh-completions
+MichaelAquilina/zsh-you-should-use
+unixorn/fzf-zsh-plugin
+marlonrichert/zsh-edit
+
+marlonrichert/zsh-autocomplete
+zsh-users/zsh-autosuggestions
+
+zsh-users/zsh-syntax-highlighting
+marlonrichert/zcolors

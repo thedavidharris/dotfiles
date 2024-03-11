@@ -4,38 +4,25 @@ export DOTFILES="$(dirname "$(readlink "$HOME/.zshrc")")"
 # Source zshenv again after macOS /etc/zprofile nukes PATH
 source ~/.zshenv
 
-# Load znap so everything else can be loaded in the background
-source ~/.zsh/znap/zsh-snap/znap.zsh
+# source antidote
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
-znap source zsh-users/zsh-completions
+# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
+antidote load
 
-# znap source softmoth/zsh-vim-mode
-znap source zsh-users/zsh-history-substring-search
-znap source scriptingosx/mac-zsh-completions
-znap source MichaelAquilina/zsh-you-should-use
-znap source unixorn/fzf-zsh-plugin
-znap source marlonrichert/zsh-edit
-
-# znap eval zoxide "zoxide init zsh"
-# znap eval fzf    "cat $BREW_PREFIX/opt/fzf/shell/*.zsh"
-
-# Autocomplete conffiguration
+# Autocomplete configuration
 # zstyle ':autocomplete:*' fzf-completion no
 zstyle ':autocomplete:*' widget-style menu-complete
-znap source marlonrichert/zsh-autocomplete
 zstyle ':autocomplete:*' insert-unambiguous yes
-
 
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
 ZSH_AUTOSUGGEST_STRATEGY=( history )
 ZSH_AUTOSUGGEST_HISTORY_IGNORE=$'(*\n*|?(#c80,)|*\\#:hist:push-line:)'
-znap source zsh-users/zsh-autosuggestions
 
 # Highlight colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-znap source zsh-users/zsh-syntax-highlighting
 
 # Line editing
 WORDCHARS='*?\'
@@ -43,13 +30,9 @@ WORDCHARS='*?\'
 # History editing tools
 bindkey '^[q' push-line-or-edit
 
-# Generate theme colors for Git & Zsh.
-znap source marlonrichert/zcolors
-znap eval zcolors "zcolors ${(q)LS_COLORS}"
-
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
-  znap eval $file(.:t) "cat $file"
+  eval $file(.:t) "cat $file"
 done
 
 # Prompt

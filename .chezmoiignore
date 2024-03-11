@@ -3,9 +3,6 @@ README.md
 
 support/config/iterm2/AppSupport
 
-# znap
-{{ if stat (joinPath .chezmoi.homeDir ".zsh/znap") }}.zsh/znap{{ end }}
-
 # Ignore non-macOS files.
 {{ if ne .chezmoi.os "darwin" -}}
 dot_config/iterm
