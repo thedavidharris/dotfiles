@@ -32,7 +32,7 @@ bindkey '^[q' push-line-or-edit
 
 # Find all zsh custom plugin files
 for file in ~/.zsh/*.zsh; do
-  eval $file(.:t) "cat $file"
+  source $file
 done
 
 # Prompt
