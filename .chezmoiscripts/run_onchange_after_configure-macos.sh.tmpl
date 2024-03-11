@@ -341,8 +341,8 @@ defaults write com.apple.dock show-recents -bool false
 # Safari & WebKit                                                             #
 ###############################################################################
 # Press Tab to highlight each item on a web page
-defaults write -app SafariWebKitTabToLinksPreferenceKey -bool true
-defaults write -app Safaricom.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
+defaults write -app Safari WebKitTabToLinksPreferenceKey -bool true
+defaults write -app Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
 
 # Show the full URL in the address bar (note: this still hides the scheme)
 defaults write -app Safari ShowFullURLInSmartSearchField -bool true
@@ -351,25 +351,25 @@ defaults write -app Safari ShowFullURLInSmartSearchField -bool true
 defaults write -app Safari AutoOpenSafeDownloads -bool false
 
 # Allow hitting the Backspace key to go to the previous page in history
-defaults write -app Safaricom.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
+defaults write -app Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
 
 # Enable Safari’s debug menu
-defaults write -app SafariIncludeInternalDebugMenu -bool true
+defaults write -app Safari IncludeInternalDebugMenu -bool true
 
 # Remove useless icons from Safari’s bookmarks bar
-defaults write -app SafariProxiesInBookmarksBar "()"
+defaults write -app Safari ProxiesInBookmarksBar "()"
 
 # Enable the Develop menu and the Web Inspector in Safari
 defaults write -app Safari IncludeDevelopMenu -bool true
 
 # Enable continuous spellchecking
-defaults write -app SafariWebContinuousSpellCheckingEnabled -bool true
+defaults write -app Safari WebContinuousSpellCheckingEnabled -bool true
 
 # Warn about fraudulent websites
-defaults write -app SafariWarnAboutFraudulentWebsites -bool true
+defaults write -app Safari WarnAboutFraudulentWebsites -bool true
 
 # Update extensions automatically
-defaults write -app SafariInstallExtensionUpdatesAutomatically -bool true
+defaults write -app Safari InstallExtensionUpdatesAutomatically -bool true
 
 # Change the Safari search to find strings contained in other words
 defaults write -app Safari FindOnPageMatchesWordStartsOnly -bool false
