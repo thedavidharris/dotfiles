@@ -1,7 +1,10 @@
 {{ if (eq .chezmoi.os "darwin") -}}
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Sources from ~/.macos — https://mths.be/macos
+# Watch for changes in files with either of
+#  sudo fs_usage | grep plist
+#  sudo opensnoop | grep plist
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -100,12 +103,6 @@ defaults write NSGlobalDomain com.apple.sound.beep.feedback -bool true
 # (e.g. enable Tab in modal dialogs)
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-# Use scroll gesture with the Ctrl (^) modifier key to zoom
-defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-# Follow the keyboard focus while zoomed in
-defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
-
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
@@ -125,45 +122,27 @@ defaults write NSGlobalDomain AppleMetricUnits -bool false
 sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
 ###############################################################################
-# Energy saving                                                               #
+# Energy                                                               #
 ###############################################################################
+
+# To stop the display from half dimming before full display 'sleep'
+# http://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man1/pmset.1.html
+sudo pmset -a halfdim 0
+
+# Sleep the display after 5 minutes
+sudo pmset -a displaysleep 5
 
 # Enable lid wakeup
 sudo pmset -a lidwake 1
 
-# Restart automatically on power loss
-sudo pmset -a autorestart 1
+# Don't automatically on power loss
+sudo pmset -a autorestart 0
 
-# Restart automatically if the computer freezes
-sudo systemsetup -setrestartfreeze on
+# Don't wake computer when power source changes
+sudo pmset -a acwake 0
 
-# Sleep the display after 15 minutes
-sudo pmset -a displaysleep 15
-
-# Disable machine sleep while charging
-sudo pmset -c sleep 0
-
-# Set machine sleep to 5 minutes on battery
-sudo pmset -b sleep 5
-
-# Set standby delay to 24 hours (default is 1 hour)
-sudo pmset -a standbydelay 86400
-
-# Never go into computer sleep mode
-sudo systemsetup -setcomputersleep Off > /dev/null
-
-# Hibernation mode
-# 0: Disable hibernation (speeds up entering sleep mode)
-# 3: Copy RAM to disk so the system state can still be restored in case of a
-#    power failure.
-sudo pmset -a hibernatemode 0
-
-# Remove the sleep image file to save disk space
-# sudo rm /private/var/vm/sleepimage
-# Create a zero-byte file instead…
-# sudo touch /private/var/vm/sleepimage
-# …and make sure it can’t be rewritten
-# sudo chflags uchg /private/var/vm/sleepimage
+# Don't dim brightness on any different source
+sudo pmset -a lessbright 0
 
 ###############################################################################
 # Screen                                                                      #
@@ -285,7 +264,7 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 
 # Show the ~/Library folder
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+chflags nohidden ~/Library
 
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes
@@ -310,39 +289,9 @@ defaults write com.apple.dock showhidden -bool true
 # Don’t show recent applications in Dock
 defaults write com.apple.dock show-recents -bool false
 
-# Add iOS & Watch Simulator to Launchpad
-# sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" "/Applications/Simulator.app"
-# sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator (Watch).app" "/Applications/Simulator (Watch).app"
-
-# Hot corners
-# Possible values:
-#  0: no-op
-#  2: Mission Control
-#  3: Show application windows
-#  4: Desktop
-#  5: Start screen saver
-#  6: Disable screen saver
-#  7: Dashboard
-# 10: Put display to sleep
-# 11: Launchpad
-# 12: Notification Center
-# 13: Lock Screen
-# Top left screen corner → Mission Control
-# defaults write com.apple.dock wvous-tl-corner -int 2
-# defaults write com.apple.dock wvous-tl-modifier -int 0
-# Top right screen corner → Desktop
-# defaults write com.apple.dock wvous-tr-corner -int 4
-# defaults write com.apple.dock wvous-tr-modifier -int 0
-# Bottom left screen corner → Start screen saver
-# defaults write com.apple.dock wvous-bl-corner -int 5
-# defaults write com.apple.dock wvous-bl-modifier -int 0
-
 ###############################################################################
 # Safari & WebKit                                                             #
 ###############################################################################
-# Press Tab to highlight each item on a web page
-defaults write -app Safari WebKitTabToLinksPreferenceKey -bool true
-defaults write -app Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
 
 # Show the full URL in the address bar (note: this still hides the scheme)
 defaults write -app Safari ShowFullURLInSmartSearchField -bool true
@@ -350,26 +299,14 @@ defaults write -app Safari ShowFullURLInSmartSearchField -bool true
 # Prevent Safari from opening ‘safe’ files automatically after downloading
 defaults write -app Safari AutoOpenSafeDownloads -bool false
 
-# Allow hitting the Backspace key to go to the previous page in history
-defaults write -app Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
-
 # Enable Safari’s debug menu
 defaults write -app Safari IncludeInternalDebugMenu -bool true
-
-# Remove useless icons from Safari’s bookmarks bar
-defaults write -app Safari ProxiesInBookmarksBar "()"
 
 # Enable the Develop menu and the Web Inspector in Safari
 defaults write -app Safari IncludeDevelopMenu -bool true
 
 # Enable continuous spellchecking
 defaults write -app Safari WebContinuousSpellCheckingEnabled -bool true
-
-# Warn about fraudulent websites
-defaults write -app Safari WarnAboutFraudulentWebsites -bool true
-
-# Update extensions automatically
-defaults write -app Safari InstallExtensionUpdatesAutomatically -bool true
 
 # Change the Safari search to find strings contained in other words
 defaults write -app Safari FindOnPageMatchesWordStartsOnly -bool false
@@ -383,11 +320,6 @@ defaults write -app Safari DownloadsClearingPolicy -int 2
 
 # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
 defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-
-# Display emails in threaded mode, sorted by date (oldest at the top)
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
 
 ###############################################################################
 # Spotlight                                                                   #
