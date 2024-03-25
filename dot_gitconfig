@@ -190,6 +190,9 @@
 	indentHeuristic = true
 	colorMoved = zebra
 
+	tool = difftastic
+	external = difft
+
 [diff "bin"]
 	# Use `hexdump` to diff binary files
 	textconv = hexdump -v -C
@@ -202,6 +205,8 @@
 [diff "zip"]
   textconv = textconv-zip
   cachetextconv = true
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
 
 [difftool]
 	prompt = false
@@ -268,6 +273,7 @@
 
 [pager]
 	branch = false
+	difftool = true
 
 [pull]
 	# Don't allow non-fast forward pulls into local branches
