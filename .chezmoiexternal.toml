@@ -8,6 +8,7 @@
     url     = "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip"
     type    = "archive"
     exclude = ["docs.json"]
+    refreshPeriod = "168h"
 
 ["Library/Developer/Xcode/UserData/FontAndColorThemes"]
     type = "archive"
@@ -15,4 +16,13 @@
     exact = true
     stripComponents = 2
     include = ["*/themes/**"]
+    refreshPeriod = "168h"
+
+[".macos/terminal"]
+    type = "archive"
+    url = "https://github.com/catppuccin/iterm/archive/refs/heads/main.zip"
+    exact = true
+    stripComponents = 2
+    include = ["*/colors/**"]
+    refreshPeriod = "168h"
 {{ end -}}
