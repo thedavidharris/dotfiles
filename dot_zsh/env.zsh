@@ -25,11 +25,7 @@ export PYTHONIOENCODING='UTF-8';
 export LANG='en_US.UTF-8';
 export LC_ALL='en_US.UTF-8';
 
-# Highlight section titles in manual pages.
-export LESS_TERMCAP_md="${yellow}";
-
 export CLICOLOR=1
-export CLICOLOR_FORCE=1
 
 export NVM_DIR=$HOME/nvm
 export GRADLE_USER_HOME=$HOME/gradle

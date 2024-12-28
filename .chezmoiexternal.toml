@@ -8,4 +8,11 @@
     url     = "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip"
     type    = "archive"
     exclude = ["docs.json"]
+
+["Library/Developer/Xcode/UserData/FontAndColorThemes"]
+    type = "archive"
+    url = "https://github.com/catppuccin/xcode/archive/refs/heads/main.zip"
+    exact = true
+    stripComponents = 2
+    include = ["*/themes/**"]
 {{ end -}}
