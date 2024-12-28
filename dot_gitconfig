@@ -19,6 +19,20 @@
 	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
 	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
+	# Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
+    dlog = -c diff.external=difft log --ext-diff
+    dshow = -c diff.external=difft show --ext-diff
+    ddiff = -c diff.external=difft diff
+
+	# `git log` with patches shown with difftastic.
+    dl = -c diff.external=difft log -p --ext-diff
+
+    # Show the most recent commit with difftastic.
+    ds = -c diff.external=difft show --ext-diff
+
+    # `git diff` with difftastic.
+    dft = -c diff.external=difft diff
+
 	# Pull in remote changes for the current repository and all its submodules
 	p = !"git pull; git submodule foreach git pull origin master"
 
@@ -190,7 +204,10 @@
 	indentHeuristic = true
 	colorMoved = zebra
 
-	tool = difftastic
+	[diff]
+    # Set difftastic as the default difftool, so we don't need to specify
+    # `-t difftastic` every time.
+    tool = difftastic
 	external = difft
 
 [diff "bin"]
@@ -205,11 +222,14 @@
 [diff "zip"]
   textconv = textconv-zip
   cachetextconv = true
+
 [difftool "difftastic"]
-    cmd = difft "$LOCAL" "$REMOTE"
+	# See `man git-difftool` for a description of MERGED, LOCAL and REMOTE.
+    cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644
 
 [difftool]
-	prompt = false
+    # Run the difftool immediately, don't ask 'are you sure' each time.
+    prompt = false
 
 [fetch]
 	prune = true
@@ -273,7 +293,9 @@
 
 [pager]
 	branch = false
-	difftool = true
+	# Use a pager if the difftool output is larger than one screenful,
+    # consistent with the behaviour of `git diff`.
+    difftool = true
 
 [pull]
 	# Don't allow non-fast forward pulls into local branches

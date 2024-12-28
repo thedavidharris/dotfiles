@@ -2,6 +2,7 @@
 node = 'lts'
 python = ['3.12']
 flutter = ['3.16.5']
+go = ['1.23']
 
 [settings]
 legacy_version_file = true
@@ -17,3 +18,5 @@ trusted_config_paths = [
 
 verbose = false
 asdf_compat = false
+
+env_file = '.env'
