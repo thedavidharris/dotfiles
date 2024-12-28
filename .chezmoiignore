@@ -2,6 +2,7 @@ LICENSE
 README.md
 
 support/config/iterm2/AppSupport
+support/config/iterm2/sockets
 
 # Ignore non-macOS files.
 {{ if ne .chezmoi.os "darwin" -}}
