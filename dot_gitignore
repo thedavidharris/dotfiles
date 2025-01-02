@@ -16,6 +16,7 @@ tags
 .bundle
 .vscode
 
-# Direnv files
+# Environment files
 .direnv
 .envrc
+.env
