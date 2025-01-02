@@ -40,6 +40,3 @@ eval "$(starship init zsh)"
 
 # Mise
 eval "$(mise activate zsh)"
-
-# direnv
-eval "$(direnv hook zsh)"

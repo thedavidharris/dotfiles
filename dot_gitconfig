@@ -204,7 +204,6 @@
 	indentHeuristic = true
 	colorMoved = zebra
 
-	[diff]
     # Set difftastic as the default difftool, so we don't need to specify
     # `-t difftastic` every time.
     tool = difftastic
@@ -256,9 +255,6 @@
 [init]
   	defaultBranch = main
   	# templatedir = ~/.git_template
-
-[interactive]
-	diffFilter = delta --color-only
 
 [log]
 	# Always decorate git log
