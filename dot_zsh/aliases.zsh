@@ -116,3 +116,8 @@ fi
 # List all files colorized in long format, including dot files
 alias la="ls -la $colorflag"
 alias ls="ls $colorflag"
+
+# Highlight help messages
+alias bathelp='bat --plain --language=help'
+alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'

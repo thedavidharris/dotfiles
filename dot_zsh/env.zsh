@@ -29,3 +29,16 @@ export CLICOLOR=1
 
 export NVM_DIR=$HOME/nvm
 export GRADLE_USER_HOME=$HOME/gradle
+
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"  
+
+# i - Vim's smart case
+# j.5 - Center search results
+# K - Quit on CTRL-C
+# M - Longer prompt
+# R - output colors correctly
+# X - Don't send clear screen signal
+export LESS="ij.5KMRX"
+# On macOS _something_ is setting this which breaks default behavior like 'man
+# libtool' pointing at Xcode
+export MANPATH=

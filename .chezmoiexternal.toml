@@ -10,13 +10,18 @@
     exclude = ["docs.json"]
     refreshPeriod = "168h"
 
-["Library/Developer/Xcode/UserData/FontAndColorThemes"]
+[".config/bat/themes"]
     type = "archive"
-    url = "https://github.com/catppuccin/xcode/archive/refs/heads/main.zip"
+    url = "https://github.com/catppuccin/bat/archive/refs/heads/main.zip"
     exact = true
     stripComponents = 2
     include = ["*/themes/**"]
     refreshPeriod = "168h"
+
+[".config/delta/themes/captppuccin.gitconfig"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig"
+    path = "catppuccin.gitconfig"
 
 [".macos/terminal"]
     type = "archive"
@@ -24,5 +29,13 @@
     exact = true
     stripComponents = 2
     include = ["*/colors/**"]
+    refreshPeriod = "168h"
+
+["Library/Developer/Xcode/UserData/FontAndColorThemes"]
+    type = "archive"
+    url = "https://github.com/catppuccin/xcode/archive/refs/heads/main.zip"
+    exact = true
+    stripComponents = 2
+    include = ["*/themes/**"]
     refreshPeriod = "168h"
 {{ end -}}
