@@ -127,22 +127,19 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bo
 
 # To stop the display from half dimming before full display 'sleep'
 # http://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man1/pmset.1.html
-sudo pmset -a halfdim 0
+# sudo pmset -a halfdim 0
 
 # Sleep the display after 5 minutes
-sudo pmset -a displaysleep 5
+# sudo pmset -a displaysleep 5
 
 # Enable lid wakeup
 sudo pmset -a lidwake 1
 
-# Don't automatically on power loss
-sudo pmset -a autorestart 0
-
 # Don't wake computer when power source changes
-sudo pmset -a acwake 0
+# sudo pmset -a acwake 0
 
 # Don't dim brightness on any different source
-sudo pmset -a lessbright 0
+# sudo pmset -a lessbright 0
 
 ###############################################################################
 # Screen                                                                      #
@@ -244,14 +241,14 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
 # Increase grid spacing for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 
 # Increase the size of icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
+# /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
 
 # Use list view in all Finder windows by default
 # Four-letter codes for the other view modes: `icnv`, `clmv`, `glyv`
@@ -434,8 +431,6 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Messages                                                                    #
 ###############################################################################
 
-# Disable automatic emoji substitution (i.e. use plain text smileys)
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
 
 # Disable smart quotes as it’s annoying for messages that contain code
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
@@ -445,8 +440,8 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 ###############################################################################
 
 # Disable the all too sensitive backswipe on trackpads
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
+# defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
+# defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
 
 # Disable the all too sensitive backswipe on Magic Mouse
 defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
@@ -510,7 +505,7 @@ defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool true
 # Add more information to Xcode's build output about why specific commands are being run
 # https://twitter.com/bdash/status/661742266487205888
 # http://www.openradar.me/27516128
-defaults write com.apple.dt.Xcode ExplainWhyBuildCommandsAreRun -bool true
+# defaults write com.apple.dt.Xcode ExplainWhyBuildCommandsAreRun -bool true
 
 # Stop Xcode from reopening files (specifically storyboards) on launch.
 defaults write com.apple.dt.Xcode IDEDisableStateRestoration -bool true
@@ -530,8 +525,8 @@ defaults write com.apple.dt.Xcode NSUserKeyEquivalents -dict-add "Print..." "nil
 defaults write com.apple.dt.Xcode DVTTextTabKeyIndentBehavior -string Never
 
 # Set custom colorscheme
-defaults write com.apple.dt.Xcode XCFontAndColorCurrentTheme -string 'Tokyo Night Storm.xccolortheme'
-defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string 'Tokyo Night Storm.xccolortheme'
+defaults write com.apple.dt.Xcode XCFontAndColorCurrentTheme -string 'Catppuccin Macchiato.xccolortheme'
+defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string 'Catppuccin Macchiato.xccolortheme'
 
 # Show indexing progress
 # https://twitter.com/dmartincy/status/1034930612543676418

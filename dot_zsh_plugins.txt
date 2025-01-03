@@ -7,3 +7,4 @@ marlonrichert/zsh-autocomplete
 zsh-users/zsh-autosuggestions
 
 zsh-users/zsh-syntax-highlighting
+catppuccin/zsh-syntax-highlighting path:themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
