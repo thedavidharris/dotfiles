@@ -9,3 +9,15 @@ support/config/iterm2/sockets
 dot_config/iterm
 dot_Brewfile
 {{- end }}
+
+#Developer/
+#!Developer/personal/dot_env
+#!Developer/personal/.op/*
+#!Developer/work/dot_env
+#!Developer/work/.op/*
+
+.hammerspoon/Spoons
+
+Library/
+
+.DS_Store

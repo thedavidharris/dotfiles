@@ -137,6 +137,7 @@ symbol = " "
 
 [directory]
 read_only = " 󰌾"
+truncation_length=5
 
 [docker_context]
 symbol = " "
