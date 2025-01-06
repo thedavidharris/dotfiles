@@ -1,9 +1,3 @@
-# Path to dotfiles repo
-export DOTFILES="$(dirname "$(readlink "$HOME/.zshrc")")"
-
-# Source zshenv again after macOS /etc/zprofile nukes PATH
-source ~/.zshenv
-
 # source antidote
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
@@ -12,31 +6,30 @@ antidote load
 
 # Autocomplete configuration
 # zstyle ':autocomplete:*' fzf-completion no
-zstyle ':autocomplete:*' widget-style menu-complete
-zstyle ':autocomplete:*' insert-unambiguous yes
+# zstyle ':autocomplete:*' widget-style menu-complete
+# zstyle ':autocomplete:*' insert-unambiguous yes
 
 # Autosuggest config
-ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
-ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
-ZSH_AUTOSUGGEST_STRATEGY=( history )
-ZSH_AUTOSUGGEST_HISTORY_IGNORE=$'(*\n*|?(#c80,)|*\\#:hist:push-line:)'
+# ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
+# ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
+# ZSH_AUTOSUGGEST_STRATEGY=( history )
+# ZSH_AUTOSUGGEST_HISTORY_IGNORE=$'(*\n*|?(#c80,)|*\\#:hist:push-line:)'
 
 # Highlight colors
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+# ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # Line editing
-WORDCHARS='*?\'
+# WORDCHARS='*?\'
 
 # History editing tools
-bindkey '^[q' push-line-or-edit
+# bindkey '^[q' push-line-or-edit
+
+export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 # Find all zsh custom plugin files
-for file in ~/.zsh/*.zsh; do
-  source $file
-done
-
-# 1Password
-source ~/.config/op/plugins.sh
+# for file in ~/.zsh/*.zsh; do
+#   source $file
+# done
 
 # Prompt
 eval "$(starship init zsh)"
