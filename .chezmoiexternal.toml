@@ -23,14 +23,6 @@
     url = "https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig"
     path = "catppuccin.gitconfig"
 
-[".macos/terminal"]
-    type = "archive"
-    url = "https://github.com/catppuccin/iterm/archive/refs/heads/main.zip"
-    exact = true
-    stripComponents = 2
-    include = ["*/colors/**"]
-    refreshPeriod = "168h"
-
 ["Library/Developer/Xcode/UserData/FontAndColorThemes"]
     type = "archive"
     url = "https://github.com/catppuccin/xcode/archive/refs/heads/main.zip"
