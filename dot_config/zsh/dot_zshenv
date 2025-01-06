@@ -1,0 +1,50 @@
+# Disable Apple's zsh session logic from /etc/zshrc_Apple_Terminal, this has
+# to be done here to load early enough.
+export SHELL_SESSIONS_DISABLE=0
+
+export ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}
+
+# XDG
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+export XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
+
+# Ensure path arrays do not contain duplicates.
+typeset -gU cdpath fpath mailpath path
+
+# Set up homebrew paths
+if [[ $(arch) == arm64* ]]; then
+  export BREW_PREFIX=/opt/homebrew
+else
+  export BREW_PREFIX=/usr/local
+fi
+
+# Set the path to include:
+#  - $HOME/bin       for local tools
+#  - $HOME/.cargo/bin for rust tools installed by cargo
+#  - $HOME/.local/bin for python tools installed by pip
+#  - $BREW_PREFIX/bin for Homebrew on Apple Silicon, or duplicates the /usr/local/bin path
+#  - $BREW_PREFIX/sbin for Homebrew on Apple Silicon, or duplicates the /usr/local/bin path
+#  - /usr/bin         for system executables
+#  - /usr/sbin
+#  - /bin
+#  - /sbin
+# export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/.local/bin:$BREW_PREFIX/bin:$BREW_PREFIX/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+
+# Set path
+eval "$($BREW_PREFIX/bin/brew shellenv)"
+path=(
+    $HOME/{,s}bin(/N)
+    $HOME/.local/{,s}bin(/N)
+    $HOME/.cargo/bin(/N)
+    $BREW_PREFIX/{,s}bin(/N)
+    /usr/local/{,s}bin(/N)
+    /bin
+    $path
+)
+
+# 1Password
+# This in zsh env because of the way it aliases key commands, although probably should find a way around this
+source ~/.config/op/plugins.sh
