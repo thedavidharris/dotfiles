@@ -12,23 +12,23 @@ marlonrichert/zsh-edit
 
 # fzf
 unixorn/fzf-zsh-plugin
-aloxaf/fzf-tab
 
 
 # Completions
+marlonrichert/zsh-autocomplete
 zsh-users/zsh-completions path:src kind:fpath
+# zsh-autosuggestions must source after zsh-autocomplete
 zsh-users/zsh-autosuggestions
 
 # Add binary utils
 romkatv/zsh-bench kind:path
 
 
-# Fish like
 
 mattmc3/zephyr path:plugins/zfunctions
 mattmc3/zephyr path:plugins/confd
 
-marlonrichert/zsh-autocomplete
+
 zsh-users/zsh-syntax-highlighting
 catppuccin/zsh-syntax-highlighting path:themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 zsh-users/zsh-history-substring-search

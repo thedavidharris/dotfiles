@@ -6,24 +6,19 @@ antidote load ${ZDOTDIR:-$HOME}/.zplugins
 # zstyle ':autocomplete:*' fzf-completion no
 zstyle ':autocomplete:*' widget-style menu-complete
 zstyle ':autocomplete:*' insert-unambiguous yes
+zstyle ':autocomplete:*' delay 0.2  # seconds (float)
 
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
-ZSH_AUTOSUGGEST_STRATEGY=( history )
-
-# all Tab widgets
-zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
-
-# all history widgets
-zstyle ':autocomplete:*history*:*' insert-unambiguous yes
-
-# ^S
-zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
+ZSH_AUTOSUGGEST_STRATEGY=( history completion )
 
 # Make Tab and Shift + Tab cycle completions on the command line
 bindkey              '^I'         menu-complete
 bindkey "$terminfo[kcbt]" reverse-menu-complete
+
+# History editing tools
+bindkey '^[q' push-line-or-edit
 
 # Highlight colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
