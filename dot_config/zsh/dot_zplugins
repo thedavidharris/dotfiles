@@ -7,18 +7,16 @@ mattmc3/zephyr path:plugins/homebrew
 mattmc3/zephyr path:plugins/macos
 mattmc3/zephyr path:plugins/utility
 
-
-
-scriptingosx/mac-zsh-completions
-unixorn/fzf-zsh-plugin
+# Better bindings
 marlonrichert/zsh-edit
 
-# Completion plugins
+# fzf
+unixorn/fzf-zsh-plugin
 aloxaf/fzf-tab
+
+
+# Completions
 zsh-users/zsh-completions path:src kind:fpath
-
-
-marlonrichert/zsh-autocomplete
 zsh-users/zsh-autosuggestions
 
 # Add binary utils
@@ -29,12 +27,12 @@ romkatv/zsh-bench kind:path
 
 mattmc3/zephyr path:plugins/zfunctions
 mattmc3/zephyr path:plugins/confd
+
+marlonrichert/zsh-autocomplete
 zsh-users/zsh-syntax-highlighting
 catppuccin/zsh-syntax-highlighting path:themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh
-zsh-users/zsh-history-substring-search post:post-history-substring-search
+zsh-users/zsh-history-substring-search
 
 
 # Custom
-${ZDOTDIR:-$HOME}/.zsh/aliases.zsh
-${ZDOTDIR:-$HOME}/.zsh/config.zsh
-${ZDOTDIR:-$HOME}/.zsh/env.zsh
+${ZDOTDIR:-$HOME}/.zaliases

@@ -1,0 +1,40 @@
+# Antidote
+source ${ZDOTDIR:-$HOME}/.antidote/antidote.zsh
+antidote load ${ZDOTDIR:-$HOME}/.zplugins
+
+# Autocomplete configuration
+# zstyle ':autocomplete:*' fzf-completion no
+zstyle ':autocomplete:*' widget-style menu-complete
+zstyle ':autocomplete:*' insert-unambiguous yes
+
+# Autosuggest config
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
+ZSH_AUTOSUGGEST_STRATEGY=( history )
+
+# all Tab widgets
+zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
+
+# all history widgets
+zstyle ':autocomplete:*history*:*' insert-unambiguous yes
+
+# ^S
+zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
+
+# Make Tab and Shift + Tab cycle completions on the command line
+bindkey              '^I'         menu-complete
+bindkey "$terminfo[kcbt]" reverse-menu-complete
+
+# Highlight colors
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
+# Line editing
+WORDCHARS='*?\'
+
+export LS_COLORS="$(vivid generate catppuccin-macchiato)"
+
+# Prompt
+eval "$(starship init zsh)"
+
+# Mise
+eval "$(mise activate zsh)"
