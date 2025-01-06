@@ -21,18 +21,6 @@ else
   export BREW_PREFIX=/usr/local
 fi
 
-# Set the path to include:
-#  - $HOME/bin       for local tools
-#  - $HOME/.cargo/bin for rust tools installed by cargo
-#  - $HOME/.local/bin for python tools installed by pip
-#  - $BREW_PREFIX/bin for Homebrew on Apple Silicon, or duplicates the /usr/local/bin path
-#  - $BREW_PREFIX/sbin for Homebrew on Apple Silicon, or duplicates the /usr/local/bin path
-#  - /usr/bin         for system executables
-#  - /usr/sbin
-#  - /bin
-#  - /sbin
-# export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/.local/bin:$BREW_PREFIX/bin:$BREW_PREFIX/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
-
 # Set path
 eval "$($BREW_PREFIX/bin/brew shellenv)"
 path=(
