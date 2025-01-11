@@ -11,7 +11,7 @@ zstyle ':autocomplete:*' delay 0.2  # seconds (float)
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
-ZSH_AUTOSUGGEST_STRATEGY=( history completion )
+ZSH_AUTOSUGGEST_STRATEGY=( history )
 
 # Make Tab and Shift + Tab cycle completions on the command line
 bindkey              '^I'         menu-complete
