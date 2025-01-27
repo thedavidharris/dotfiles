@@ -3,6 +3,8 @@ node = 'lts'
 python = ['3.12']
 flutter = ['3.16.5']
 go = ['1.23']
+slsa-verifier = "latest"
+cosign = "latest"
 
 [settings]
 legacy_version_file = true

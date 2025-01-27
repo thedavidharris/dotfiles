@@ -8,6 +8,9 @@ zstyle ':autocomplete:*' widget-style menu-complete
 zstyle ':autocomplete:*' insert-unambiguous yes
 zstyle ':autocomplete:*' delay 0.2  # seconds (float)
 
+# Fix issues with tilde expansion
+zstyle ':completion:*' completer _complete _complete:-fuzzy _correct _approximate _ignored
+
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
