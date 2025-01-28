@@ -42,3 +42,6 @@ export LESS="ij.5KMRX"
 # On macOS _something_ is setting this which breaks default behavior like 'man
 # libtool' pointing at Xcode
 export MANPATH=
+
+# Android
+export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
