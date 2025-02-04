@@ -1,1 +1,8 @@
 theme = catppuccin-macchiato
+shell-integration-features = no-cursor,sudo,no-title
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+# other
+copy-on-select = clipboard
