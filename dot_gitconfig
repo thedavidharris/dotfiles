@@ -1,370 +1,344 @@
 [include]
-	path = ./config/delta/themes/catppuccin.gitconfig
+    path = ./config/delta/themes/catppuccin.gitconfig
 
 [advice]
-  waitingForEditor = false
-  skippedCherryPicks = false
+    waitingForEditor = false
+    skippedCherryPicks = false
 
 [alias]
+    # List git aliases
+    aliases = config --get-regexp alias
 
-	# List git aliases
-	aliases = config --get-regexp alias
+    # View abbreviated SHA, description, and history graph of the latest 20 commits
+    l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
-	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+    # View the current working tree status using the short format
+    s = status -s
 
-	# View the current working tree status using the short format
-	s = status -s
+    # Show the diff between the latest commit and the current state
+    d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
-	# Show the diff between the latest commit and the current state
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+    di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
-	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
-	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
-
-	# Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
+    # Difftastic aliases
     dlog = -c diff.external=difft log --ext-diff
     dshow = -c diff.external=difft show --ext-diff
     ddiff = -c diff.external=difft diff
-
-	# `git log` with patches shown with difftastic.
     dl = -c diff.external=difft log -p --ext-diff
-
-    # Show the most recent commit with difftastic.
     ds = -c diff.external=difft show --ext-diff
-
-    # `git diff` with difftastic.
     dft = -c diff.external=difft diff
 
-	# Pull in remote changes for the current repository and all its submodules
-	p = !"git pull; git submodule foreach git pull origin master"
+    # Pull in remote changes for the current repository and all its submodules
+    p = !"git pull; git submodule foreach git pull origin master"
 
-	# Clone a repository including all submodules
-	c = clone --recursive
+    # Clone a repository including all submodules
+    c = clone --recursive
 
-	# Commit all changes
-	ca = !git add -A && git commit -av
+    # Commit all changes
+    ca = !git add -A && git commit -av
 
-	# Switch to a branch, creating it if necessary
-	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    # Switch to a branch, creating it if necessary
+    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
-	# Show verbose output about tags, branches or remotes
-	tags = tag -l
-	branches = branch -a
-	remotes = remote -v
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
 
-	# Amend the currently staged files to the latest commit
-	amend = commit --amend --reuse-message=HEAD
+    # Amend the currently staged files to the latest commit
+    amend = commit --amend --reuse-message=HEAD
 
-	# Credit an author on the latest commit
-	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+    # Credit an author on the latest commit
+    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
-	# Interactive rebase with the given number of latest commits
-	reb = "!r() { git rebase -i HEAD~$1; }; r"
+    # Interactive rebase with the given number of latest commits
+    reb = "!r() { git rebase -i HEAD~$1; }; r"
 
-	# Remove the old tag with this name and tag the latest commit with it.
-	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+    # Remove the old tag with this name and tag the latest commit with it
+    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
-	# Find branches containing commit
-	fb = "!f() { git branch -a --contains $1; }; f"
+    # Find branches containing commit
+    fb = "!f() { git branch -a --contains $1; }; f"
 
-	# Find tags containing commit
-	ft = "!f() { git describe --always --contains $1; }; f"
+    # Find tags containing commit
+    ft = "!f() { git describe --always --contains $1; }; f"
 
-	# Find commits by source code
-	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+    # Find commits by source code
+    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
 
-	# Find commits by commit message
-	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+    # Find commits by commit message
+    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
-	# Remove branches that have already been merged with master
-	# a.k.a. ‘delete merged’
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    # Remove branches that have already been merged with master
+    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
-	# List contributors with number of commits
-	contributors = shortlog --summary --numbered
+    # List contributors with number of commits
+    contributors = shortlog --summary --numbered
 
-	# Merge GitHub pull request on top of the current branch or,
-	# if a branch name is specified, on top of the specified branch
-	mpr = "!f() { \
-		declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
-		declare branch=\"${2:-$currentBranch}\"; \
-		if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-			git fetch origin refs/pull/$1/head:pr/$1 && \
-			git checkout -B $branch && \
-			git rebase $branch pr/$1 && \
-			git checkout -B $branch && \
-			git merge pr/$1 && \
-			git branch -D pr/$1 && \
-			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-		fi \
-	}; f"
+    # Merge GitHub pull request on top of the current branch or,
+    # if a branch name is specified, on top of the specified branch
+    mpr = "!f() { \
+        declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
+        declare branch=\"${2:-$currentBranch}\"; \
+        if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
+            git fetch origin refs/pull/$1/head:pr/$1 && \
+            git checkout -B $branch && \
+            git rebase $branch pr/$1 && \
+            git checkout -B $branch && \
+            git merge pr/$1 && \
+            git branch -D pr/$1 && \
+            git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
+        fi \
+    }; f"
 
-	# Checkout
-	co = checkout
+    # Checkout
+    co = checkout
 
-	# Force push with lease to avoid overwriting commits not seen locally
-	please = push --force-with-lease
-	fpush = push --force-with-lease
+    # Force push with lease
+    please = push --force-with-lease
+    fpush = push --force-with-lease
 
-	# Undo-commit
-	undo-commit = reset --soft HEAD^
+    # Undo-commit
+    undo-commit = reset --soft HEAD^
 
-	# Clean merged branches
-	clean-merged = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+    # Clean merged branches
+    clean-merged = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 
-	# Prune branches deleted from remote
-	prune = fetch --prune
+    # Prune branches deleted from remote
+    prune = fetch --prune
 
-	# Stash all files including new files not added to tracking
-	stash-all = stash save --include-untracked
+    # Stash all files including new files not added to tracking
+    stash-all = stash save --include-untracked
 
-	# Prettier git logs, still playing with these to figure out what I like
-	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	glog2 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen%cn%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative
+    # Prettier git logs
+    glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    glog2 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen%cn%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative
 
-	# Show the original intent of a specific commit, helpful during rebases
-	original = "!git show $(cat .git/rebase-apply/original-commit)"
+    # Show the original intent of a specific commit
+    original = "!git show $(cat .git/rebase-apply/original-commit)"
 
-	# Allow things like `git git git log` to work if you accidentally type git multiple times
-	# git = "!git"
+    # Allow things like `git git git log` to work
+    # git = "!git"
 
-	# Fixing up an older commit
-	# See https://blog.filippo.io/git-fixup-amending-an-older-commit/
-	fixup = "!f() { TARGET=$(git rev-parse \"$1\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; }; f"
+    # Fixing up an older commit
+    fixup = "!f() { TARGET=$(git rev-parse \"$1\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; }; f"
 
-	# Update submodules
-	# Applying `alias gitsu='git submodule update --init --recursive'` as a bash alias is another way to accomplish this
-	smu = submodule update
+    # Update submodules
+    smu = submodule update
 
-	# Sort by date for branches
-  	refs-by-date = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
+    # Sort by date for branches
+    refs-by-date = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
 
-	# Stash snapshot - from http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
-	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+    # Stash snapshot
+    snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 
-	# Search for a given string in all patches and print commit messages.
-	searchcommits = !"f() { query=\"$1\"; shift; git log -S\"$query\" \"$@\"; }; f \"$@\""
+    # Search for a given string in all patches
+    searchcommits = !"f() { query=\"$1\"; shift; git log -S\"$query\" \"$@\"; }; f \"$@\""
 
-	# Show the history difference between a local branche and its remote
+    # Show the history difference between a local branch and its remote
     divergence = log --left-right --graph --cherry-pick --oneline $1...origin/$1
 
-	# Show what you've done since yesterday
+    # Show what you've done since yesterday
     standup = log --since yesterday --author $(git config user.email) --pretty=short
 
-	# Show which commits are safe to amend/rebase
+    # Show which commits are safe to amend/rebase
     unpushed = log @{u}.
 
-	# Add SSH identity for repo
-	identity = "!f() { git config core.sshCommand \"ssh -i $1  -F /dev/null -o 'IdentitiesOnly yes'\"; }; f"
+    # Add SSH identity for repo
+    identity = "!f() { git config core.sshCommand \"ssh -i $1  -F /dev/null -o 'IdentitiesOnly yes'\"; }; f"
 
 [apply]
-	# Detect whitespace errors when applying a patch
-	whitespace = fix
+    # Detect whitespace errors when applying a patch
+    whitespace = fix
 
 [branch]
-	autosetupmerge = true
-  	sort = -committerdate
+    autosetupmerge = true
+    sort = -committerdate
 
 [branch "main"]
-  pushRemote = NOPE
+    pushRemote = NOPE
+
 [branch "master"]
-  pushRemote = NOPE
+    pushRemote = NOPE
 
 [checkout]
-	guess = true
+    guess = true
 
 [commit]
-	gpgsign = true
+    gpgsign = true
 
 [core]
-	excludesfile = ~/.gitignore
-  	attributesfile = ~/.gitattributes
-  	editor = nvim
-	pager = delta
-  	fsmonitor = true
+    excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
+    editor = nvim
+    pager = delta
+    fsmonitor = true
 
-	# Use custom `.gitignore` and `.gitattributes`
-	excludesfile = ~/.gitignore
-	attributesfile = ~/.gitattributes
+    # Use custom `.gitignore` and `.gitattributes`
+    excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
 
-	# Treat spaces before tabs and all kinds of trailing whitespace as an error
-	# [default] trailing-space: looks for spaces at the end of a line
-	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
-	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 
-	# Make `git rebase` safer on macOS
-	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-	trustctime = false
+    # Make `git rebase` safer on macOS
+    trustctime = false
 
-	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-	precomposeunicode = false
+    # Prevent showing files whose names contain non-ASCII symbols as unversioned
+    precomposeunicode = false
 
 [credential "https://github.com"]
-	helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !/opt/homebrew/bin/gh auth git-credential
+
 [credential "https://gist.github.com"]
-	helper = !/opt/homebrew/bin/gh auth git-credential
+    helper = !/opt/homebrew/bin/gh auth git-credential
 
 [diff]
-	renames = copies
-	algorithm = histogram
-	indentHeuristic = true
-	colorMoved = zebra
+    renames = copies
+    algorithm = histogram
+    indentHeuristic = true
+    colorMoved = zebra
 
-    # Set difftastic as the default difftool, so we don't need to specify
-    # `-t difftastic` every time.
+    # Set difftastic as the default difftool
     tool = difftastic
-	external = difft
+    external = difft
 
 [diff "bin"]
-	# Use `hexdump` to diff binary files
-	textconv = hexdump -v -C
+    # Use `hexdump` to diff binary files
+    textconv = hexdump -v -C
+
 [diff "plist"]
-  textconv = plutil -convert xml1 -o -
+    textconv = plutil -convert xml1 -o -
+
 [diff "provision"]
-  textconv = normalize-profile --ignore-invalid --shorten-certs
+    textconv = normalize-profile --ignore-invalid --shorten-certs
+
 [diff "exif"]
-  textconv = exiftool
+    textconv = exiftool
+
 [diff "zip"]
-  textconv = textconv-zip
-  cachetextconv = true
+    textconv = textconv-zip
+    cachetextconv = true
 
 [difftool "difftastic"]
-	# See `man git-difftool` for a description of MERGED, LOCAL and REMOTE.
+    # See `man git-difftool` for a description of MERGED, LOCAL and REMOTE
     cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
 
 [difftool]
-    # Run the difftool immediately, don't ask 'are you sure' each time.
+    # Run the difftool immediately, don't ask 'are you sure' each time
     prompt = false
 
 [fetch]
-	prune = true
-	prunetags = true
+    prune = true
+    prunetags = true
 
 [grep]
-	column = true
-	lineNumber = true
+    column = true
+    lineNumber = true
 
 [gpg]
-  format = ssh
+    format = ssh
 
 [gpg "ssh"]
-  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [help]
-
-	# Automatically correct and execute mistyped commands
-	autocorrect = 1
+    # Automatically correct and execute mistyped commands
+    autocorrect = 1
 
 [http]
-#   cookiefile = ~/.gitcookies
+    # cookiefile = ~/.gitcookies
 
 [init]
-  	defaultBranch = main
-  	# templatedir = ~/.git_template
+    defaultBranch = main
+    # templatedir = ~/.git_template
 
 [log]
-	# Always decorate git log
-	decorate = full
+    # Always decorate git log
+    decorate = full
+    follow = true
 
-	follow = true
 [merge]
+    # tool = nvim
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+    stat = true
 
-	# tool = nvim
+    # Ensure every merge is a fast-forward merge
+    ff = only
 
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
-
-	stat = true
-
-	# Ensure every merge is a fast-forward merge. Helpful when working with a git rebase flow and prevents accidentally creating merge commits when not wanted
-	# To override, use git merge --ff
-	# https://git-scm.com/docs/git-config#git-config-mergeff
-	ff = only
-
-	# Add a third section for original changes to merge diffs
-	# https://git-scm.com/docs/git-config#git-config-mergeconflictStyle
-	conflictstyle = zdiff3
+    # Add a third section for original changes to merge diffs
+    conflictstyle = zdiff3
 
 [mergetool]
-	keepBackup = false
+    keepBackup = false
 
 [mergetool "nvim"]
-	cmd = nvim -c "normal\\ gg]c" -f \"$MERGED\"
-	prompt = false
-	trustExitCode = true
+    cmd = nvim -c "normal\\ gg]c" -f "$MERGED"
+    prompt = false
+    trustExitCode = true
 
 [pager]
-	branch = false
-	# Use a pager if the difftool output is larger than one screenful,
-    # consistent with the behaviour of `git diff`.
+    branch = false
+    # Use a pager if the difftool output is larger than one screenful
     difftool = true
 
 [pull]
-	# Don't allow non-fast forward pulls into local branches
-	# Override with `git pull --rebase` or `git pull --no-ff`
-	ff = only
-
-	rebase = true
+    # Don't allow non-fast forward pulls into local branches
+    ff = only
+    rebase = true
 
 [push]
-  	default = current
+    default = current
 
-	# Make `git push` push relevant annotated tags when pushing branches out.
-	# https://git-scm.com/docs/git-config#git-config-pushfollowTags
-	followTags = true
+    # Make `git push` push relevant annotated tags when pushing branches out
+    followTags = true
 
 [rebase]
-	# Automatically stash and unstash the working directory beofre and after rebases
-	# Makes it possible to rebase with changes in the working directory
-	autostash = true
+    # Automatically stash and unstash the working directory before and after rebases
+    autostash = true
 
-	# When the commit log message begins with "squash! ..." (or "fixup! ..."), and there is a commit whose title begins with the same ..., automatically modify the todo list of rebase -i so that the commit marked for squashing comes right after the commit to be modified, and change the action of the moved commit from pick to squash (or fixup).
-	autosquash = true
+    # Automatically modify the todo list of rebase -i
+    autosquash = true
+    stat = true
+    missingCommitsCheck = error
+    updateRefs = true
 
-	stat = true
-
-	missingCommitsCheck = error
-
-	updateRefs = true
 [rerere]
-	enabled = true
-	autoupdate = true
+    enabled = true
+    autoupdate = true
 
 [status]
-	# Shows all files underneath an untracked directory instead of just the directory
-	# https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
-	showUntrackedFiles = all
+    # Shows all files underneath an untracked directory instead of just the directory
+    showUntrackedFiles = all
 
 [stash]
-	showPatch = true
-	showIncludeUntracked = true
+    showPatch = true
+    showIncludeUntracked = true
+
 [transfer]
-	# Extra checks for data corruption when sending or receiving data
-	# Note: could make things slower
-	# https://git-scm.com/docs/git-config#git-config-transferfsckObjects
-  # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
-	fsckobjects = true
+    # Extra checks for data corruption when sending or receiving data
+    fsckobjects = true
 
 [user]
-	name = David Harris
-	email = davidaharris@outlook.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyvPLbNCtrhJWYqFrBdtd0Hx7RmgHYEYk22HCcaErgH
+    name = David Harris
+    email = davidaharris@outlook.com
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyvPLbNCtrhJWYqFrBdtd0Hx7RmgHYEYk22HCcaErgH
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 
 [pile]
-  cleanupRemoteOnSubmitFailure = true
+    cleanupRemoteOnSubmitFailure = true
 
 [delta]
     navigate = true    # use n and N to move between diff sections
-    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
-	features = catppuccin-macchiato
+    light = false      # set to true if you're in a terminal with a light background color
+    features = catppuccin-macchiato
 
 [includeIf "gitdir:~/Developer/work/"]
     path = ~/.config/git/config.work
@@ -374,4 +348,4 @@
 
 # https://juripakaste.fi/swift-git-attributes
 [diff "swift"]
-  xfuncname = ^[ \t]*(((private |public |internal |final |open )*class|(private |public |internal )*struct|(private |public |internal )*actor|(private |public |internal )*func|(private |public |internal )*extension|(private |public |internal )*enum)[ \t].*)$
+    xfuncname = ^[ \t]*(((private |public |internal |final |open )*class|(private |public |internal )*struct|(private |public |internal )*actor|(private |public |internal )*func|(private |public |internal )*extension|(private |public |internal )*enum)[ \t].*)$

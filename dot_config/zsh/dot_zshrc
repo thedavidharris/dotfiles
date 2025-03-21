@@ -2,6 +2,9 @@
 source ${ZDOTDIR:-$HOME}/.antidote/antidote.zsh
 antidote load ${ZDOTDIR:-$HOME}/.zplugins
 
+# Set the use-xdg-basedirs style for history
+zstyle ':zephyr:plugin:history' use-xdg-basedirs true
+
 # Autocomplete configuration
 
 # Autosuggest config
@@ -33,7 +36,6 @@ bindkey -M menuselect '\r' accept-line
 # zstyle ':autocomplete:*' fzf-completion no
 zstyle ':autocomplete:*' insert-unambiguous yes
 zstyle ':autocomplete:*' delay 0.2  # seconds (float)
-zstyle ':autocomplete:*' list-lines 7
 zstyle ':completion:*' menu select=long
 
 # Fix issues with tilde expansion
