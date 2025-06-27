@@ -1,10 +1,10 @@
 packages:
   darwin:
     brews:
-    - 'git'
     - 'aria2'
     - 'bat'
     - 'blueutil'
+    - 'bun'
     - 'chezmoi'
     - 'colordiff'
     - 'coreutils'
@@ -15,32 +15,42 @@ packages:
     - 'fzf'
     - 'gh'
     - 'git'
+    - 'git-absorb'
     - 'git-delta'
+    - 'git-filter-repo'
     - 'git-lfs'
+    - 'git-sizer'
     - 'gnu-sed'
     - 'gradle'
+    - 'gradle-completion'
     - 'graphviz'
     - 'grep'
+    - 'hk'
     - 'jq'
     - 'maven'
+    - 'mise'
     - 'moreutils'
     - 'neovim'
     - 'nmap'
     - 'openssh'
-    - 'mise'
+    - 'pkl'
+    - 'readline'
+    - 'scc'
     - 'screen'
     - 'shellcheck'
+    - 'sops'
     - 'speedtest-cli'
     - 'starship'
     - 'swiftformat'
     - 'swiftlint'
     - 'tree'
+    - 'tree-sitter'
     - 'vivid'
     - 'wget'
+    - 'yq'
     - 'zoxide'
     - 'zsh'
     casks:
-    - 'google-chrome'
     - '1password'
     - '1password-cli'
     - 'android-commandlinetools'
@@ -53,14 +63,78 @@ packages:
     - 'iterm2'
     - 'jordanbaird-ice'
     - 'rectangle'
-    - 'slack'
     - 'stats'
     - 'visual-studio-code'
     - 'xcodes'
     # Fonts
     - 'font-inconsolata'
-    - 'font-inconsolata-nerd-font'
     - 'font-inconsolata-go-nerd-font'
+    - 'font-inconsolata-nerd-font'
+    vscode:
+      - bierner.markdown-mermaid
+      - blodwynn.featurehighlight
+      - bradlc.vscode-tailwindcss
+      - catppuccin.catppuccin-vsc
+      - dart-code.dart-code
+      - dart-code.flutter
+      - docker.docker
+      - dunstontc.viml
+      - editorconfig.editorconfig
+      - esbenp.prettier-vscode
+      - foxundermoon.shell-format
+      - fwcd.kotlin
+      - github.copilot
+      - github.copilot-chat
+      - github.vscode-github-actions
+      - github.vscode-pull-request-github
+      - golang.go
+      - jacobpfeifer.pfeifer-hurl
+      - joelcancela.cfg-games-support
+      - llvm-vs-code-extensions.lldb-dap
+      - mohsen1.prettify-json
+      - ms-azuretools.vscode-containers
+      - ms-python.autopep8
+      - ms-python.debugpy
+      - ms-python.isort
+      - ms-python.pylint
+      - ms-python.python
+      - ms-python.vscode-pylance
+      - ms-toolsai.jupyter
+      - ms-toolsai.jupyter-keymap
+      - ms-toolsai.jupyter-renderers
+      - ms-toolsai.vscode-jupyter-cell-tags
+      - ms-toolsai.vscode-jupyter-slideshow
+      - ms-vscode-remote.remote-containers
+      - ms-vscode-remote.remote-ssh
+      - ms-vscode-remote.remote-ssh-edit
+      - ms-vscode-remote.remote-wsl
+      - ms-vscode.cmake-tools
+      - ms-vscode.cpptools
+      - ms-vscode.cpptools-extension-pack
+      - ms-vscode.cpptools-themes
+      - ms-vscode.makefile-tools
+      - ms-vscode.remote-explorer
+      - ms-vsliveshare.vsliveshare
+      - pkl.pkl-vscode
+      - redhat.java
+      - redhat.vscode-yaml
+      - shopify.ruby-lsp
+      - sumneko.lua
+      - svanimpe.stencil
+      - swiftlang.swift-vscode
+      - tintinweb.graphviz-interactive-preview
+      - unifiedjs.vscode-mdx
+      - visualstudioexptteam.intellicode-api-usage-examples
+      - visualstudioexptteam.vscodeintellicode
+      - vscjava.vscode-gradle
+      - vscjava.vscode-java-debug
+      - vscjava.vscode-java-dependency
+      - vscjava.vscode-java-pack
+      - vscjava.vscode-java-test
+      - vscjava.vscode-maven
+      - vscodevim.vim
+      - wmaurer.change-case
+      - xadillax.viml
     taps:
       - tap: robotsandpencils/made
         brews:

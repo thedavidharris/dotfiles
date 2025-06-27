@@ -14,5 +14,9 @@ brew {{ . | quote }}
 {{ range .packages.darwin.casks -}}
 cask {{ . | quote }}
 {{ end -}}
+# VS Code Extensions
+{{ range .packages.darwin.vscode -}}
+vscode {{ . | quote }}
+{{ end -}}
 EOF
 {{ end -}}

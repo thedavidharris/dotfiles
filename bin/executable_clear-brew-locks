@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This script is used to clear all brew locks in the system.
+# It is useful when you encounter issues with Homebrew and need to reset the locks.
+ rm -rf "$(brew --prefix)/var/homebrew/locks"

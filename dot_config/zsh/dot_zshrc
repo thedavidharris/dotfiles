@@ -5,6 +5,9 @@ antidote load ${ZDOTDIR:-$HOME}/.zplugins
 # Set the use-xdg-basedirs style for history
 zstyle ':zephyr:plugin:history' use-xdg-basedirs true
 
+# History
+setopt share_history # Override zephyr's default of not sharing history
+
 # Autocomplete configuration
 
 # Autosuggest config
@@ -48,3 +51,6 @@ eval "$(starship init zsh)"
 
 # Mise
 eval "$(mise activate zsh)"
+
+# Zoxide
+eval "$(zoxide init zsh)"
