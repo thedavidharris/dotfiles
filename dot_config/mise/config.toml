@@ -1,24 +1,20 @@
 [tools]
-node = 'lts'
-python = ['3.12']
 flutter = ['3.16.5']
 go = ['1.23']
+java = "temurin-21.0"
+node = 'lts'
+python = ['3.12']
 slsa-verifier = "latest"
 cosign = "latest"
 
 [settings]
-legacy_version_file = true
 always_keep_download = false
 always_keep_install = false
-
+asdf_compat = false
+env_file = '.env'
+legacy_version_file = true
 plugin_autoupdate_last_check_duration = '1 week'
-
-# config files with these prefixes will be trusted by default
 trusted_config_paths = [
     '~/Developer',
 ]
-
 verbose = false
-asdf_compat = false
-
-env_file = '.env'

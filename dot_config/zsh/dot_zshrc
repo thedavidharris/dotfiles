@@ -2,55 +2,43 @@
 source ${ZDOTDIR:-$HOME}/.antidote/antidote.zsh
 antidote load ${ZDOTDIR:-$HOME}/.zplugins
 
-# Set the use-xdg-basedirs style for history
+# Zephyr history config
 zstyle ':zephyr:plugin:history' use-xdg-basedirs true
-
-# History
-setopt share_history # Override zephyr's default of not sharing history
-
-# Autocomplete configuration
+setopt share_history
 
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
-ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=( forward-char forward-word end-of-line )
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-char forward-word end-of-line)
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste up-line-or-search down-line-or-search expand-or-complete accept-line push-line-or-edit)
-ZSH_AUTOSUGGEST_STRATEGY=( history )
+ZSH_AUTOSUGGEST_STRATEGY=(history)
 
-# Make Tab and Shift + Tab cycle completions on the command line
-bindkey              '^I'         menu-complete
-bindkey "$terminfo[kcbt]" reverse-menu-complete
+# Key bindings
+bindkey '^I' menu-complete                # Tab: menu completion
+bindkey "$terminfo[kcbt]" reverse-menu-complete  # Shift-Tab: reverse menu completion
+bindkey '^[q' push-line-or-edit           # Alt-q: push current line to buffer
+bindkey '\e[A' history-beginning-search-backward # Up arrow: search history backward
+bindkey '\eOA' history-beginning-search-backward # Up arrow (alternate): search history backward
+bindkey '\e[B' history-beginning-search-forward  # Down arrow: search history forward
+bindkey '\eOB' history-beginning-search-forward  # Down arrow (alternate): search history forward
+bindkey -M menuselect '\r' accept-line    # Enter in menu selection: accept line
 
-# History editing tools
-bindkey '^[q' push-line-or-edit
+zle -A {.,}history-incremental-search-forward
+zle -A {.,}history-incremental-search-backward
 
 # Highlight colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\eOA' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-bindkey '\eOB' history-beginning-search-forward
-zle -A {.,}history-incremental-search-forward
-zle -A {.,}history-incremental-search-backward
-
+# Autocomplete and completion styles
 zstyle ':autocomplete:*' widget-style menu-select
-bindkey -M menuselect '\r' accept-line
-
-# zstyle ':autocomplete:*' fzf-completion no
 zstyle ':autocomplete:*' insert-unambiguous yes
-zstyle ':autocomplete:*' delay 0.2  # seconds (float)
+zstyle ':autocomplete:*' delay 0.2
 zstyle ':completion:*' menu select=long
-
-# Fix issues with tilde expansion
 zstyle ':completion:*' completer _complete _complete:-fuzzy _correct _approximate _ignored
 
+# LS_COLORS
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
-# Prompt
+# Prompt, Mise, Zoxide
 eval "$(starship init zsh)"
-
-# Mise
 eval "$(mise activate zsh)"
-
-# Zoxide
 eval "$(zoxide init zsh)"
