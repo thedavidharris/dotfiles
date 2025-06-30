@@ -1,5 +1,4 @@
 [tools]
-flutter = ['3.16.5']
 go = ['1.23']
 java = "temurin-21.0"
 node = 'lts'

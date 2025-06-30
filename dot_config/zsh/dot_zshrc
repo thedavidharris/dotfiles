@@ -1,6 +1,22 @@
-# Antidote
-source ${ZDOTDIR:-$HOME}/.antidote/antidote.zsh
-antidote load ${ZDOTDIR:-$HOME}/.zplugins
+# zmodload zsh/zprof
+
+zsh_plugins_file="${ZDOTDIR:-$HOME}/.zplugins"
+zsh_static_file="${ZDOTDIR:-$HOME}/.zsh_plugins.zsh"
+
+# Check if the static file needs to be regenerated
+# This happens if it doesn't exist, or if the source .txt file is newer.
+if [[ ! "$zsh_static_file" -nt "$zsh_plugins_file" ]]; then
+  echo "Antidote: Regenerating static plugin file..."
+  (
+    # Source antidote in a subshell to keep the main shell clean
+    source "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh"
+    # Bundle the plugins from the .txt file into the static .zsh file
+    antidote bundle <"$zsh_plugins_file" >"$zsh_static_file"
+  )
+fi
+
+# Source the fast, static, pre-compiled file on every startup
+source "$zsh_static_file"
 
 # Zephyr history config
 zstyle ':zephyr:plugin:history' use-xdg-basedirs true
@@ -42,3 +58,5 @@ export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
+
+# zprof
