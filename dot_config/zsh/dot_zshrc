@@ -34,12 +34,28 @@ ZSH_AUTOSUGGEST_STRATEGY=(history)
 bindkey '^I' menu-complete                # Tab: menu completion
 bindkey "$terminfo[kcbt]" reverse-menu-complete  # Shift-Tab: reverse menu completion
 bindkey '^[q' push-line-or-edit           # Alt-q: push current line to buffer
+
+# History search (smart up/down arrows)
 bindkey '\e[A' history-beginning-search-backward # Up arrow: search history backward
 bindkey '\eOA' history-beginning-search-backward # Up arrow (alternate): search history backward
 bindkey '\e[B' history-beginning-search-forward  # Down arrow: search history forward
 bindkey '\eOB' history-beginning-search-forward  # Down arrow (alternate): search history forward
-bindkey -M menuselect '\r' accept-line    # Enter in menu selection: accept line
 
+# Additional useful bindings
+bindkey '^R' history-incremental-search-backward # Ctrl-R: reverse search
+bindkey '^S' history-incremental-search-forward  # Ctrl-S: forward search
+bindkey '^[[1;5C' forward-word               # Ctrl-Right: move forward one word
+bindkey '^[[1;5D' backward-word              # Ctrl-Left: move backward one word
+bindkey '^H' backward-delete-word            # Ctrl-Backspace: delete word backwards
+bindkey '^[[3;5~' delete-word                # Ctrl-Delete: delete word forwards
+
+# Menu selection bindings
+bindkey -M menuselect '\r' accept-line       # Enter: accept selection and execute
+bindkey -M menuselect '^M' accept-line       # Enter (alternate)
+bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift-Tab in menu
+bindkey -M menuselect '^[' send-break        # Esc: exit menu
+
+# Preserve original incremental search widgets
 zle -A {.,}history-incremental-search-forward
 zle -A {.,}history-incremental-search-backward
 
