@@ -59,7 +59,6 @@ export LC_ALL='en_US.UTF-8';
 
 export CLICOLOR=1
 
-export NVM_DIR=$HOME/nvm
 export GRADLE_USER_HOME=$XDG_CONFIG_HOME/gradle
 
 export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"  

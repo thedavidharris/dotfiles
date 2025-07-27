@@ -20,6 +20,8 @@ source "$zsh_static_file"
 
 # Zephyr history config
 zstyle ':zephyr:plugin:history' use-xdg-basedirs true
+
+# Override Zephyr's history settings
 setopt share_history
 
 # Autosuggest config
