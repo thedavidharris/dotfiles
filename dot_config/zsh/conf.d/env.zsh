@@ -17,13 +17,7 @@ setopt NO_bg_nice            # Don't run all background jobs at a lower priority
 setopt NO_check_jobs         # Don't report on jobs when shell exit.
 setopt NO_hup                # Don't kill jobs on shell exit.
 
-# Set XDG base dirs.
-# https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
-export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
-export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
-export XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
-mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
+# XDG base dirs already set in .zshenv - no need to duplicate
 
 
 # Set browser.
@@ -36,11 +30,6 @@ export LANG=${LANG:-en_US.UTF-8}
 
 # Reduce key delay
 export KEYTIMEOUT=${KEYTIMEOUT:-1}
-
-# Make Apple Terminal behave.
-if [[ "$OSTYPE" == darwin* ]]; then
-  export SHELL_SESSIONS_DISABLE=${SHELL_SESSIONS_DISABLE:-1}
-fi
 
 # Use `< file` to quickly view the contents of any file.
 [[ -z "$READNULLCMD" ]] || READNULLCMD=$PAGER

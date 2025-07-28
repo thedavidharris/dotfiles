@@ -1,5 +1,6 @@
 mattmc3/zephyr path:plugins/color
 
+mattmc3/zephyr path:plugins/helper
 mattmc3/zephyr path:plugins/directory
 mattmc3/zephyr path:plugins/editor
 mattmc3/zephyr path:plugins/history
