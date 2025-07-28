@@ -64,12 +64,8 @@ export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 # Prompt, Mise, Zoxide
 eval "$(starship init zsh)"
-# Lazy-load mise for better performance
-mise() {
-  unset -f mise
-  eval "$(command mise activate zsh)"
-  mise "$@"
-}
+# Just use standard mise activation - the hook is what's slow
+eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
 
 # zprof
