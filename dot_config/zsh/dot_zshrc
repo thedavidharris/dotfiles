@@ -27,7 +27,7 @@ setopt share_history
 # Autosuggest config
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-char forward-word end-of-line)
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste up-line-or-search down-line-or-search expand-or-complete accept-line push-line-or-edit)
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste history-substring-search-up history-substring-search-down expand-or-complete accept-line push-line-or-edit)
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 
 # Key bindings
@@ -35,19 +35,15 @@ bindkey '^I' menu-complete                # Tab: menu completion
 bindkey "$terminfo[kcbt]" reverse-menu-complete  # Shift-Tab: reverse menu completion
 bindkey '^[q' push-line-or-edit           # Alt-q: push current line to buffer
 
-# History search (smart up/down arrows)
-bindkey '\e[A' history-beginning-search-backward # Up arrow: search history backward
-bindkey '\eOA' history-beginning-search-backward # Up arrow (alternate): search history backward
-bindkey '\e[B' history-beginning-search-forward  # Down arrow: search history forward
-bindkey '\eOB' history-beginning-search-forward  # Down arrow (alternate): search history forward
+# History search (smart up/down arrows) - using substring search
+bindkey '\e[A' history-substring-search-up     # Up arrow: search history backward (substring)
+bindkey '\eOA' history-substring-search-up     # Up arrow (alternate): search history backward (substring)
+bindkey '\e[B' history-substring-search-down   # Down arrow: search history forward (substring)
+bindkey '\eOB' history-substring-search-down   # Down arrow (alternate): search history forward (substring)
 
 # Additional useful bindings
 bindkey '^R' history-incremental-search-backward # Ctrl-R: reverse search
 bindkey '^S' history-incremental-search-forward  # Ctrl-S: forward search
-bindkey '^[[1;5C' forward-word               # Ctrl-Right: move forward one word
-bindkey '^[[1;5D' backward-word              # Ctrl-Left: move backward one word
-bindkey '^H' backward-delete-word            # Ctrl-Backspace: delete word backwards
-bindkey '^[[3;5~' delete-word                # Ctrl-Delete: delete word forwards
 
 # Menu selection bindings
 bindkey -M menuselect '\r' accept-line       # Enter: accept selection and execute
@@ -62,11 +58,7 @@ zle -A {.,}history-incremental-search-backward
 # Highlight colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
-# Completion styles (for traditional Tab-based completion)
-zstyle ':completion:*' menu select=long              # Visual menu selection
-zstyle ':completion:*' group-name ''                 # Group completions by type
-zstyle ':completion:*' verbose yes                   # Show descriptions
-zstyle ':completion:*:descriptions' format '%B%d%b'  # Bold group descriptions
+# Additional completion styles (Zephyr already handles most of these)
 zstyle ':completion:*' completer _complete _complete:-fuzzy _correct _approximate _ignored
 
 # LS_COLORS
