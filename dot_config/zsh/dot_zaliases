@@ -1,7 +1,12 @@
 #!/bin/zsh
 #
-# Aliases
-#
+# Always enable colored `grep` output
+# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# Stopwatch
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
@@ -10,6 +15,12 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
+
+# Modern directory navigation
+command -v z > /dev/null && alias cd="z"  # Use zoxide for cd if available
+alias cdd="cd ~/Desktop"
+alias cdl="cd ~/Downloads"
+alias cdo="cd ~/Documents"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
@@ -121,9 +132,41 @@ fi
 # List all files colorized in long format, including dot files
 alias la="ls -la $colorflag"
 alias ls="ls $colorflag"
+alias ll="ls -l $colorflag"
+alias l="ls -CF $colorflag"
+
+# Tree with colors (if tree is installed)
+command -v tree > /dev/null && alias tree="tree -C"
+
+# Modern ls alternatives (if available)
+command -v eza > /dev/null && alias ls="eza --color=always --group-directories-first"
+command -v eza > /dev/null && alias la="eza -la --color=always --group-directories-first"
+command -v eza > /dev/null && alias ll="eza -l --color=always --group-directories-first"
 
 # Highlight help messages
 alias bathelp='bat --plain --language=help'
+
+# Color-aware tool aliases
+command -v fd > /dev/null && alias find="fd"
+command -v rg > /dev/null && alias grep="rg"
+command -v bat > /dev/null && alias cat="bat --paging=never"
+command -v bat > /dev/null && alias less="bat --paging=always"
+
+# Git with delta (if configured)
+command -v delta > /dev/null && alias diff="delta"
+
+# Git aliases for better workflow
+alias g="git"
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git pull"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias gco="git checkout"
+alias gb="git branch"
+alias glog="git log --oneline --graph --decorate"
 
 # Run just commands in interactive shells
 alias just='just --shell "zsh" --shell-arg "-ic"'

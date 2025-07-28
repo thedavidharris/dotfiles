@@ -18,10 +18,15 @@
     include = ["*/themes/**"]
     refreshPeriod = "168h"
 
-[".config/delta/themes/captppuccin.gitconfig"]
+[".config/delta/themes/catppuccin.gitconfig"]
     type = "file"
     url = "https://raw.githubusercontent.com/catppuccin/delta/refs/heads/main/catppuccin.gitconfig"
-    path = "catppuccin.gitconfig"
+    refreshPeriod = "168h"
+
+[".config/fzf/catppuccin-fzf-macchiato.sh"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/catppuccin/fzf/refs/heads/main/themes/catppuccin-fzf-macchiato.sh"
+    refreshPeriod = "168h"
 
 ["Library/Developer/Xcode/UserData/FontAndColorThemes"]
     type = "archive"

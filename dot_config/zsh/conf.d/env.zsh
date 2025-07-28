@@ -25,8 +25,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER=${BROWSER:-open}
 fi
 
-# Set language.
+# Set language and locale
 export LANG=${LANG:-en_US.UTF-8}
+export LC_ALL='en_US.UTF-8'
 
 # Reduce key delay
 export KEYTIMEOUT=${KEYTIMEOUT:-1}
@@ -39,12 +40,19 @@ export EDITOR=nvim
 
 export VISUAL=code
 
-# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
-export PYTHONIOENCODING='UTF-8';
+# FZF setup and colors
+if command -v fzf &> /dev/null; then
+  # Source fzf key bindings and completion
+  eval "$(fzf --zsh)"
+  # Source official Catppuccin Macchiato theme
+  [[ -f ~/.config/fzf/catppuccin-fzf-macchiato.sh ]] && source ~/.config/fzf/catppuccin-fzf-macchiato.sh
+fi
 
-# Prefer US English and use UTF-8.
-export LANG='en_US.UTF-8';
-export LC_ALL='en_US.UTF-8';
+# EXA/EZA colors - inherit from LS_COLORS and enhance
+export EXA_COLORS="$LS_COLORS"
+
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+export PYTHONIOENCODING='UTF-8'
 
 export CLICOLOR=1
 

@@ -29,6 +29,7 @@ ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-char forward-word end-of-line)
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste history-substring-search-up history-substring-search-down expand-or-complete accept-line push-line-or-edit)
 ZSH_AUTOSUGGEST_STRATEGY=(history)
+ZSH_AUTOSUGGEST_USE_ASYNC=true  # Enable async for better performance
 
 # Key bindings
 bindkey '^I' menu-complete                # Tab: menu completion
@@ -58,15 +59,17 @@ zle -A {.,}history-incremental-search-backward
 # Highlight colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
-# Additional completion styles (Zephyr already handles most of these)
-zstyle ':completion:*' completer _complete _complete:-fuzzy _correct _approximate _ignored
-
-# LS_COLORS
+# LS_COLORS - use vivid (very fast, caching probably not needed)
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 # Prompt, Mise, Zoxide
 eval "$(starship init zsh)"
-eval "$(mise activate zsh)"
+# Lazy-load mise for better performance
+mise() {
+  unset -f mise
+  eval "$(command mise activate zsh)"
+  mise "$@"
+}
 eval "$(zoxide init zsh)"
 
 # zprof

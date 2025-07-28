@@ -1,6 +1,6 @@
 command_timeout = 2000
 
-palette = "catppuccin_mocha"
+palette = "catppuccin_macchiato"
 
 # catppuccin
 [palettes.catppuccin_frappe]
