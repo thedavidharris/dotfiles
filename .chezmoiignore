@@ -1,23 +1,36 @@
 LICENSE
 README.md
+.git/
+.gitignore
+.vscode/
 
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Hammerspoon externals
+.hammerspoon/Spoons
+
+# Library folder (too large/personal)
+Library/
+
+# Support files
 support/config/iterm2/AppSupport
 support/config/iterm2/sockets
 
-# Ignore non-macOS files.
+# Ignore non-macOS files
 {{ if ne .chezmoi.os "darwin" -}}
 dot_config/iterm
-dot_Brewfile
 {{- end }}
 
-#Developer/
-#!Developer/personal/dot_env
-#!Developer/personal/.op/*
-#!Developer/work/dot_env
-#!Developer/work/.op/*
+# Cache and temporary files
+*.log
+*.tmp
+*~
+.#*
 
-.hammerspoon/Spoons
-
-Library/
-
-.DS_Store
+# Keep only specific developer env files
+Developer/
+!Developer/personal/dot_env
+!Developer/work/dot_env

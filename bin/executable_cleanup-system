@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Cleanup script for macOS dotfiles maintenance
+
+set -euo pipefail
+
+echo "🧹 Cleaning up system and dotfiles..."
+
+# Clean Homebrew
+if command -v brew >/dev/null 2>&1; then
+    echo "  🍺 Cleaning Homebrew..."
+    brew cleanup --prune=all
+    brew autoremove
+fi
+
+# Clean mise
+if command -v mise >/dev/null 2>&1; then
+    echo "  🔧 Cleaning mise cache..."
+    mise cache clear
+fi
+
+# Clean zsh completion cache
+if [[ -d "$HOME/.cache/zsh" ]]; then
+    echo "  🐚 Cleaning zsh cache..."
+    find "$HOME/.cache/zsh" -name "*.zwc" -delete 2>/dev/null || true
+    find "$HOME/.cache/zsh" -type f -name "*" -mtime +7 -delete 2>/dev/null || true
+fi
+
+# Clean macOS caches
+echo "  🍎 Cleaning macOS user caches..."
+rm -rf "$HOME/Library/Caches/com.apple.dt.Xcode"* 2>/dev/null || true
+rm -rf "$HOME/Library/Developer/Xcode/DerivedData"* 2>/dev/null || true
+
+# Clean DS_Store files
+echo "  📁 Removing .DS_Store files..."
+find "$HOME" -name ".DS_Store" -delete 2>/dev/null || true
+
+echo "✅ Cleanup complete!"
