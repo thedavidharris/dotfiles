@@ -1,62 +1,68 @@
 {
-  // Theme
-  "workbench.colorTheme": "Catppuccin Macchiato",
-  "workbench.iconTheme": "catppuccin-macchiato",
-  
-  // Editor
-  "editor.fontFamily": "'Inconsolata Go Nerd Font', 'Inconsolata Nerd Font', 'Inconsolata', monospace",
-  "editor.fontSize": 14,
-  "editor.lineHeight": 1.5,
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": true,
-  "editor.renderWhitespace": "boundary",
-  "editor.renderControlCharacters": true,
-  "editor.wordWrap": "on",
-  "editor.minimap.enabled": false,
-  "editor.rulers": [80, 120],
-  
-  // Terminal
-  "terminal.integrated.defaultProfile.osx": "zsh",
-  "terminal.integrated.fontFamily": "'Inconsolata Go Nerd Font', 'Inconsolata Nerd Font'",
-  "terminal.integrated.fontSize": 14,
-  
-  // Git
-  "git.confirmSync": false,
-  "git.autofetch": true,
-  "git.enableSmartCommit": true,
-  
-  // Files
-  "files.exclude": {
-    "**/.DS_Store": true,
-    "**/node_modules": true,
-    "**/__pycache__": true,
-    "**/.pytest_cache": true
-  },
-  
-  // Copilot
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": true
-  },
-  
-  // Language specific
-  "python.defaultInterpreterPath": "python3",
-  "[python]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "ms-python.autopep8"
-  },
-  "[javascript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+    "terminal.integrated.shell.osx": "/bin/zsh",
+    "python.pythonPath": "/usr/local/bin/python3",
+    "editor.minimap.enabled": true,
+    "workbench.colorTheme": "Catppuccin Frappé",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "Inconsolata Nerd Font Mono",
+    "editor.fontLigatures": false,
+    "editor.fontSize": 14,
+    "Lua.telemetry.enable": true,
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.formatOnSave": true
+    },
+    "git.openRepositoryInParentFolders": "never",
+    "cmake.configureOnOpen": true,
+    "explorer.confirmDragAndDrop": false,
+    "swift.autoGenerateLaunchConfigurations": false,
+    "swift.disableAutoResolve": true,
+    "lldb.library": "/Applications/Xcode-16.2.0.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+    "lldb.launch.expressions": "native",
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "makefile.configureOnOpen": true,
+    "githubPullRequests.pullBranch": "never",
+    "[yaml]": {
+        
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "keep",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultColorDecorators": "never",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        }
+    },
+    "[shellscript]": {
+        "editor.tabSize": 2,
+    },
+    "[bash]": {
+        "editor.tabSize": 2,
+    },
+    "editor.multiCursorLimit": 100000,
+    "editor.indentSize": "tabSize",
+    "go.toolsManagement.autoUpdate": true,
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "workbench.editor.empty.hint": "hidden"
 }

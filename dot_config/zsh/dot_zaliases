@@ -170,3 +170,10 @@ alias glog="git log --oneline --graph --decorate"
 
 # Run just commands in interactive shells
 alias just='just --shell "zsh" --shell-arg "-ic"'
+
+# Chezmoi helpers
+alias sync-vscode='sync-vscode-settings'
+alias cm='chezmoi'
+alias cma='chezmoi apply'
+alias cmd='chezmoi diff'
+alias cms='chezmoi status'

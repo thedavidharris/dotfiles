@@ -46,12 +46,6 @@ bindkey '\eOB' history-substring-search-down   # Down arrow (alternate): search 
 bindkey '^R' history-incremental-search-backward # Ctrl-R: reverse search
 bindkey '^S' history-incremental-search-forward  # Ctrl-S: forward search
 
-# Menu selection bindings
-bindkey -M menuselect '\r' accept-line       # Enter: accept selection and execute
-bindkey -M menuselect '^M' accept-line       # Enter (alternate)
-bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift-Tab in menu
-bindkey -M menuselect '^[' send-break        # Esc: exit menu
-
 # Preserve original incremental search widgets
 zle -A {.,}history-incremental-search-forward
 zle -A {.,}history-incremental-search-backward

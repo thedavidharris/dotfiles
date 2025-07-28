@@ -16,6 +16,9 @@ README.md
 Library/
 
 # Support files
+LICENSE
+README.md
+
 support/config/iterm2/AppSupport
 support/config/iterm2/sockets
 
