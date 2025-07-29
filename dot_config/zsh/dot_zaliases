@@ -1,6 +1,7 @@
 #!/bin/zsh
 #
-# Always enable colored `grep` output
+# Always en# Enable aliases to be sudo'ed
+alias sudo='sudo 'red `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Find and kill processes by name or port
+# Usage: killp <process_name_or_port>
+
+if [ $# -eq 0 ]; then
+    echo "Usage: killp <process_name_or_port>"
+    echo "Examples:"
+    echo "  killp node        # Kill processes containing 'node'"
+    echo "  killp 3000        # Kill process using port 3000"
+    exit 1
+fi
+
+search_term="$1"
+
+# Check if it's a port number
+if [[ "$search_term" =~ ^[0-9]+$ ]]; then
+    echo "Looking for processes using port $search_term..."
+    pids=$(lsof -ti:$search_term)
+    if [ -n "$pids" ]; then
+        echo "Found processes: $pids"
+        echo "$pids" | xargs kill -9
+        echo "Killed processes using port $search_term"
+    else
+        echo "No processes found using port $search_term"
+    fi
+else
+    echo "Looking for processes containing '$search_term'..."
+    pids=$(pgrep -f "$search_term")
+    if [ -n "$pids" ]; then
+        echo "Found processes: $pids"
+        echo "$pids" | xargs kill -9
+        echo "Killed processes containing '$search_term'"
+    else
+        echo "No processes found containing '$search_term'"
+    fi
+fi
