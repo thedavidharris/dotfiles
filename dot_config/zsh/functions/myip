@@ -1,0 +1,3 @@
+# Get current external IP address
+# Usage: myip
+curl -s https://ipinfo.io/ip 2>/dev/null || curl -s https://icanhazip.com 2>/dev/null || echo "Network unavailable"

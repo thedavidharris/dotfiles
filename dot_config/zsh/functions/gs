@@ -1,0 +1,3 @@
+# Quick git status with better formatting
+# Usage: gs
+git status --short --branch

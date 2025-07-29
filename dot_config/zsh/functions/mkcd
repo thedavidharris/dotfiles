@@ -1,0 +1,3 @@
+# Create and enter a new directory
+# Usage: mkcd my-new-folder
+mkdir -p "$1" && cd "$1"

@@ -1,0 +1,8 @@
+# Get the main branch name (main vs master) for current repo
+# Usage: git-main-branch (or use in other scripts)
+if git show-branch origin/main > /dev/null 2>&1; then
+  echo "main"
+else
+  config_key="$(git rev-parse --show-toplevel 2>/dev/null | shasum | cut -d' ' -f1).main-branch"
+  git config --local --get --default master "$config_key"
+fi

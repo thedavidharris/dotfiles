@@ -1,0 +1,3 @@
+# Copy the absolute path of a file/directory to clipboard
+# Usage: copypath file.txt
+realpath -s "$1" | pbcopy && echo "Copied: $(realpath -s "$1")"

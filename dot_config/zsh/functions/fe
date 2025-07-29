@@ -1,0 +1,9 @@
+# Find and edit files quickly with fzf
+# Usage: fe (then type to search)
+if command -v fzf >/dev/null 2>&1; then
+  local file
+  file=$(find . -type f -not -path '*/\.git/*' | fzf --preview 'bat --color=always {}' 2>/dev/null)
+  [[ -n "$file" ]] && ${EDITOR:-nvim} "$file"
+else
+  echo "fzf not installed. Install with: brew install fzf"
+fi
