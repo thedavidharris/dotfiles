@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Quick package management helper
+# Opens the packages.yaml file for editing
+
+set -euo pipefail
+
+PACKAGES_FILE="$HOME/.local/share/chezmoi/.chezmoidata/packages.yaml"
+
+if [[ ! -f "$PACKAGES_FILE" ]]; then
+    echo "❌ packages.yaml not found at: $PACKAGES_FILE"
+    exit 1
+fi
+
+echo "📝 Opening packages.yaml for editing..."
+
+# Use the user's preferred editor
+if command -v code > /dev/null && [[ "${VISUAL:-}" == "code" ]]; then
+    code "$PACKAGES_FILE"
+elif command -v nvim > /dev/null; then
+    nvim "$PACKAGES_FILE"
+elif command -v vim > /dev/null; then
+    vim "$PACKAGES_FILE"
+else
+    echo "ℹ️  Opening with default editor..."
+    open "$PACKAGES_FILE"
+fi
+
+echo ""
+echo "💡 After editing, run:"
+echo "   chezmoi apply    # Apply changes and run brew bundle"
+echo "   bb check         # Check if all packages are installed"

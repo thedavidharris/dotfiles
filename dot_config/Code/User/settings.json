@@ -44,7 +44,7 @@
     "makefile.configureOnOpen": true,
     "githubPullRequests.pullBranch": "never",
     "[yaml]": {
-        
+
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
         "editor.autoIndent": "keep",

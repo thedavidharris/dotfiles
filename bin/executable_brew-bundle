@@ -1,0 +1,106 @@
+#!/bin/bash
+
+# Brew Bundle Management Script
+# Usage:
+#   brew-bundle          - Install packages from Brewfile
+#   brew-bundle dump     - Update Brewfile with currently installed packages
+#   brew-bundle cleanup  - Remove packages not in Brewfile
+
+set -euo pipefail
+
+BREWFILE="$HOME/.config/brew/Brewfile"
+
+usage() {
+    echo "Usage: $(basename "$0") [command]"
+    echo ""
+    echo "Commands:"
+    echo "  install   Install packages from Brewfile (default)"
+    echo "  dump      Update Brewfile with currently installed packages"
+    echo "  cleanup   Remove packages not listed in Brewfile"
+    echo "  check     Check if all packages in Brewfile are installed"
+    echo "  help      Show this help message"
+    echo ""
+    echo "Brewfile location: $BREWFILE"
+}
+
+install_packages() {
+    if [[ ! -f "$BREWFILE" ]]; then
+        echo "❌ Brewfile not found at: $BREWFILE"
+        echo "Run 'chezmoi apply' first to generate it"
+        exit 1
+    fi
+
+    echo "🍺 Installing packages from $BREWFILE..."
+    brew bundle --file="$BREWFILE"
+    echo "✅ Installation completed"
+}
+
+dump_brewfile() {
+    echo "📝 Updating Brewfile with currently installed packages..."
+    echo "⚠️  This will overwrite the managed Brewfile!"
+    echo "   Consider updating packages.yaml instead"
+    read -p "Continue? (y/N) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        brew bundle dump --file="$BREWFILE" --force
+        echo "✅ Brewfile updated at $BREWFILE"
+        echo "💡 Remember to update your chezmoi packages.yaml with these changes"
+    else
+        echo "Cancelled"
+    fi
+}
+
+cleanup_packages() {
+    if [[ ! -f "$BREWFILE" ]]; then
+        echo "❌ Brewfile not found at: $BREWFILE"
+        exit 1
+    fi
+
+    echo "🧹 Removing packages not in Brewfile..."
+    echo "⚠️  This will uninstall packages not listed in $BREWFILE"
+    read -p "Continue? (y/N) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        brew bundle cleanup --file="$BREWFILE"
+        echo "✅ Cleanup completed"
+    else
+        echo "Cancelled"
+    fi
+}
+
+check_packages() {
+    if [[ ! -f "$BREWFILE" ]]; then
+        echo "❌ Brewfile not found at: $BREWFILE"
+        exit 1
+    fi
+
+    echo "🔍 Checking packages in Brewfile..."
+    brew bundle check --file="$BREWFILE"
+}
+
+# Parse command
+command="${1:-install}"
+
+case "$command" in
+    install|"")
+        install_packages
+        ;;
+    dump)
+        dump_brewfile
+        ;;
+    cleanup)
+        cleanup_packages
+        ;;
+    check)
+        check_packages
+        ;;
+    help|--help|-h)
+        usage
+        ;;
+    *)
+        echo "❌ Unknown command: $command"
+        echo ""
+        usage
+        exit 1
+        ;;
+esac

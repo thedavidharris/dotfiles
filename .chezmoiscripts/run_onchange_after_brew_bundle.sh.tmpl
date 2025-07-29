@@ -1,0 +1,23 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+
+# Run brew bundle using the Brewfile from ~/.config/brew/
+# This script runs after files are applied when packages.yaml changes
+# packages.yaml hash: {{ .packages | toJson | sha256sum }}
+
+set -euo pipefail
+
+BREWFILE="$HOME/.config/brew/Brewfile"
+
+if [[ ! -f "$BREWFILE" ]]; then
+    echo "❌ Brewfile not found at: $BREWFILE"
+    echo "This is unexpected since files should be applied first."
+    echo "You can manually run: brew-bundle install"
+    exit 1
+fi
+
+echo "🍺 Running brew bundle from $BREWFILE..."
+brew bundle --file="$BREWFILE"
+
+echo "✅ Brew bundle completed successfully"
+{{ end -}}

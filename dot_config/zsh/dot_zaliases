@@ -178,3 +178,10 @@ alias cm='chezmoi'
 alias cma='chezmoi apply'
 alias cmd='chezmoi diff'
 alias cms='chezmoi status'
+
+# Brew bundle helpers
+alias bb='brew-bundle'
+alias bbi='brew-bundle install'
+alias bbc='brew-bundle check'
+alias bbd='brew-bundle dump'
+alias edit-packages='edit-packages'
