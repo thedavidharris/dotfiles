@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "🔄 Updating system packages and plugins..."
+echo "📝 Note: Plugin updates are local only, config changes sync with dotfiles"
+echo ""
+
+# Update LazyVim and all plugins (LOCAL ONLY - doesn't affect dotfiles)
+echo "🧩 Updating Neovim plugins (local only)..."
+nvim --headless "+Lazy! sync" +qa
+echo "✅ LazyVim and plugins updated!"
+echo ""
+
+# Update system tools
+if command -v brew &> /dev/null; then
+    echo "🍺 Updating Homebrew packages..."
+    brew update && brew upgrade
+    echo ""
+fi
+
+if command -v mise &> /dev/null; then
+    echo "🔧 Updating mise tools..."
+    mise upgrade
+    echo ""
+fi
+
+# Check for chezmoi dotfiles updates
+echo "📂 Checking dotfiles for updates..."
+if command -v chezmoi &> /dev/null; then
+    echo "🔄 Pulling latest dotfiles..."
+    chezmoi update
+    echo "✅ Dotfiles updated!"
+else
+    echo "⚠️  Chezmoi not found, skipping dotfiles update"
+fi
+
+echo ""
+echo "🎉 All updates complete!"
+echo ""
+echo "📋 Summary:"
+echo "  • Neovim plugins: Updated locally (not synced to dotfiles)"
+echo "  • System packages: Updated"
+echo "  • Dotfiles: Synced with remote repository"
+echo ""
+echo "💡 If you made config changes, run 'chezmoi add' and commit them"
