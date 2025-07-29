@@ -9,7 +9,7 @@ return {
       integrations = {
         cmp = true,
         gitsigns = true,
-        neotree = true, -- Fixed: it's neotree, not neo_tree
+        neotree = true,
         treesitter = true,
         telescope = true,
         which_key = true,
