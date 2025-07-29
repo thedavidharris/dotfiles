@@ -528,6 +528,22 @@ defaults write com.apple.dt.Xcode DVTTextTabKeyIndentBehavior -string Never
 defaults write com.apple.dt.Xcode XCFontAndColorCurrentTheme -string 'Catppuccin Macchiato.xccolortheme'
 defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string 'Catppuccin Macchiato.xccolortheme'
 
+# Set font to Inconsolata Go Nerd Font
+defaults write com.apple.dt.Xcode DVTMarkupTextCodeFont -string 'InconsolataGoNerdFont-Regular - 14.0'
+defaults write com.apple.dt.Xcode DVTSourceTextCodeFont -string 'InconsolataGoNerdFont-Regular - 14.0'
+
+###############################################################################
+# Android Studio                                                             #
+###############################################################################
+
+# Set font for Android Studio (when it's installed)
+if [[ -d "/Applications/Android Studio.app" ]]; then
+    # Android Studio uses a different preferences system, but we can set some defaults
+    # Note: Full font configuration usually requires manual setup in Android Studio
+    echo "Android Studio detected - configure font manually in:"
+    echo "Settings > Editor > Font > Font: Inconsolata Go Nerd Font"
+fi
+
 # Show indexing progress
 # https://twitter.com/dmartincy/status/1034930612543676418
 defaults write com.apple.dt.Xcode IDEIndexerActivityShowNumericProgress -bool true

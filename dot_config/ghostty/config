@@ -1,6 +1,10 @@
 theme = catppuccin-macchiato
 shell-integration-features = no-cursor,sudo,no-title
 
+# Font configuration - Inconsolata Go Nerd Font
+font-family = "Inconsolata Go Nerd Font"
+font-size = 14
+
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
 
