@@ -85,19 +85,10 @@ defaults write NSGlobalDomain NSAutomaticTextReplacementEnabled -bool false
 
 ###############################################################################
 # General UI/UX                                                               #
-###############################################################################bin/env bash
+###############################################################################
 
-# Sources from ~/.macos — https://mths.be/macos
-#
-# This script configures macOS system preferences, applications, and developer tools.
-# It focuses on developer productivity, security, and UI/UX improvements.
-#
-# Watch for changes in preference files with:
-#   sudo fs_usage | grep plist
-#   sudo opensnoop | grep plist
-#
-# To see what domains a specific app uses:
-#   defaults domains | tr ',' '\n' | grep -i appname
+# Increase window resize speed for Cocoa applications
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
 set -euo pipefail
 
