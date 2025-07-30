@@ -1,5 +1,5 @@
 return {
-  -- Chezmoi integration for your dotfiles
+  -- Chezmoi integration for dotfiles management
   {
     "alker0/chezmoi.vim",
     lazy = false,
@@ -8,13 +8,7 @@ return {
     end,
   },
 
-  -- Enhanced JSON support for config files
-  {
-    "b0o/schemastore.nvim",
-    ft = { "json", "jsonc" },
-  },
-
-  -- TOML support for chezmoi and other config files
+  -- TOML syntax support
   {
     "cespare/vim-toml",
     ft = "toml",

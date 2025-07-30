@@ -1,5 +1,5 @@
 return {
-  -- Shell scripting support (not covered by LazyVim extras)
+  -- Shell scripting support (not included in LazyVim extras)
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -9,6 +9,7 @@ return {
     },
   },
 
+  -- Additional shell tools via Mason
   {
     "williamboman/mason.nvim",
     opts = function(_, opts)
