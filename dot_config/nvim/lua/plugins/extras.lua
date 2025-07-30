@@ -1,7 +1,4 @@
 return {
-  -- Use LazyVim's coding extras for better commenting
-  { import = "lazyvim.plugins.extras.coding.mini-comment" },
-
   -- Chezmoi integration for your dotfiles
   {
     "alker0/chezmoi.vim",

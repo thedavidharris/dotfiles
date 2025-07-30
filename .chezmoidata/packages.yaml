@@ -3,13 +3,13 @@ packages:
     # Core system tools
     brews:
     - 'coreutils'
-    - 'findutils'  
+    - 'findutils'
     - 'gnu-sed'
     - 'grep'
     - 'openssh'
     - 'readline'
     - 'moreutils'
-    
+
     # Development tools
     - 'git'
     - 'git-absorb'
@@ -22,13 +22,13 @@ packages:
     - 'chezmoi'
     - 'sops'
     - 'hk'
-    
+
     # Build tools
     - 'gradle'
     - 'gradle-completion'
     - 'maven'
     - 'pkl'
-    
+
     # CLI utilities
     - 'bat'
     - 'fzf'
@@ -40,7 +40,7 @@ packages:
     - 'starship'
     - 'difftastic'
     - 'neovim'
-    
+
     # System utilities
     - 'aria2'
     - 'blueutil'
@@ -52,7 +52,7 @@ packages:
     - 'scc'
     - 'tree-sitter'
     - 'graphviz'
-    
+
     # Language specific
     - 'bun'
     - 'fish'
