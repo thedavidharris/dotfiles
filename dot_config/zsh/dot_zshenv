@@ -19,12 +19,18 @@ else
   export BREW_PREFIX=/usr/local
 fi
 
+# Android
+export ANDROID_HOME=$HOME/Library/Android/sdk
+
 # Set path
 eval "$($BREW_PREFIX/bin/brew shellenv)"
 path=(
     $HOME/{,s}bin(/N)
     $HOME/.local/{,s}bin(/N)
     $HOME/.cargo/bin(/N)
+    $ANDROID_HOME/platform-tools(/N)
+    $ANDROID_HOME/tools(/N)
+    $ANDROID_HOME/tools/bin(/N)
     $BREW_PREFIX/{,s}bin(/N)
     /usr/local/{,s}bin(/N)
     /bin

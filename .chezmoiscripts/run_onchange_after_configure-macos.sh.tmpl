@@ -1,6 +1,58 @@
 {{ if (eq .chezmoi.os "darwin") -}}
 #!/usr/bin/env bash
 
+# macOS System Configuration # Disable automatic period substitution as it's annoying when typing code
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+
+# Disable smart quotes as they're annoying when typing code
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable smart dashes as they're annoying when typing code
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable auto-correct
+# defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable automatic text replacement (useful for developers)
+defaults write NSGlobalDomain NSAutomaticTextReplacementEnabled -bool false Sources from ~/.macos — https://mths.be/macos
+#
+# This script configures macOS system preferences, applications, and developer tools.
+# It focuses on developer productivity, security, and UI/UX improvements.
+#
+# Watch for changes in preference files with:
+#   sudo fs_usage | grep plist
+#   sudo opensnoop | grep plist
+#
+# To see what domains a specific app uses:
+#   defaults domains | tr ',' '\n' | grep -i appname
+
+set -euo pipefail
+
+echo "🍎 Configuring macOS system preferences..."
+
+# Function to safely write defaults for potentially sandboxed apps
+safe_defaults_write() {
+    local domain="$1"
+    local key="$2"
+    local type="$3"
+    local value="$4"
+
+    if ! defaults write "$domain" "$key" "$type" "$value" 2>/dev/null; then
+        echo "⚠️  Could not set $domain $key (app may be sandboxed or not installed)"
+    fi
+}
+
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we're about to change
+osascript -e 'tell application "System Preferences" to quit'
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until script has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &i.os "darwin") -}}
+#!/usr/bin/env bash
+
 # Sources from ~/.macos — https://mths.be/macos
 # Watch for changes in files with either of
 #  sudo fs_usage | grep plist
@@ -274,6 +326,22 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	Privileges -bool true
 
 ###############################################################################
+# Developer-focused improvements                                              #
+###############################################################################
+
+# Show all file extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Disable the warning when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Enable text selection in Quick Look
+defaults write com.apple.finder QLEnableTextSelection -bool true
+
+# Show hidden files in Finder (useful for dotfiles)
+# defaults write com.apple.finder AppleShowAllFiles -bool true
+
+###############################################################################
 # Dock, Dashboard, and hot corners                                            #
 ###############################################################################
 
@@ -290,33 +358,36 @@ defaults write com.apple.dock show-recents -bool false
 # Safari & WebKit                                                             #
 ###############################################################################
 
+# Note: Safari is sandboxed - some settings may require Safari restart to take effect
+# Using domain-specific defaults write instead of -app flag to avoid permission errors
+
 # Show the full URL in the address bar (note: this still hides the scheme)
-defaults write -app Safari ShowFullURLInSmartSearchField -bool true
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
 
 # Prevent Safari from opening ‘safe’ files automatically after downloading
-defaults write -app Safari AutoOpenSafeDownloads -bool false
+defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
 
 # Enable Safari’s debug menu
-defaults write -app Safari IncludeInternalDebugMenu -bool true
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # Enable the Develop menu and the Web Inspector in Safari
-defaults write -app Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
 
 # Enable continuous spellchecking
-defaults write -app Safari WebContinuousSpellCheckingEnabled -bool true
+defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
 
 # Change the Safari search to find strings contained in other words
-defaults write -app Safari FindOnPageMatchesWordStartsOnly -bool false
+defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
 
 # Auto clear downloads
-defaults write -app Safari DownloadsClearingPolicy -int 2
+defaults write com.apple.Safari DownloadsClearingPolicy -int 2
 
 ###############################################################################
 # Mail                                                                        #
 ###############################################################################
 
 # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
+safe_defaults_write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
@@ -368,7 +439,7 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 
 # Enable the debug menu in Address Book
-defaults write com.apple.addressbook ABShowDebugMenu -bool true
+safe_defaults_write com.apple.addressbook ABShowDebugMenu -bool true
 
 # Enable Dashboard dev mode (allows keeping widgets on the desktop)
 defaults write com.apple.dashboard devmode -bool true
@@ -532,6 +603,30 @@ defaults write com.apple.dt.Xcode XCFontAndColorCurrentDarkTheme -string 'Catppu
 defaults write com.apple.dt.Xcode DVTMarkupTextCodeFont -string 'InconsolataGoNerdFont-Regular - 14.0'
 defaults write com.apple.dt.Xcode DVTSourceTextCodeFont -string 'InconsolataGoNerdFont-Regular - 14.0'
 
+# Show indexing progress
+# https://twitter.com/dmartincy/status/1034930612543676418
+defaults write com.apple.dt.Xcode IDEIndexerActivityShowNumericProgress -bool true
+
+# Make command click jump to definition instead of showing the menu
+defaults write com.apple.dt.Xcode IDECommandClickNavigates -bool true
+
+# Enable debug menu
+# https://gist.github.com/tkersey/6b6c1d91415c785a10560ae564288a65
+defaults write com.apple.dt.Xcode ShowDVTDebugMenu -bool true
+
+# Hide the Xcode minimap (uncomment if you prefer)
+# defaults write com.apple.dt.Xcode DVTTextShowMinimap -bool false
+
+# Disable Source Control (uncomment if you prefer)
+# defaults write com.apple.dt.Xcode IDESourceControlEnableSourceControl_10_0 -bool false
+
+# Show all file extensions (uncomment if you prefer)
+# defaults write com.apple.dt.Xcode IDEFileExtensionDisplayMode -int 1
+
+# Disable Xcode Cloud upsell prompts
+# https://twitter.com/iKenndac/status/1587867958348599308
+defaults write com.apple.dt.Xcode XcodeCloudUpsellPromptEnabled -bool false
+
 ###############################################################################
 # Android Studio                                                             #
 ###############################################################################
@@ -544,28 +639,8 @@ if [[ -d "/Applications/Android Studio.app" ]]; then
     echo "Settings > Editor > Font > Font: Inconsolata Go Nerd Font"
 fi
 
-# Show indexing progress
-# https://twitter.com/dmartincy/status/1034930612543676418
-defaults write com.apple.dt.Xcode IDEIndexerActivityShowNumericProgress -bool true
-
-# Make command click jump to definition instead of showing the menu
-defaults write com.apple.dt.Xcode IDECommandClickNavigates -bool true
-
-# https://gist.github.com/tkersey/6b6c1d91415c785a10560ae564288a65
-defaults write com.apple.dt.Xcode ShowDVTDebugMenu -bool true
-
-# Hide the Xcode 11 minimap
-# defaults write com.apple.dt.Xcode DVTTextShowMinimap -bool false
-
-# Disable Source Control
-# defaults write com.apple.dt.Xcode IDESourceControlEnableSourceControl_10_0 -bool false
-
-# Show all file extensions
-# defaults write com.apple.dt.Xcode IDEFileExtensionDisplayMode -int 1
-
-# https://twitter.com/iKenndac/status/1587867958348599308
-defaults write com.apple.dt.Xcode XcodeCloudUpsellPromptEnabled -bool false
-
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+echo "✅ macOS configuration completed successfully!"
+echo "⚠️  Note: Some changes require a logout/restart to take effect."
+echo "🔄 You may need to restart affected applications to see all changes."
 
 {{ end -}}
