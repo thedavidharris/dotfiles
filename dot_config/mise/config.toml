@@ -17,3 +17,8 @@ trusted_config_paths = [
     '~/Developer',
 ]
 verbose = false
+
+[env]
+_.file =[
+  ".gemini/.env"
+]
