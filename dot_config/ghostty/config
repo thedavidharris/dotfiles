@@ -1,4 +1,4 @@
-theme = catppuccin-macchiato
+theme = Catppuccin Macchiato
 shell-integration-features = no-cursor,sudo,no-title
 
 # Font configuration - Inconsolata Go Nerd Font
