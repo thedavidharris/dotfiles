@@ -4,4 +4,4 @@
 [user]
 	name = David Harris
 	email = davidaharris@outlook.com
-	signingkey = {{ onepasswordRead "op://Private/github_personal/public key" }}
+	signingkey = {{ default "" (onepasswordRead "op://Private/github_personal/public key") }}
