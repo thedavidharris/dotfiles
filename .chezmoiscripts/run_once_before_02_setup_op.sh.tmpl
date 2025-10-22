@@ -3,6 +3,9 @@
 
 set -eo pipefail
 
+# Where we save the exports from `op signin` so other scripts can source it.
+OP_SESSION_FILE="${HOME}/.op_session"
+
 if ! command -v op &>/dev/null; then
     echo "1Password CLI (op) not found. Installing via Homebrew..."
 
@@ -20,32 +23,48 @@ if ! command -v op &>/dev/null; then
     fi
 fi
 
-# Check whether the CLI is already signed in
+# If already signed in (session present and valid), nothing to do.
 if op whoami &>/dev/null; then
     echo "1Password CLI already signed in."
     exit 0
 fi
 
-echo "1Password CLI is not signed in. Running 'op signin' to sign in interactively."
+echo "1Password CLI is not signed in. Running 'op signin' to sign in interactively (or use the non-interactive flow)."
 
-# Ask the user if they want to provide host/email/secret key (non-empty -> use non-interactive signin parameters)
 read -rp "Enter your 1Password account host (e.g. my.1password.com) or press Enter to use interactive signin: " OP_HOST
 if [ -z "$OP_HOST" ]; then
-    # Interactive sign-in will prompt for the rest (and will also open a browser for 2FA if necessary)
-    op signin
+    # Interactive signin. Save the export statements to a file and source them.
+    echo "Running interactive 'op signin' — follow the prompts. The session exports will be saved to ${OP_SESSION_FILE}."
+    if ! op signin > "$OP_SESSION_FILE"; then
+        echo "Interactive sign-in failed. Please run 'eval \"\$(op signin)\"' manually and re-run this script."
+        exit 1
+    fi
 else
     read -rp "Enter your 1Password account email: " OP_EMAIL
     read -rp "Enter your 1Password secret key: " OP_SECRET
 
-    # 'op signin' without --raw prints shell exports in some shells; run it so the user can follow prompts for master password / MFA
-    op signin "$OP_HOST" "$OP_EMAIL" "$OP_SECRET"
+    echo "Running non-interactive 'op signin' with the provided host/email/secret (you will still be prompted for your master password / MFA as needed)."
+    if ! op signin "$OP_HOST" "$OP_EMAIL" "$OP_SECRET" > "$OP_SESSION_FILE"; then
+        echo "Non-interactive sign-in failed. Please run 'eval \"\$(op signin)\"' manually and re-run this script."
+        exit 1
+    fi
+fi
+
+# Source the session file into this shell (so op whoami works now) and keep it for other scripts.
+# shellcheck disable=SC1090
+if [ -s "$OP_SESSION_FILE" ]; then
+    # Use dot to source so exports take effect
+    . "$OP_SESSION_FILE"
+else
+    echo "Expected session file ${OP_SESSION_FILE} not created or empty."
+    exit 1
 fi
 
 # Verify signin
 if op whoami &>/dev/null; then
-    echo "1Password CLI signed in successfully."
+    echo "1Password CLI signed in successfully. Session saved to ${OP_SESSION_FILE}."
 else
-    echo "1Password CLI sign-in failed. Please run 'op signin' manually and re-run chezmoi if needed."
+    echo "1Password CLI sign-in failed. Please run 'eval \"\$(op signin)\"' or 'op signin' manually and re-run this script."
     exit 1
 fi
 {{ end -}}
