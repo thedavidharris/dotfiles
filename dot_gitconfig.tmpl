@@ -175,10 +175,6 @@
     pager = delta
     fsmonitor = true
 
-    # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = ~/.gitignore
-    attributesfile = ~/.gitattributes
-
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 
@@ -189,12 +185,12 @@
     precomposeunicode = false
 
 [credential "https://github.com"]
-    helper =
-    helper = !gh auth git-credential
+	helper =
+	helper = !op plugin run -- gh auth git-credential
 
 [credential "https://gist.github.com"]
-    helper =
-    helper = !gh auth git-credential
+	helper =
+	helper = !op plugin run -- gh auth git-credential
 
 [diff]
     renames = copies
