@@ -127,7 +127,6 @@ packages:
       - ms-vscode.makefile-tools
       - ms-vscode.remote-explorer
       - ms-vsliveshare.vsliveshare
-      - pkl.pkl-vscode
       - redhat.java
       - redhat.vscode-yaml
       - shopify.ruby-lsp
