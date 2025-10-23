@@ -3,8 +3,6 @@ go = ['1.24.5']
 java = "temurin-21.0"
 node = 'lts'
 python = ['3.12']
-slsa-verifier = "latest"
-cosign = "latest"
 
 [settings]
 always_keep_download = false

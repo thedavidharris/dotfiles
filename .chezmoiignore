@@ -1,7 +1,6 @@
 LICENSE
 README.md
 .git/
-.gitignore
 .vscode/
 
 # macOS system files
@@ -19,21 +18,9 @@ Library/
 LICENSE
 README.md
 
-support/config/iterm2/AppSupport
-support/config/iterm2/sockets
-
-# Ignore non-macOS files
-{{ if ne .chezmoi.os "darwin" -}}
-dot_config/iterm
-{{- end }}
-
 # Cache and temporary files
 *.log
 *.tmp
 *~
 .#*
 
-# Keep only specific developer env files
-Developer/
-!Developer/personal/dot_env
-!Developer/work/dot_env

@@ -54,7 +54,6 @@ packages:
     - 'graphviz'
 
     # Language specific
-    - 'bun'
     - 'fish'
     - 'zsh'
     - 'shellcheck'
@@ -65,19 +64,16 @@ packages:
     casks:
     - '1password'
     - '1password-cli'
-    - 'android-commandlinetools'
-    - 'android-platform-tools'
-    - 'android-studio'
     - 'charles'
     - 'ghostty'
     - 'google-chrome'
     - 'hammerspoon'
-    - 'iterm2'
+    - 'jetbrains-toolbox'
     - 'jordanbaird-ice'
     - 'rectangle'
     - 'stats'
     - 'visual-studio-code'
-    - 'xcodes'
+    - 'xcodes-app'
     # Fonts
     - 'font-inconsolata'
     - 'font-inconsolata-go-nerd-font'

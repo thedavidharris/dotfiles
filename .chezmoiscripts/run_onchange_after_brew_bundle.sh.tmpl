@@ -17,7 +17,7 @@ if [[ ! -f "$BREWFILE" ]]; then
 fi
 
 echo "🍺 Running brew bundle from $BREWFILE..."
-brew bundle --file="$HOME/Brewfile" || { rc=$?; echo >&2 "warning: 'brew bundle' finished with errors (exit code $rc). Continuing chezmoi tasks."; }
+brew bundle --file="$HOME/.config/brew/Brewfile" || { rc=$?; echo >&2 "warning: 'brew bundle' finished with errors (exit code $rc). Continuing chezmoi tasks."; }
 
 echo "✅ Brew bundle completed"
 {{ end -}}
