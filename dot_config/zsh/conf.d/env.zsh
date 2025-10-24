@@ -40,8 +40,12 @@ export EDITOR=nvim
 
 export VISUAL=code
 
-# FZF setup and colors
-if command -v fzf &> /dev/null; then
+# =============================================================================
+# FZF CONFIGURATION
+# =============================================================================
+
+# FZF setup and colors (conditional for performance)
+if command -v fzf >/dev/null 2>&1; then
   # Source fzf key bindings and completion
   eval "$(fzf --zsh)"
   # Source official Catppuccin Macchiato theme

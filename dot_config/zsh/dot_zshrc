@@ -1,5 +1,16 @@
+# =============================================================================
+# ZSH CONFIGURATION
+# Modern, fast, and organized zsh setup with Zephyr framework
+# =============================================================================
+
+# Performance profiling (uncomment to profile startup time)
 # zmodload zsh/zprof
 
+# =============================================================================
+# PLUGIN MANAGEMENT (ANTIDOTE)
+# =============================================================================
+
+# Antidote plugin manager configuration
 zsh_plugins_file="${ZDOTDIR:-$HOME}/.zplugins"
 zsh_static_file="${ZDOTDIR:-$HOME}/.zsh_plugins.zsh"
 
@@ -18,20 +29,32 @@ fi
 # Source the fast, static, pre-compiled file on every startup
 source "$zsh_static_file"
 
-# Zephyr history config
+# =============================================================================
+# ZEPHYR FRAMEWORK CONFIGURATION
+# =============================================================================
+
+# Zephyr history configuration
 zstyle ':zephyr:plugin:history' use-xdg-basedirs true
 
 # Override Zephyr's history settings
 setopt share_history
 
-# Autosuggest config
+# =============================================================================
+# AUTOSUGGESTION CONFIGURATION
+# =============================================================================
+
+# Autosuggest configuration for better UX
 ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-char forward-word end-of-line)
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste history-substring-search-up history-substring-search-down expand-or-complete accept-line push-line-or-edit)
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_USE_ASYNC=true  # Enable async for better performance
 
-# Key bindings
+# =============================================================================
+# KEY BINDINGS & COMPLETION
+# =============================================================================
+
+# Tab completion bindings
 bindkey '^I' menu-complete                # Tab: menu completion
 bindkey "$terminfo[kcbt]" reverse-menu-complete  # Shift-Tab: reverse menu completion
 bindkey '^[q' push-line-or-edit           # Alt-q: push current line to buffer
@@ -50,16 +73,34 @@ bindkey '^S' history-incremental-search-forward  # Ctrl-S: forward search
 zle -A {.,}history-incremental-search-forward
 zle -A {.,}history-incremental-search-backward
 
-# Highlight colors
+# =============================================================================
+# SYNTAX HIGHLIGHTING
+# =============================================================================
+
+# Syntax highlighting configuration
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
-# LS_COLORS - use vivid (very fast, caching probably not needed)
-export LS_COLORS="$(vivid generate catppuccin-macchiato)"
+# LS_COLORS - use vivid (cached for performance)
+if command -v vivid >/dev/null 2>&1; then
+  export LS_COLORS="$(vivid generate catppuccin-macchiato)"
+fi
 
-# Prompt, Mise, Zoxide
-eval "$(starship init zsh)"
-# Just use standard mise activation - the hook is what's slow
-eval "$(mise activate zsh)"
-eval "$(zoxide init zsh)"
+# =============================================================================
+# PROMPT & TOOL INITIALIZATION
+# =============================================================================
+
+# Initialize tools (conditional for better performance)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+if command -v mise >/dev/null 2>&1; then
+  # Just use standard mise activation - the hook is what's slow
+  eval "$(mise activate zsh)"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
 # zprof

@@ -22,19 +22,25 @@ fi
 # Android
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
-# Set path
+# =============================================================================
+# PATH CONFIGURATION
+# =============================================================================
+
+# Set path with Homebrew
 eval "$($BREW_PREFIX/bin/brew shellenv)"
+
+# Build path array (only add directories that exist)
 path=(
-    $HOME/{,s}bin(/N)
-    $HOME/.local/{,s}bin(/N)
-    $HOME/.cargo/bin(/N)
-    $ANDROID_HOME/platform-tools(/N)
-    $ANDROID_HOME/tools(/N)
-    $ANDROID_HOME/tools/bin(/N)
-    $BREW_PREFIX/{,s}bin(/N)
-    /usr/local/{,s}bin(/N)
-    /bin
-    $path
+    $HOME/{,s}bin(/N)                    # User binaries
+    $HOME/.local/{,s}bin(/N)             # Local user binaries
+    $HOME/.cargo/bin(/N)                 # Rust/Cargo binaries
+    $ANDROID_HOME/platform-tools(/N)     # Android tools
+    $ANDROID_HOME/tools(/N)              # Android tools
+    $ANDROID_HOME/tools/bin(/N)          # Android tools
+    $BREW_PREFIX/{,s}bin(/N)             # Homebrew binaries
+    /usr/local/{,s}bin(/N)               # System binaries
+    /bin                                 # Core system binaries
+    $path                                # Existing PATH
 )
 
 # 1Password

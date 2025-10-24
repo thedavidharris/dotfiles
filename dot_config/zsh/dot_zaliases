@@ -1,17 +1,20 @@
 #!/bin/zsh
 #
-# Always en# Enable aliases to be sudo'ed
+# Zsh aliases and functions
+# Organized by category for better maintainability
+
+# =============================================================================
+# SYSTEM & PERMISSIONS
+# =============================================================================
+
+# Enable aliases to be sudo'ed
 alias sudo='sudo '
 
-# Stopwatchd `grep` output
-# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+# =============================================================================
+# NAVIGATION
+# =============================================================================
 
-# Easier navigation: .., ..., ...., ....., ~ and -
-
-# Easier navigation: .., ..., ...., ....., ~ and -
+# Quick directory navigation
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -19,24 +22,22 @@ alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
-# Modern directory navigation
+# Modern directory navigation with zoxide
 command -v z > /dev/null && alias cd="z"  # Use zoxide for cd if available
 alias cdd="cd ~/Desktop"
 alias cdl="cd ~/Downloads"
 alias cdo="cd ~/Documents"
 
-# Always enable colored `grep` output
-# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-# Enable aliases to be sudo’ed
-# May not be needed
-alias sudo='sudo '
+# =============================================================================
+# UTILITIES & TOOLS
+# =============================================================================
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# =============================================================================
+# NETWORK & SYSTEM INFO
+# =============================================================================
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -50,113 +51,115 @@ alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
+# =============================================================================
+# SYSTEM UTILITIES & COMPATIBILITY
+# =============================================================================
+
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"
 
-# macOS has no `md5sum`, so use `md5` as a fallback
+# macOS compatibility aliases
 command -v md5sum > /dev/null || alias md5sum="md5"
-
-# macOS has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
-# Trim new lines and copy to clipboard
+# Clipboard utilities
 alias c="tr -d '\n' | pbcopy"
 
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
-# Ring the terminal bell, and put a badge on Terminal.app’s Dock icon
-# (useful when executing time-consuming commands)
+# Ring the terminal bell, and put a badge on Terminal.app's Dock icon
 alias badge="tput bel"
 
 # Intuitive map function
-# For example, to list all directories that contain a certain file:
-# find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-# Reload the shell (i.e. invoke as a login shell)
+# Reload the shell
 alias reload="exec $SHELL -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
-alias hextrip='cat /dev/urandom | hexdump -e "`echo $COLUMNS*1.0/3.0 | bc`/1 \"%02x \" \"\n\"" | lolcat -F 0.01'
+# =============================================================================
+# APPLICATIONS
+# =============================================================================
 
 # Google Chrome
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
-# Trim new lines and copy to clipboard
-alias c="tr -d '\n' | pbcopy"
+# =============================================================================
+# macOS SYSTEM MANAGEMENT
+# =============================================================================
 
-# Recursively delete `.DS_Store` files
+# File system cleanup
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# Empty the Trash on all mounted volumes and the main HDD.
-# Also, clear Apple’s System Logs to improve shell startup speed.
-# Finally, clear download history from quarantine. https://mths.be/bum
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
-# Show/hide hidden files in Finder
+# Finder management
 alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
 alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# Lock the screen (when going AFK)
+# System controls
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
-# Remove all items from the dock
 alias cleardock="defaults write com.apple.dock persistent-apps -array \"\" && killall Dock"
 
-# Xcode commands which are not linked
-alias simctl="xcrun simctl"
-
-# Merge PDF files
-# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-
-# Disable Spotlight
+# Spotlight management
 alias spotoff="sudo mdutil -a -i off"
-# Enable Spotlight
 alias spoton="sudo mdutil -a -i on"
 
-# PlistBuddy alias
+# =============================================================================
+# DEVELOPMENT TOOLS
+# =============================================================================
+
+# Xcode commands
+alias simctl="xcrun simctl"
 alias plistbuddy="/usr/libexec/PlistBuddy"
 
-# Colors
+# PDF utilities
+alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
 
+# =============================================================================
+# FILE LISTING & MODERN TOOLS
+# =============================================================================
+
+# Traditional ls with colors
 if ls --color > /dev/null 2>&1; then # GNU `ls`
   colorflag="--color=auto"
 else # OS X `ls`
   colorflag="-G"
 fi
 
-# List all files colorized in long format, including dot files
-alias la="ls -la $colorflag"
-alias ls="ls $colorflag"
-alias ll="ls -l $colorflag"
-alias l="ls -CF $colorflag"
-
 # Tree with colors (if tree is installed)
 command -v tree > /dev/null && alias tree="tree -C"
 
-# Modern ls alternatives (if available)
-command -v eza > /dev/null && alias ls="eza --color=always --group-directories-first"
-command -v eza > /dev/null && alias la="eza -la --color=always --group-directories-first"
-command -v eza > /dev/null && alias ll="eza -l --color=always --group-directories-first"
+# Modern tool aliases (preferred when available)
+if command -v eza >/dev/null 2>&1; then
+  # Use eza (modern ls replacement)
+  alias ls="eza --color=always --group-directories-first"
+  alias la="eza -la --color=always --group-directories-first"
+  alias ll="eza -l --color=always --group-directories-first"
+  alias l="eza -CF --color=always --group-directories-first"
+else
+  # Fallback to traditional ls with colors
+  alias la="ls -la $colorflag"
+  alias ls="ls $colorflag"
+  alias ll="ls -l $colorflag"
+  alias l="ls -CF $colorflag"
+fi
 
-# Highlight help messages
+# Modern alternatives (only if tools are available)
+command -v fd >/dev/null 2>&1 && alias find="fd"
+command -v rg >/dev/null 2>&1 && alias grep="rg"
+command -v bat >/dev/null 2>&1 && alias cat="bat --paging=never"
+command -v bat >/dev/null 2>&1 && alias less="bat --paging=always"
+command -v delta >/dev/null 2>&1 && alias diff="delta"
+
+# Help with syntax highlighting
 alias bathelp='bat --plain --language=help'
 
-# Color-aware tool aliases
-command -v fd > /dev/null && alias find="fd"
-command -v rg > /dev/null && alias grep="rg"
-command -v bat > /dev/null && alias cat="bat --paging=never"
-command -v bat > /dev/null && alias less="bat --paging=always"
-
-# Git with delta (if configured)
-command -v delta > /dev/null && alias diff="delta"
+# =============================================================================
+# GIT WORKFLOW
+# =============================================================================
 
 # Git aliases for better workflow
 alias g="git"
@@ -171,8 +174,9 @@ alias gco="git checkout"
 alias gb="git branch"
 alias glog="git log --oneline --graph --decorate"
 
-# Run just commands in interactive shells
-alias just='just --shell "zsh" --shell-arg "-ic"'
+# =============================================================================
+# DEVELOPMENT ENVIRONMENT
+# =============================================================================
 
 # Chezmoi helpers
 alias cm='chezmoi'
