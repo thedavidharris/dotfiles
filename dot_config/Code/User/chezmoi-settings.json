@@ -1,8 +1,0 @@
-{
-  // Core settings managed by chezmoi - rarely change
-  "workbench.colorTheme": "Catppuccin Macchiato",
-  "editor.fontFamily": "'Inconsolata Go Nerd Font', 'Inconsolata Nerd Font', 'Inconsolata', monospace",
-  "editor.fontSize": 14,
-  "terminal.integrated.fontFamily": "'Inconsolata Go Nerd Font', 'Inconsolata Nerd Font'",
-  "terminal.integrated.defaultProfile.osx": "zsh"
-}

@@ -5,13 +5,13 @@ require "string"
 -- =============================================================================
 -- This config provides productivity features that complement Rectangle window manager
 -- Key bindings summary:
--- • Cmd+Alt+1/3/4: Quick app launchers (VSCode/Ghostty/Finder)
+-- • Cmd+Alt+3/4: Quick app launchers (Ghostty/Finder)
 -- • Cmd+Alt+Tab: Visual app chooser with icons
 -- • Cmd+Shift+V: Clipboard history (last 20 items)
 -- • Cmd+Alt+T: Smart terminal (context-aware Ghostty)
 -- • Cmd+Alt+A: Cycle audio devices
 -- • Cmd+Alt+Shift+D: Mouse highlighter
--- • Cmd+Alt+Shift+F: Reveal file in Finder (VSCode aware)
+-- • Cmd+Alt+Shift+F: Reveal file in Finder
 -- • Cmd+Alt+Shift+G: Git status notification
 -- • Cmd+Alt+Shift+R: Toggle screen recording
 -- • Menu bar: Caffeine (☕/😴) to prevent sleep
@@ -268,10 +268,8 @@ function launchOrFocus(bundleID)
 end
 
 -- Quick access to key development applications
--- Cmd+Alt+1: VSCode (primary code editor)
 -- Cmd+Alt+3: Ghostty (terminal)
 -- Cmd+Alt+4: Finder (file management)
-hs.hotkey.bind({"cmd", "alt"}, "1", function() launchOrFocus("com.microsoft.VSCode") end)
 hs.hotkey.bind({"cmd", "alt"}, "3", function() launchOrFocus(ghostty) end)
 hs.hotkey.bind({"cmd", "alt"}, "4", function() launchOrFocus("com.apple.finder") end)
 
@@ -347,22 +345,9 @@ hs.hotkey.bind({"cmd", "alt"}, "A", cycleAudioDevices)
 
 -- Smart file reveal: Context-aware file revelation in Finder
 -- Hotkey: Cmd+Alt+Shift+F
--- • In VSCode: Reveals current active file in Finder
--- • Elsewhere: Opens current working directory
+-- Opens current working directory in Finder
 hs.hotkey.bind({"cmd", "alt", "shift"}, "F", function()
-    local app = hs.application.frontmostApplication()
-    if app:name() == "Code" then
-        -- VSCode integration: Use command palette to reveal current file
-        hs.eventtap.keyStroke({"cmd", "shift"}, "p")
-        hs.timer.doAfter(0.1, function()
-            hs.pasteboard.setContents("File: Reveal Active File in Finder")
-            hs.eventtap.keyStroke({"cmd"}, "v")
-            hs.eventtap.keyStroke({}, "return")
-        end)
-    else
-        -- Fallback: Open current directory in Finder
-        hs.execute("open .")
-    end
+    hs.execute("open .")
 end)
 
 -- Git status notifications: Show git working tree status in notification
