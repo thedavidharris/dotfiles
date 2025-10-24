@@ -1,0 +1,14 @@
+# Personal data for Chezmoi templates
+name: "David Harris"
+email: "davidaharris@outlook.com"
+github:
+  username: "thedavidharris"
+
+# Tool configurations
+tools:
+  editor: "nvim"
+  terminal: "ghostty"
+  shell: "zsh"
+
+# Color scheme preferences
+colorscheme: "catppuccin_macchiato"

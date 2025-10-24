@@ -35,12 +35,16 @@ packages:
     - 'fzf'
     - 'jq'
     - 'yq'
-    - 'tree'
     - 'vivid'
     - 'zoxide'
     - 'starship'
     - 'difftastic'
     - 'neovim'
+    # Modern alternatives
+    - 'ripgrep'
+    - 'fd'
+    - 'dust'
+    - 'procs'
 
     # System utilities
     - 'aria2'
@@ -56,11 +60,9 @@ packages:
 
     # Language specific
     - 'fish'
-    - 'zsh'
     - 'shellcheck'
     - 'swiftformat'
     - 'swiftlint'
-    - 'zoxide'
     - 'zsh'
     casks:
     - '1password'

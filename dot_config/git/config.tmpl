@@ -169,9 +169,9 @@
     gpgsign = true
 
 [core]
-    attributesfile = {{ .chezmoi.home }}/.gitattributes
+    attributesfile = {{ env "HOME" }}/.gitattributes
     editor = {{ .tools.editor | quote }}
-    excludesfile = {{ .chezmoi.home }}/.gitignore
+    excludesfile = {{ env "HOME" }}/.gitignore
     pager = delta
     fsmonitor = true
 

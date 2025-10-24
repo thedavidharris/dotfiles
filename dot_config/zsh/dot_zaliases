@@ -154,8 +154,22 @@ command -v bat >/dev/null 2>&1 && alias cat="bat --paging=never"
 command -v bat >/dev/null 2>&1 && alias less="bat --paging=always"
 command -v delta >/dev/null 2>&1 && alias diff="delta"
 
+# Modern system tools
+command -v dust >/dev/null 2>&1 && alias du="dust"
+command -v procs >/dev/null 2>&1 && alias ps="procs"
+command -v eza >/dev/null 2>&1 && alias tree="eza --tree"
+command -v eza >/dev/null 2>&1 && alias lt="eza --tree --level=2"
+command -v eza >/dev/null 2>&1 && alias lta="eza --tree --all"
+
 # Help with syntax highlighting
 alias bathelp='bat --plain --language=help'
+
+# Additional modern tool aliases
+command -v rg >/dev/null 2>&1 && alias rgi="rg -i"  # Case-insensitive ripgrep
+command -v rg >/dev/null 2>&1 && alias rgu="rg -uu"  # Unrestricted ripgrep (ignores .gitignore)
+command -v fd >/dev/null 2>&1 && alias fdi="fd -i"  # Case-insensitive fd
+command -v dust >/dev/null 2>&1 && alias dusts="dust -s"  # Dust with summary
+command -v procs >/dev/null 2>&1 && alias procsj="procs --json"  # Procs with JSON output
 
 # =============================================================================
 # GIT WORKFLOW
