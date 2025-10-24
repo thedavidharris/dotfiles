@@ -169,9 +169,9 @@
     gpgsign = true
 
 [core]
-    excludesfile = ~/.gitignore
-    attributesfile = ~/.gitattributes
-    editor = nvim
+    attributesfile = {{ .chezmoi.home }}/.gitattributes
+    editor = {{ .tools.editor | quote }}
+    excludesfile = {{ .chezmoi.home }}/.gitignore
     pager = delta
     fsmonitor = true
 
@@ -320,8 +320,8 @@
     fsckobjects = true
 
 [user]
-    name = David Harris
-    email = davidaharris@outlook.com
+    name = {{ .name | quote }}
+    email = {{ .email | quote }}
     {{- if eq .chezmoi.hostname "A18974" }}
     signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcRDRRgo3g6f48cIrV8oEaDgnL5cCPtqqUo1gqI4dmj
     {{- end }}

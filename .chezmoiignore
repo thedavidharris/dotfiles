@@ -24,3 +24,11 @@ README.md
 *~
 .#*
 
+# Ignore sensitive files that shouldn't be in version control
+*.key
+*.pem
+*.p12
+.env.local
+.aws/credentials
+.ssh/id_*
+

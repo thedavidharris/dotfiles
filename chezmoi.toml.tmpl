@@ -2,9 +2,13 @@
     name = "David Harris"
     email = "davidaharris@outlook.com"
     github = { username = "thedavidharris" }
-    brew = { prefix = "{{ if stat "/opt/homebrew" }}/opt/homebrew{{ else }}/usr/local{{ end }}" }
 
-[diff]
-    exclude = ["scripts"]
-    format = "git"
-    pager = "delta"
+# Color scheme preferences
+colorscheme = "catppuccin_macchiato"
+
+# Tool configurations
+tools = {
+    editor = "nvim",
+    terminal = "ghostty",
+    shell = "zsh"
+}
