@@ -1,38 +1,127 @@
 #!/bin/bash
 
 # Cleanup script for macOS dotfiles maintenance
+# Enhanced with better error handling and logging
 
 set -euo pipefail
 
-echo "🧹 Cleaning up system and dotfiles..."
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Logging functions
+log_info() {
+    echo -e "${BLUE}ℹ️  $1${NC}"
+}
+
+log_success() {
+    echo -e "${GREEN}✅ $1${NC}"
+}
+
+log_warning() {
+    echo -e "${YELLOW}⚠️  $1${NC}"
+}
+
+log_error() {
+    echo -e "${RED}❌ $1${NC}"
+}
+
+# Function to safely execute commands
+safe_execute() {
+    local description="$1"
+    shift
+    local cmd=("$@")
+
+    log_info "$description"
+    if "${cmd[@]}" 2>/dev/null; then
+        log_success "$description completed"
+    else
+        log_warning "$description failed or had warnings"
+    fi
+}
+
+# Function to clean directory safely
+clean_directory() {
+    local dir="$1"
+    local pattern="$2"
+    local description="$3"
+
+    if [[ -d "$dir" ]]; then
+        log_info "$description"
+        if find "$dir" -name "$pattern" -delete 2>/dev/null; then
+            log_success "$description completed"
+        else
+            log_warning "$description had some issues"
+        fi
+    else
+        log_info "$description (directory not found, skipping)"
+    fi
+}
+
+# Main cleanup process
+log_info "Starting system cleanup process..."
 
 # Clean Homebrew
 if command -v brew >/dev/null 2>&1; then
-    echo "  🍺 Cleaning Homebrew..."
-    brew cleanup --prune=all
-    brew autoremove
+    safe_execute "Cleaning Homebrew packages" brew cleanup --prune=all
+    safe_execute "Removing unused Homebrew packages" brew autoremove
+else
+    log_info "Homebrew not found, skipping Homebrew cleanup"
 fi
 
 # Clean mise
 if command -v mise >/dev/null 2>&1; then
-    echo "  🔧 Cleaning mise cache..."
-    mise cache clear
+    safe_execute "Cleaning mise cache" mise cache clear
+else
+    log_info "mise not found, skipping mise cleanup"
 fi
 
 # Clean zsh completion cache
-if [[ -d "$HOME/.cache/zsh" ]]; then
-    echo "  🐚 Cleaning zsh cache..."
-    find "$HOME/.cache/zsh" -name "*.zwc" -delete 2>/dev/null || true
-    find "$HOME/.cache/zsh" -type f -name "*" -mtime +7 -delete 2>/dev/null || true
-fi
+clean_directory "$HOME/.cache/zsh" "*.zwc" "Cleaning zsh completion cache"
+clean_directory "$HOME/.cache/zsh" "*" "Removing old zsh cache files (7+ days)"
 
 # Clean macOS caches
-echo "  🍎 Cleaning macOS user caches..."
-rm -rf "$HOME/Library/Caches/com.apple.dt.Xcode"* 2>/dev/null || true
-rm -rf "$HOME/Library/Developer/Xcode/DerivedData"* 2>/dev/null || true
+log_info "Cleaning macOS user caches..."
+if [[ -d "$HOME/Library/Caches" ]]; then
+    # Xcode caches
+    if rm -rf "$HOME/Library/Caches/com.apple.dt.Xcode"* 2>/dev/null; then
+        log_success "Xcode caches cleaned"
+    else
+        log_warning "Xcode caches cleanup had issues"
+    fi
+
+    # Xcode DerivedData
+    if rm -rf "$HOME/Library/Developer/Xcode/DerivedData"* 2>/dev/null; then
+        log_success "Xcode DerivedData cleaned"
+    else
+        log_warning "Xcode DerivedData cleanup had issues"
+    fi
+else
+    log_info "Library/Caches directory not found"
+fi
 
 # Clean DS_Store files
-echo "  📁 Removing .DS_Store files..."
-find "$HOME" -name ".DS_Store" -delete 2>/dev/null || true
+clean_directory "$HOME" ".DS_Store" "Removing .DS_Store files"
 
-echo "✅ Cleanup complete!"
+# Clean temporary files
+log_info "Cleaning temporary files..."
+if [[ -d "/tmp" ]]; then
+    find /tmp -user "$(whoami)" -type f -mtime +7 -delete 2>/dev/null || true
+    log_success "Temporary files cleaned"
+fi
+
+# Clean shell history duplicates (if using zsh)
+if [[ -f "$HOME/.zsh_history" ]]; then
+    log_info "Cleaning duplicate zsh history entries..."
+    if command -v awk >/dev/null 2>&1; then
+        awk '!seen[$0]++' "$HOME/.zsh_history" > "$HOME/.zsh_history.tmp" && \
+        mv "$HOME/.zsh_history.tmp" "$HOME/.zsh_history" 2>/dev/null && \
+        log_success "Zsh history deduplicated" || \
+        log_warning "Zsh history deduplication failed"
+    fi
+fi
+
+log_success "System cleanup completed successfully!"

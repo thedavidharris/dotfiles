@@ -1,7 +1,0 @@
-#!/bin/bash
-
-chezmoi apply --config ~/.config/chezmoi/chezmoi.toml \
-                  --source ~/.local/share/chezmoi && \
-chezmoi apply --config ~/.config/chezmoi-work/chezmoi.toml \
-                --source ~/.local/share/chezmoi-work
-                
