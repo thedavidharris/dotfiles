@@ -1,23 +1,23 @@
 return {
-  -- Shell scripting support (not included in LazyVim extras)
+  -- Kotlin LSP support (Python and Java handled by LazyVim extras)
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        bash_ls = {},
+        -- Kotlin
+        kotlin_language_server = {},
       },
     },
   },
 
-  -- Additional shell tools via Mason
+  -- Additional Kotlin tools via Mason
   {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
-        "bash-language-server",
-        "shellcheck",
-        "shfmt",
+        -- Kotlin tools
+        "kotlin-language-server",
       })
     end,
   },

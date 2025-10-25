@@ -1,26 +1,20 @@
 return {
-  -- Better Git integration
+  -- Git integration (using LazyVim defaults)
   {
     "lewis6991/gitsigns.nvim",
     opts = {
       current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 300,
-      },
     },
   },
 
-  -- Enhanced file explorer
+  -- File explorer (using LazyVim defaults with minor tweaks)
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       filesystem = {
         filtered_items = {
-          visible = true, -- Show hidden files
           hide_dotfiles = false,
-          hide_gitignored = false,
         },
-        follow_current_file = { enabled = true },
       },
     },
   },
