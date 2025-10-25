@@ -1,0 +1,18 @@
+# Update all zsh plugins
+update-plugins() {
+  echo "Updating zsh plugins..."
+
+  # Update antidote plugins
+  if command -v antidote >/dev/null 2>&1; then
+    echo "Updating antidote plugins..."
+    antidote bundle <"${ZDOTDIR:-$HOME}/.zplugins" >"${ZDOTDIR:-$HOME}/.zsh_plugins.zsh"
+  fi
+
+  # Update fzf if available
+  if command -v fzf >/dev/null 2>&1; then
+    echo "Updating fzf..."
+    cd ~/.fzf && git pull && ./install --bin
+  fi
+
+  echo "Plugin update complete!"
+}

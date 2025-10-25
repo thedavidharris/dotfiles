@@ -11,9 +11,9 @@ mattmc3/zephyr path:plugins/utility
 # Completions
 mattmc3/zephyr path:plugins/completion
 mattmc3/zephyr path:plugins/compstyle
-# marlonrichert/zsh-autocomplete
+# marlonrichert/zsh-autocomplete  # Replaced with fzf-tab for simpler setup
+Aloxaf/fzf-tab
 zsh-users/zsh-completions path:src kind:fpath
-# zsh-autosuggestions must source after zsh-autocomplete
 zsh-users/zsh-autosuggestions
 
 # Add binary utils

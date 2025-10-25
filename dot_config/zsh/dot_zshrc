@@ -40,7 +40,7 @@ zstyle ':zephyr:plugin:history' use-xdg-basedirs true
 setopt share_history
 
 # =============================================================================
-# AUTOSUGGESTION CONFIGURATION
+# COMPLETION & SUGGESTIONS
 # =============================================================================
 
 # Autosuggest configuration for better UX
@@ -50,14 +50,31 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste history-substring-search-up hist
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_USE_ASYNC=true  # Enable async for better performance
 
-# =============================================================================
-# KEY BINDINGS & COMPLETION
-# =============================================================================
+# fzf-tab configuration for fish-like completion
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':completion:*' fzf-search-display true
 
-# Tab completion bindings
-bindkey '^I' menu-complete                # Tab: menu completion
-bindkey "$terminfo[kcbt]" reverse-menu-complete  # Shift-Tab: reverse menu completion
+# Enhanced fzf-tab settings
+zstyle ':fzf-tab:complete:*' fzf-bindings 'ctrl-a:select-all,ctrl-d:deselect-all'
+zstyle ':fzf-tab:complete:*' fzf-flags '--height=40% --layout=reverse --border'
+zstyle ':fzf-tab:complete:*' fzf-preview 'echo {}'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color=always {}'
+zstyle ':fzf-tab:complete:git:*' fzf-preview 'git log --oneline --graph --color=always {}'
+
+# Key bindings
 bindkey '^[q' push-line-or-edit           # Alt-q: push current line to buffer
+bindkey '^U' backward-kill-line           # Ctrl-U: kill line to beginning
+bindkey '^K' kill-line                    # Ctrl-K: kill line to end
+bindkey '^W' backward-kill-word           # Ctrl-W: kill word backward
+bindkey '^[b' backward-word               # Alt-B: move word backward
+bindkey '^[f' forward-word                # Alt-F: move word forward
+
+# Completion behavior:
+# - Tab: Interactive completion with fuzzy search (fzf-tab)
+# - Right Arrow: Accept history suggestions (zsh-autosuggestions)
+# - Shift+Tab: Reverse cycle through completions (fzf-tab)
+# - Enter: Accept completion (fzf-tab)
+# - Esc: Cancel completion (fzf-tab)
 
 # History search (smart up/down arrows) - using substring search
 bindkey '\e[A' history-substring-search-up     # Up arrow: search history backward (substring)
@@ -94,13 +111,35 @@ if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
 
+# Lazy load mise for faster startup
 if command -v mise >/dev/null 2>&1; then
-  # Just use standard mise activation - the hook is what's slow
-  eval "$(mise activate zsh)"
+  # Lazy load mise - only activate when needed
+  mise() {
+    unfunction mise
+    eval "$(mise activate zsh)"
+    mise "$@"
+  }
 fi
 
+# Lazy load zoxide for faster startup
 if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
+  # Lazy load zoxide - only activate when needed
+  z() {
+    unfunction z
+    eval "$(zoxide init zsh)"
+    z "$@"
+  }
 fi
 
+# =============================================================================
+# PERFORMANCE MONITORING
+# =============================================================================
+
+# Uncomment to profile startup time
 # zprof
+
+# Performance monitoring function
+if [[ "$ZSH_PROFILE" == "1" ]]; then
+  zmodload zsh/zprof
+  zprof
+fi
