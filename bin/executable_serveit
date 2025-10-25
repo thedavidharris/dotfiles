@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Simple HTTP server with multiple language fallbacks
+# Usage: serveit [port]
+# Example: serveit 3000
+
+set -e
+set -u
+set -o pipefail
+
+# Default port
+port='8000'
+
+# Parse arguments
+if [[ $# -eq 1 ]]; then
+  port="$1"
+elif [[ $# -gt 1 ]]; then
+  echo "Usage: serveit [port]" >&2
+  echo "Start a simple HTTP server in the current directory" >&2
+  echo "" >&2
+  echo "Arguments:" >&2
+  echo "  port    Port number to serve on (default: 8000)" >&2
+  echo "" >&2
+  echo "Examples:" >&2
+  echo "  serveit        # Serve on port 8000" >&2
+  echo "  serveit 3000   # Serve on port 3000" >&2
+  exit 1
+fi
+
+# Validate port number
+if ! [[ "$port" =~ ^[0-9]+$ ]] || [[ "$port" -lt 1 ]] || [[ "$port" -gt 65535 ]]; then
+  echo "Error: Port must be a number between 1 and 65535" >&2
+  exit 1
+fi
+
+echo "Starting HTTP server on port $port..."
+
+# Try different HTTP server implementations
+if hash python3 2>/dev/null; then
+  echo "Using Python 3 HTTP server"
+  exec python3 -m http.server "$port"
+elif hash python 2>/dev/null; then
+  major_version="$(python -c 'import platform as p;print(p.python_version_tuple()[0])')"
+  if [[ "$major_version" == '3' ]]; then
+    echo "Using Python 3 HTTP server"
+    exec python -m http.server "$port"
+  else
+    echo "Using Python 2 SimpleHTTPServer"
+    exec python -m SimpleHTTPServer "$port"
+  fi
+elif hash ruby 2>/dev/null; then
+  echo "Using Ruby HTTP server"
+  exec ruby -run -e httpd . -p "$port"
+else
+  echo 'Error: No HTTP server implementation found' >&2
+  echo 'Please install Python 3, Python 2, or Ruby' >&2
+  exit 1
+fi

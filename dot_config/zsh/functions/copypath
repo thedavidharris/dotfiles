@@ -1,3 +1,14 @@
-# Copy the absolute path of a file/directory to clipboard
-# Usage: copypath file.txt
-realpath -s "$1" | pbcopy && echo "Copied: $(realpath -s "$1")"
+# Copy absolute path of file/directory to clipboard
+# Usage: copypath [file/directory]
+if [[ $# -eq 0 ]]; then
+  echo "Usage: copypath <file_or_directory>" >&2
+  return 1
+fi
+
+if [[ -e "$1" ]]; then
+  realpath -s "$1" | pbcopy
+  echo "Path copied to clipboard: $(realpath -s "$1")"
+else
+  echo "File or directory not found: $1" >&2
+  return 1
+fi

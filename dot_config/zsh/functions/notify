@@ -1,0 +1,29 @@
+# Send OS notification
+# Usage: notify "message"
+# Example: notify "Build completed successfully"
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: notify \"message\"" >&2
+  echo "Send a notification to the OS" >&2
+  echo "" >&2
+  echo "Examples:" >&2
+  echo "  notify \"Build completed\"" >&2
+  echo "  notify \"Download finished\"" >&2
+  return 1
+fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  osascript -e "display notification \"$*\" with title \"Terminal\""
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Terminal" "$*"
+  else
+    echo "notify-send not found. Install libnotify-bin" >&2
+    return 1
+  fi
+else
+  echo "Unsupported OS: $OSTYPE" >&2
+  return 1
+fi

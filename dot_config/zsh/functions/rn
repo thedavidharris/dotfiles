@@ -1,0 +1,5 @@
+# Print current time and date with calendar
+# Usage: rn
+echo "$(date '+%l:%M%p on %A, %B %d, %Y')"
+echo
+cal

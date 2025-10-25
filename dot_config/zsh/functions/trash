@@ -1,0 +1,43 @@
+# Move files to trash - cross-platform
+# Usage: trash file1 file2 ...
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS - use built-in trash command (faster, no sound, supports Put Back)
+  if command -v trash >/dev/null 2>&1; then
+    trash "$@"
+  else
+    # Fallback to Finder method if trash command not available
+    for file in "$@"; do
+      if [[ -e "$file" ]]; then
+        osascript -e "tell application \"Finder\" to move POSIX file \"$(realpath "$file")\" to trash"
+        echo "Moved to trash: $file"
+      else
+        echo "File not found: $file"
+      fi
+    done
+  fi
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux - try gio first, then trash-cli
+  if command -v gio >/dev/null 2>&1; then
+    for file in "$@"; do
+      if [[ -e "$file" ]]; then
+        gio trash "$file" && echo "Moved to trash: $file"
+      else
+        echo "File not found: $file"
+      fi
+    done
+  elif command -v trash >/dev/null 2>&1; then
+    for file in "$@"; do
+      if [[ -e "$file" ]]; then
+        trash "$file" && echo "Moved to trash: $file"
+      else
+        echo "File not found: $file"
+      fi
+    done
+  else
+    echo "No trash utility found. Install trash-cli or use gio"
+    return 1
+  fi
+else
+  echo "Unsupported OS: $OSTYPE"
+  return 1
+fi

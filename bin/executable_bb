@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Background process runner - runs commands in background with suppressed output
+# Usage: bb <command> [args...]
+# Example: bb long-running-process --verbose
+
+set -e
+set -u
+
+# Show usage if no arguments provided
+if [[ $# -eq 0 ]]; then
+  echo "Usage: bb <command> [args...]" >&2
+  echo "Run a command in the background with output suppressed" >&2
+  echo "" >&2
+  echo "Examples:" >&2
+  echo "  bb long-running-process --verbose" >&2
+  echo "  bb python script.py" >&2
+  exit 1
+fi
+
+# Suppress stdout and stderr if running in terminal
+if test -t 1; then
+  exec 1>/dev/null
+fi
+
+if test -t 2; then
+  exec 2>/dev/null
+fi
+
+# Run command in background
+"$@" &

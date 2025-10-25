@@ -1,0 +1,19 @@
+# Play success/failure sound based on last command exit code
+# Usage: boop (or use as alias after commands)
+# Example: long-command; boop
+
+if [[ $? -eq 0 ]]; then
+  # Success sound
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    afplay /System/Library/Sounds/Glass.aiff 2>/dev/null || echo -e "\a"
+  else
+    echo -e "\a"
+  fi
+else
+  # Failure sound
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    afplay /System/Library/Sounds/Basso.aiff 2>/dev/null || echo -e "\a\a"
+  else
+    echo -e "\a\a"
+  fi
+fi

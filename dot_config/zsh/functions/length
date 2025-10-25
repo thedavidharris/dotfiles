@@ -1,0 +1,9 @@
+# Count characters in input
+# Usage: length "text" or echo "text" | length
+if [[ $# -gt 0 ]]; then
+  # Count characters in arguments
+  echo -n "$*" | wc -c | awk '{print $1}'
+else
+  # Count characters from stdin
+  wc -c | awk '{print $1}'
+fi

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Retry command until it succeeds
+# Usage: tryna <command> [args...]
+# Example: tryna curl -f https://api.example.com/data
+
+set -u
+
+# Show usage if no arguments provided
+if [[ $# -eq 0 ]]; then
+  echo "Usage: tryna <command> [args...]" >&2
+  echo "Retry a command until it succeeds" >&2
+  echo "" >&2
+  echo "Examples:" >&2
+  echo "  tryna curl -f https://api.example.com/data" >&2
+  echo "  tryna git push origin main" >&2
+  exit 1
+fi
+
+# Initial attempt
+"$@"
+exit_code=$?
+
+# Retry loop with exponential backoff
+attempt=1
+max_attempts=10
+sleep_time=0.5
+
+while [[ $exit_code -ne 0 && $attempt -lt $max_attempts ]]; do
+  echo "Attempt $attempt failed (exit code: $exit_code). Retrying in ${sleep_time}s..." >&2
+  sleep $sleep_time
+  "$@"
+  exit_code=$?
+  ((attempt++))
+  sleep_time=$((sleep_time * 2))  # Exponential backoff
+done
+
+if [[ $exit_code -ne 0 ]]; then
+  echo "Command failed after $max_attempts attempts" >&2
+  exit $exit_code
+fi

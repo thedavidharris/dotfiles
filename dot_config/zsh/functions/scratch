@@ -1,0 +1,12 @@
+# Create and edit a temporary file
+# Usage: scratch [filename]
+if [[ $# -eq 0 ]]; then
+  # Create temp file with random name
+  file="$(mktemp)"
+else
+  # Create temp file with specified name
+  file="$(mktemp --suffix="-$1")"
+fi
+
+echo "Editing temporary file: $file"
+${EDITOR:-nvim} "$file"

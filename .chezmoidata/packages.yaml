@@ -64,6 +64,20 @@ packages:
     - 'swiftformat'
     - 'swiftlint'
     - 'zsh'
+    - 'sqlite'
+
+    # Media and multimedia tools
+    - 'ffmpeg'
+    - 'exiftool'
+
+    # Text-to-speech and accessibility
+    - 'espeak'
+
+    # Linux clipboard utilities (for cross-platform scripts)
+    - 'xclip'
+    - 'trash-cli'
+
+    - 'deno'
     casks:
     - '1password'
     - '1password-cli'

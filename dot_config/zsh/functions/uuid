@@ -1,0 +1,10 @@
+# Generate a v4 UUID
+# Usage: uuid
+if command -v uuidgen >/dev/null 2>&1; then
+  uuidgen
+elif command -v python3 >/dev/null 2>&1; then
+  python3 -c "import uuid; print(uuid.uuid4())"
+else
+  echo "No UUID generator found. Install uuidgen or python3"
+  return 1
+fi

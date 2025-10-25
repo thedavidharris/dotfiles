@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+set -u
+
+# Usage: line N [file] or line N,M [file]
+# Prints the Nth line or range N through M from stdin or file
+
+if [[ $# -eq 1 ]]; then
+  # Single line number from stdin
+  sed -n "${1}p"
+elif [[ $# -eq 2 ]]; then
+  # Check if second argument is a range (contains comma)
+  if [[ "$1" == *,* ]]; then
+    # Range from stdin (e.g., "line 2,4")
+    sed -n "${1}p"
+  else
+    # Single line number from file
+    sed -n "${1}p" "$2"
+  fi
+elif [[ $# -eq 3 ]]; then
+  # Range from file (e.g., "line 2,4 file.txt")
+  sed -n "${1}p" "$3"
+else
+  echo "Usage: line N [file] or line N,M [file]" >&2
+  echo "  N     - line number to print" >&2
+  echo "  N,M   - range of lines to print (inclusive)" >&2
+  echo "  file  - file to read from (default: stdin)" >&2
+  exit 1
+fi

@@ -1,0 +1,17 @@
+#!/bin/bash
+# Remove all .DS_Store files recursively
+# Usage: ds-destroy [directory]
+
+DIR="${1:-.}"
+
+if [[ ! -d "$DIR" ]]; then
+    echo "Directory not found: $DIR"
+    exit 1
+fi
+
+echo "Destroying .DS_Store files in $DIR..."
+
+# Find and remove .DS_Store files
+find "$DIR" -name ".DS_Store" -type f -delete
+
+echo "Done!"

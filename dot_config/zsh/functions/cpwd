@@ -1,0 +1,3 @@
+# Copy current directory to clipboard
+# Usage: cpwd
+pwd | copy
