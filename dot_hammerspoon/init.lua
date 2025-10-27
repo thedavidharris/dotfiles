@@ -26,27 +26,38 @@ end)
 -- SPOON MANAGEMENT
 -- =============================================================================
 -- SpoonInstall manages additional Hammerspoon plugins (Spoons)
-hs.loadSpoon("SpoonInstall")
-Install=spoon.SpoonInstall
+-- Install it from: https://github.com/Hammerspoon/Spoons/tree/master/Source/SpoonInstall
+local status, error = pcall(function()
+    hs.loadSpoon("SpoonInstall")
+    Install = spoon.SpoonInstall
 
--- ModalMgr: Required for advanced modal keybinding management
-Install:andUse("ModalMgr")
-hs.loadSpoon("ModalMgr")
+    if Install then
+        -- ModalMgr: Required for advanced modal keybinding management
+        Install:andUse("ModalMgr")
+        hs.loadSpoon("ModalMgr")
 
--- Additional Spoons for enhanced functionality
-if not hspoon_list then
-    hspoon_list = {
-        "ClipShow",    -- Enhanced clipboard management
-        "HCalendar",   -- Calendar integration
-        "HSaria2",     -- Download manager integration
-        "SpeedMenu"    -- Network speed monitoring
-    }
-end
+        -- Additional Spoons for enhanced functionality
+        if not hspoon_list then
+            hspoon_list = {
+                "ClipShow",    -- Enhanced clipboard management
+                "HCalendar",   -- Calendar integration
+                "HSaria2",     -- Download manager integration
+                "SpeedMenu"    -- Network speed monitoring
+            }
+        end
 
--- Load all configured Spoons
-for _, v in pairs(hspoon_list) do
-    Install:andUse(v)
-    hs.loadSpoon(v)
+        -- Load all configured Spoons
+        for _, v in pairs(hspoon_list) do
+            Install:andUse(v)
+            hs.loadSpoon(v)
+        end
+    end
+end)
+
+if not status then
+    hs.alert.show("SpoonInstall not found\nInstall from GitHub to enable Spoons")
+    print("SpoonInstall error: " .. tostring(error))
+    print("To install SpoonInstall, visit: https://github.com/Hammerspoon/Spoons")
 end
 
 -- =============================================================================
