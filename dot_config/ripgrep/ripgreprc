@@ -1,0 +1,16 @@
+# `-g xyz/**` (search files in xyz/** glob case insensitive)
+--glob-case-insensitive
+
+# case insensitive if all lowercase, otherwise case sensitive
+--smart-case
+
+# prevent really long lines from printing
+--max-columns=160
+
+# strip whitespace at start
+--trim
+
+# `-t ios`
+--type-add=ios:*.{h,m,mm,swift}
+# `-t buck`
+--type-add=buck:{BUCK,BUILD,*.bzl,*.bazel}

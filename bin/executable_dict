@@ -1,0 +1,60 @@
+#!/usr/bin/swift
+
+import AppKit
+import CoreServices
+
+let args = CommandLine.arguments[1...]
+let words = args.filter { !$0.hasPrefix("-") }
+
+guard !words.isEmpty else {
+    print("Usage: \(URL(string: #file)!.lastPathComponent) [-o] <word1> [word2 [word3 [...]]]")
+    exit(EX_USAGE)
+}
+
+if args.contains("-o") {
+    print("Opening Dictionary.app…")
+    NSWorkspace.shared.open(URL(string: "dict://\(words[0])")!)
+    exit(EX_OK)
+}
+
+enum DefinitionResult: CustomStringConvertible {
+    case success(word: String, definition: String)
+    case notFound(word: String)
+
+    var isSuccess: Bool {
+        if case .success = self {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .success(word: _, definition: let definition):
+            return definition
+        case .notFound(word: let word):
+            return "\(word): not found"
+        }
+    }
+}
+
+let definitions = words.map { word -> DefinitionResult in
+    if let result = DCSCopyTextDefinition(
+        /* dictionary */ nil,
+        /* word */ word as CFString,
+        /* range */ CFRangeMake(0, word.utf16.count)
+    )?.takeRetainedValue() as String? {
+        return .success(word: word, definition: result)
+    } else {
+        return .notFound(word: word)
+    }
+}
+
+print(definitions.map(String.init(describing:)).joined(separator: "\n\n"))
+
+if definitions.contains(where: \.isSuccess) {
+    exit(EX_OK)
+} else {
+    exit(EX_UNAVAILABLE)
+}

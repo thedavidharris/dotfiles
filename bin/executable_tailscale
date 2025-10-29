@@ -1,0 +1,5 @@
+{{ if stat "/Applications/Tailscale.app" }}
+#!/usr/bin/env bash
+# for some reason a symlink alone doesn't work, but a wrapper script does
+exec /Applications/Tailscale.app/Contents/MacOS/Tailscale "$@"
+{{ end }}
