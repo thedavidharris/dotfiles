@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+rm -f /tmp/bash_daemon_pipe /tmp/bash_daemon_out
+mkfifo /tmp/bash_daemon_pipe
+mkfifo /tmp/bash_daemon_out
+
+echo $$ > /tmp/bash_daemon.pid
+
+while true; do
+    read cmd < /tmp/bash_daemon_pipe
+    { eval "$cmd"; echo "###DONE###"; } > /tmp/bash_daemon_out
+done

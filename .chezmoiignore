@@ -24,6 +24,10 @@ README.md
 *~
 .#*
 
+# Shell-specific generated files
+.zsh_plugins.zsh
+fish_variables
+
 # Ignore sensitive files that shouldn't be in version control
 *.key
 *.pem

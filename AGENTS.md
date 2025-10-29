@@ -10,7 +10,8 @@ This is a **Chezmoi-managed dotfiles repository** for David Harris. The configur
 
 ### **Core Technologies**
 - **Chezmoi**: Dotfile manager with templating
-- **Zsh + Zephyr**: Modern shell framework
+- **Zsh + Zephyr**: Modern shell framework (primary)
+- **Fish**: Alternative shell with shared environment
 - **Neovim + LazyVim**: Editor configuration
 - **1Password CLI**: Secret management
 - **Mise**: Tool version management
@@ -57,10 +58,15 @@ The `chezmoi.toml.tmpl` contains:
 ## 📁 Key Configuration Files
 
 ### **Shell Configuration**
-- `dot_config/zsh/dot_zshrc` - Main shell config with Zephyr
-- `dot_config/zsh/dot_zshenv` - Environment variables
-- `dot_config/zsh/dot_zaliases` - Command aliases
-- `dot_config/zsh/dot_zplugins` - Plugin definitions
+- `dot_config/shell/env.sh` - Shared POSIX environment (used by both shells)
+- `dot_config/zsh/dot_zshrc` - Main Zsh config with Zephyr
+- `dot_config/zsh/dot_zshenv` - Zsh environment (sources shared env)
+- `dot_config/zsh/dot_zaliases` - Zsh command aliases
+- `dot_config/zsh/dot_zplugins` - Zsh plugin definitions
+- `dot_config/fish/config.fish` - Main Fish configuration
+- `dot_config/fish/fish_plugins` - Fish plugin definitions
+- `dot_config/fish/conf.d/` - Fish modular configuration
+- `dot_config/fish/functions/` - Fish-specific functions
 
 ### **Git Configuration**
 - `dot_config/git/config.personal.tmpl` - Personal git config (TEMPLATED)
@@ -153,6 +159,7 @@ All packages defined in `.chezmoidata/packages.yaml`:
 - **Core tools**: git, gh, mise, chezmoi
 - **CLI utilities**: bat, fzf, jq, tree, zoxide
 - **Development**: neovim, difftastic, starship
+- **Shells**: zsh, fish (both supported)
 - **System**: 1password, ghostty, hammerspoon
 
 ## 🚀 Automation Scripts
@@ -224,12 +231,62 @@ chezmoi cat ~/.zshrc
 - **1Password CLI**: Secret management
 - **Homebrew**: Package management
 - **Mise**: Tool version management
+- **Zsh**: Primary shell (with Zephyr framework)
+- **Fish**: Alternative shell (optional, coexists with Zsh)
 
 ### **Shell Dependencies**
 - **Zsh**: Primary shell
 - **Antidote**: Plugin manager
 - **Starship**: Prompt
 - **Zoxide**: Directory navigation
+
+## 🐟 Fish Shell Configuration
+
+### **Fish Architecture**
+The Fish configuration follows a modular approach with shared environment variables:
+
+- **Shared Environment**: `dot_config/shell/env.sh` contains POSIX-compatible environment variables used by both Zsh and Fish
+- **Fish-Specific**: `dot_config/fish/config.fish` contains Fish-specific syntax and configurations
+- **Modular Config**: `dot_config/fish/conf.d/` contains modular configuration files loaded automatically
+- **Functions**: `dot_config/fish/functions/` contains Fish-specific functions
+
+### **Fish Plugin Management**
+Uses Fisher plugin manager with minimal essential plugins:
+- `jorgebucaran/fisher` - Plugin manager itself
+- `mattmc3/macos.fish` - macOS-specific Fish functions
+- `jethrokuan/z` - Directory jumping (zoxide integration)
+
+### **Fish vs Zsh Differences**
+- **Abbreviations**: Fish uses abbreviations instead of aliases (better UX)
+- **Built-in Features**: Fish includes autosuggestions and syntax highlighting natively
+- **PATH Management**: Fish uses `fish_user_paths` instead of PATH arrays
+- **Functions**: Fish functions use different syntax but same functionality
+
+### **Fish Configuration Files**
+- `dot_config/fish/config.fish` - Main configuration
+- `dot_config/fish/fish_plugins` - Plugin definitions
+- `dot_config/fish/conf.d/00-env.fish` - Environment loader
+- `dot_config/fish/conf.d/10-abbr.fish` - Abbreviations
+- `dot_config/fish/conf.d/20-tools.fish` - Tool configurations
+- `dot_config/fish/functions/` - Custom Fish functions
+
+### **Fish Debugging Commands**
+```bash
+# Check Fish configuration
+fish --config-dir
+
+# Test Fish startup time
+time fish -c exit
+
+# Debug Fish functions
+functions mkcd
+
+# Check Fish abbreviations
+abbr --list
+
+# View Fish variables
+set --show fish_user_paths
+```
 
 ## 🎨 Customization Guidelines
 
