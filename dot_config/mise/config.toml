@@ -1,5 +1,6 @@
 [tools]
-go = ['1.24.5']
+fnox = "latest"
+go = "latest"
 java = "temurin-21.0"
 node = 'lts'
 python = ['3.12']
@@ -8,7 +9,6 @@ python = ['3.12']
 always_keep_download = false
 always_keep_install = false
 asdf_compat = false
-env_file = '.env'
 legacy_version_file = true
 plugin_autoupdate_last_check_duration = '1 week'
 trusted_config_paths = [
@@ -18,5 +18,6 @@ verbose = false
 
 [env]
 _.file =[
+  ".env",
   ".gemini/.env"
 ]

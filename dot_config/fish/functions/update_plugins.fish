@@ -9,11 +9,5 @@ function update_plugins
         fisher update
     end
 
-    # Update fzf if available
-    if command -v fzf > /dev/null
-        echo "Updating fzf..."
-        cd ~/.fzf && git pull && ./install --bin
-    end
-
     echo "Plugin update complete!"
 end
