@@ -30,11 +30,12 @@ function init_fisher
         echo "fisher not found. Install it with Homebrew: brew install fisher" 1>&2
     end
 
-    # Only iterate over existing conf.d files, avoid unmatched glob literal
-    for file in (path filter $fisher_path/conf.d/*.fish)
-        if ! test -f $__fish_config_dir/conf.d/(path basename -- $file)
-            and test -f $file && test -r $file
-            builtin source "$file"
+    for file in $fisher_path/conf.d/*.fish
+        if test -f "$file" && test -r "$file"
+            set -l basename (path basename -- "$file")
+            if ! test -f $__fish_config_dir/conf.d/$basename
+                builtin source "$file"
+            end
         end
     end
 end

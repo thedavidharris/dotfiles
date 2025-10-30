@@ -18,7 +18,7 @@ if type -q fzf
     if not test -r $__fish_cache_dir/fzf_init.fish
         fzf --fish >$__fish_cache_dir/fzf_init.fish
     end
-    source $__fish_cache_dir/fzf_init.fish
+    test -s $__fish_cache_dir/fzf_init.fish; and source $__fish_cache_dir/fzf_init.fish
 end
 
 # Initialize zoxide for fast jumping with 'z'.
@@ -26,13 +26,15 @@ if type -q zoxide
     if not test -r $__fish_cache_dir/zoxide_init.fish
         zoxide init fish >$__fish_cache_dir/zoxide_init.fish
     end
-    source $__fish_cache_dir/zoxide_init.fish
+    test -s $__fish_cache_dir/zoxide_init.fish; and source $__fish_cache_dir/zoxide_init.fish
 end
 
 # Initialize prject jumping with 'prj'.
 if type -q prj
     set -l __prj_init (prj -i fish ^/dev/null)
-    test -n "$__prj_init"; and printf '%s\n' $__prj_init | source
+    if test -n "$__prj_init"
+        printf '%s\n' $__prj_init | source
+    end
 end
 
 #
@@ -48,7 +50,7 @@ if type -q starship
     if not test -r $__fish_cache_dir/starship_init.fish
         starship init fish --print-full-init >$__fish_cache_dir/starship_init.fish
     end
-    source $__fish_cache_dir/starship_init.fish
+    test -s $__fish_cache_dir/starship_init.fish; and source $__fish_cache_dir/starship_init.fish
     enable_transience
 
     # Start prompt at the bottom
@@ -66,6 +68,6 @@ end
 # Local
 #
 
-if test -r $DOTFILES.local/fish/config.fish
+if set -q DOTFILES.local; and test -r $DOTFILES.local/fish/config.fish
     source $DOTFILES.local/fish/config.fish
 end

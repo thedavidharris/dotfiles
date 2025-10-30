@@ -35,7 +35,7 @@ end
 test -d $__fish_cache_dir; or mkdir -p $__fish_cache_dir
 
 # Remove expired cache files (older than 20 hours).
-find $__fish_cache_dir -name '*.fish' -type f -mmin +1200 -delete 2>/dev/null
+find $__fish_cache_dir -name '*.fish' -type f -mmin +1200 -delete; or true
 
 # Setup homebrew.
 if not test -s $__fish_cache_dir/brew_init.fish

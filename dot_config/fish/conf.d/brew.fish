@@ -1,10 +1,8 @@
 if not set -q HOMEBREW_PREFIX
     if test -e /opt/homebrew/bin/brew
-        # Source Homebrew shellenv safely; avoid invoking source without stdin
-        set --local brew_env (/opt/homebrew/bin/brew shellenv ^/dev/null)
-        if test -n "$brew_env"
-            printf '%s\n' "$brew_env" | source
-        end
+        /opt/homebrew/bin/brew shellenv | source
+    else if test -e /usr/local/bin/brew
+        /usr/local/bin/brew shellenv | source
     else
         return 1
     end
