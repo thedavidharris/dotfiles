@@ -14,30 +14,10 @@ abbr -a -- ... "cd ../.."
 abbr -a -- .... "cd ../../.."
 abbr -a -- ..... "cd ../../../.."
 
-# =============================================================================
-# GIT ABBREVIATIONS
-# =============================================================================
-
-abbr -a -- g "git"
-abbr -a -- gs "git status"
-abbr -a -- ga "git add"
-abbr -a -- gc "git commit"
-abbr -a -- gp "git push"
-abbr -a -- gl "git pull"
-abbr -a -- gd "git diff"
-abbr -a -- gds "git diff --staged"
-abbr -a -- gco "git checkout"
-abbr -a -- gb "git branch"
-abbr -a -- glog "git log --oneline --graph --decorate"
-
-# =============================================================================
-# CHEZMOI ABBREVIATIONS
-# =============================================================================
-
-abbr -a -- cm "chezmoi"
-abbr -a -- cma "chezmoi apply"
-abbr -a -- cmd "chezmoi diff"
-abbr -a -- cms "chezmoi status"
+abbr -a -- fconf 'cd $__fish_config_dir'
+abbr -a -- fishconf 'cd $__fish_config_dir'
+abbr -a -- fdot 'cd $__fish_config_dir'
+abbr -a -- zdot 'cd $ZDOTDIR'
 
 # =============================================================================
 # MODERN TOOL ABBREVIATIONS (conditional on availability)
@@ -92,16 +72,8 @@ end
 # Enable aliases to be sudo'ed
 abbr -a -- sudo "sudo "
 
-# Quick directory navigation
-abbr -a -- cdd "cd ~/Desktop"
-abbr -a -- cdl "cd ~/Downloads"
-abbr -a -- cdo "cd ~/Documents"
-
 # Reload the shell
 abbr -a -- reload "exec fish -l"
-
-# Print each PATH entry on a separate line
-abbr -a -- path "echo \$PATH | tr ':' '\n'"
 
 # no need to run over-and-over
 set -g MY_ABBRS_INITIALIZED true

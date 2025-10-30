@@ -41,19 +41,30 @@ find $__fish_cache_dir -name '*.fish' -type f -mmin +1200 -delete 2>/dev/null
 if not test -s $__fish_cache_dir/brew_init.fish
     if test -e /opt/homebrew/bin/brew
         /opt/homebrew/bin/brew shellenv >$__fish_cache_dir/brew_init.fish
-    else if test -e /usr/local/bin/brew
-        /usr/local/bin/brew shellenv >$__fish_cache_dir/brew_init.fish
     end
 end
 test -s $__fish_cache_dir/brew_init.fish; and source $__fish_cache_dir/brew_init.fish
 
-# Add bin directories to path.
+# Add bin directories to PATH (deduped, only if they exist).
 set -g prepath (
     path filter \
         $HOME/bin \
         $HOME/sbin \
         $HOME/.local/bin \
         $HOME/.local/sbin \
-        $HOME/.cargo/bin
+        $HOME/.cargo/bin \
+        $ANDROID_HOME/platform-tools \
+        $ANDROID_HOME/tools \
+        $ANDROID_HOME/tools/bin \
+        $HOMEBREW_PREFIX/bin \
+        $HOMEBREW_PREFIX/sbin \
+        /usr/local/bin \
+        /usr/local/sbin \
+        /bin
 )
 fish_add_path --prepend --move $prepath
+
+# Fisher (run after PATH/homebrew is set; only in interactive shells)
+if status is-interactive
+    init_fisher
+end
