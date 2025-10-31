@@ -352,6 +352,43 @@ chezmoi commit -m "Add new configuration"
 chezmoi push
 ```
 
+## 🙏 Credits & Sources
+
+This configuration draws inspiration and uses code from the following sources:
+
+### **Core Frameworks**
+- **[mattmc3/zephyr](https://github.com/mattmc3/zephyr)** - Zsh framework and all Zephyr plugins
+- **[mattmc3/fishconf](https://github.com/mattmc3/fishconf)** - Fish shell configuration structure and patterns
+- **[LazyVim/LazyVim](https://lazyvim.github.io/)** - Neovim configuration framework
+- **[folke/lazy.nvim](https://github.com/folke/lazy.nvim)** - Lazy plugin manager for Neovim
+
+### **Shell Plugins & Tools**
+- **[jorgebucaran/fisher](https://github.com/jorgebucaran/fisher)** - Fish plugin manager
+- **[jorgebucaran/autopair.fish](https://github.com/jorgebucaran/autopair.fish)** - Auto-pairing brackets for Fish
+- **[jethrokuan/z](https://github.com/jethrokuan/z)** - Directory jumping for Fish (zoxide integration)
+- **[mattmc3/macos.fish](https://github.com/mattmc3/macos.fish)** - macOS-specific Fish functions
+- **[mattmc3/up.fish](https://github.com/mattmc3/up.fish)** - Directory navigation for Fish
+- **[mattmc3/zsh-safe-rm](https://github.com/mattmc3/zsh-safe-rm)** - Safe rm wrapper for Zsh
+
+### **Zsh Community Plugins**
+- **[zsh-users/zsh-completions](https://github.com/zsh-users/zsh-completions)** - Additional completions
+- **[zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)** - Command suggestions
+- **[zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)** - Syntax highlighting
+- **[zsh-users/zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)** - History search
+
+### **Fish Plugins**
+- **[franciscolourenco/done](https://github.com/franciscolourenco/done)** - Notifications for long-running commands
+- **[catppuccin/fish](https://github.com/catppuccin/fish)** - Catppuccin theme for Fish
+
+### **Other Tools**
+- **[Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab)** - Zsh completion with fzf
+- **[romkatv/zsh-bench](https://github.com/romkatv/zsh-bench)** - Zsh benchmarking tool
+- **[Catppuccin](https://github.com/catppuccin)** - Color scheme used across tools
+
+### **Documentation & Inspiration**
+- [Fish shell cookbook](https://github.com/jorgebucaran/fish-shell-cookbook) - Fish configuration patterns
+- [Fish shell default config](https://github.com/fish-shell/fish-shell/blob/master/share/config.fish) - Reference implementation
+
 ---
 
 **This guide should help AI assistants understand the structure, conventions, and best practices for working with this dotfiles repository.**

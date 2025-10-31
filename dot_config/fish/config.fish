@@ -62,7 +62,7 @@ if command -v vivid >/dev/null
     set -gx LS_COLORS (vivid generate catppuccin-macchiato)
 end
 
-# fish_config theme save $FISH_THEME
+fish_config theme save $FISH_THEME
 
 #
 # Local
