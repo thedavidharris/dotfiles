@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
-set -u
+# =============================================================================
+# Try Until Failure
+# Run a command repeatedly until it fails
+# =============================================================================
+# Usage: trynafail <command> [args...]
+# Example: trynafail curl -f https://api.example.com/data
+#
+# Description:
+#   Runs a command repeatedly until it exits with non-zero status.
+#   Useful for testing commands that should eventually fail.
+
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: trynafail <command> [args...]" >&2
+  exit 1
+fi
 
 "$@"
 while [[ "$?" -eq 0 ]]; do

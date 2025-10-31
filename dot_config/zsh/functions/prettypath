@@ -1,3 +1,8 @@
-# Print PATH with newlines for readability
+# =============================================================================
+# Pretty Print PATH
+# Display PATH variable in a readable format
+# =============================================================================
 # Usage: prettypath
+# Example: prettypath
+
 echo "$PATH" | tr ':' '\n'

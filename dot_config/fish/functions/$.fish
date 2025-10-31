@@ -1,4 +1,9 @@
-function \$
+# =============================================================================
+# Bash Daemon Interface
+# Execute commands through bash daemon
+# =============================================================================
+
+function \$ -d "Execute command through bash daemon"
   if not test -f /tmp/bash_daemon.pid; or not kill -0 (cat /tmp/bash_daemon.pid) 2>/dev/null
     echo "Starting bash daemon..."
     bash bash_daemon &

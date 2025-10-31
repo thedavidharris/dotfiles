@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
-set -e
-set -u
+# =============================================================================
+# Remove EXIF Data
+# Remove EXIF metadata from JPEG images
+# =============================================================================
+# Usage: removeexif <image>...
+# Example: removeexif photo.jpg
+#
+# Description:
+#   Removes EXIF metadata from JPEG images using jhead
+#
+# Dependencies:
+#   jhead
+
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: removeexif <image>..." >&2
+  exit 1
+fi
 
 exec jhead -purejpg "$@"

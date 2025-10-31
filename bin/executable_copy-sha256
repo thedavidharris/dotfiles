@@ -1,6 +1,21 @@
 #!/bin/bash
+# =============================================================================
+# Copy SHA256 Hash
+# Download file and copy its SHA256 hash to clipboard
+# =============================================================================
+# Usage: copy-sha256 <url_or_file>
+# Example: copy-sha256 https://example.com/file.zip
+#
+# Description:
+#   Downloads a file (if URL) or uses local file, calculates SHA256 hash,
+#   and copies it to clipboard
 
 set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: copy-sha256 <url_or_file>" >&2
+  exit 1
+fi
 
 readonly url="$1"
 if [[ -f "$url" ]]; then

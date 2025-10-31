@@ -1,4 +1,7 @@
-# Play success/failure sound based on last command exit code
+# =============================================================================
+# Play Success/Failure Sound
+# Play sound based on last command exit code
+# =============================================================================
 # Usage: boop (or use as alias after commands)
 # Example: long-command; boop
 

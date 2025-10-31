@@ -1,14 +1,17 @@
 # =============================================================================
-# Get Length of String or Array
+# Get Length of String
+# Count characters in input string or from stdin
 # =============================================================================
 
-function length -d "Get the length of a string or count of array elements"
-    if test (count $argv) -eq 0
-        echo "Usage: length <string|array>"
-        return 1
+function length -d "Count characters in a string or from stdin"
+    if test (count $argv) -gt 0
+        # Count characters in arguments
+        string length -- "$argv"
+    else
+        # Count characters from stdin
+        while read -l line
+            echo (string length -- "$line")
+        end
     end
-
-    # Count number of arguments
-    echo (count $argv)
 end
 

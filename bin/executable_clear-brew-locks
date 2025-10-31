@@ -1,5 +1,15 @@
 #!/bin/bash
+# =============================================================================
+# Clear Homebrew Locks
+# Remove all Homebrew lock files to resolve locking issues
+# =============================================================================
+# Usage: clear-brew-locks
+# Example: clear-brew-locks
+#
+# Description:
+#   Removes all Homebrew lock files. Useful when Homebrew gets stuck
+#   with lock files that prevent operations.
 
-# This script is used to clear all brew locks in the system.
-# It is useful when you encounter issues with Homebrew and need to reset the locks.
- rm -rf "$(brew --prefix)/var/homebrew/locks"
+set -euo pipefail
+
+rm -rf "$(brew --prefix)/var/homebrew/locks"

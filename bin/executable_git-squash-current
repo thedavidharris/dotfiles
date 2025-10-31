@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# =============================================================================
+# Git Squash Current Branch
+# Squash current branch commits into main branch
+# =============================================================================
+# Usage: git-squash-current
+# Example: git-squash-current
+#
+# Description:
+#   Squashes all commits from the current branch into the main branch
+#   using interactive rebase with autofix commits.
 
 set -euo pipefail
 set -x

@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
-set -e
-set -u
-set -o pipefail
+# =============================================================================
+# Interactive Python
+# Start an interactive Python session
+# =============================================================================
+# Usage: ipy
+# Example: ipy
+#
+# Description:
+#   Starts an interactive Python 3 session
+
+set -euo pipefail
 
 exec python3 -i

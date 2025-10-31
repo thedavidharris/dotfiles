@@ -1,4 +1,9 @@
-function colorize_hex -d 'Add background to hex code colors in a command'
+# =============================================================================
+# Colorize Hex Codes
+# Add background color to hex code colors in command line
+# =============================================================================
+
+function colorize_hex -d "Add background to hex code colors in a command"
     set --local cmd (commandline)
     set --local colorstrings (string match -ra '[0-9A-F]{6}' -- $cmd)
     if test (count $colorstrings) -eq 0

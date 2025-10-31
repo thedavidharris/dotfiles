@@ -1,5 +1,9 @@
-# Create and edit a temporary file
+# =============================================================================
+# Create Temporary Scratch File
+# Create and edit a temporary file for quick notes or testing
+# =============================================================================
 # Usage: scratch [filename]
+# Example: scratch
 if [[ $# -eq 0 ]]; then
   # Create temp file with random name
   file="$(mktemp)"

@@ -67,8 +67,9 @@ packages:
     - 'sqlite'
 
     # Media and multimedia tools
-    - 'ffmpeg'
     - 'exiftool'
+    - 'ffmpeg'
+    - 'jhead'
 
     # Text-to-speech and accessibility
     - 'espeak'

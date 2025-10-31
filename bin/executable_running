@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
-set -e
-set -u
+# =============================================================================
+# List Running Processes
+# Display running processes with optional filtering
+# =============================================================================
+# Usage: running [pattern]
+# Example: running node (shows processes containing 'node')
+#
+# Description:
+#   Lists running processes. If a pattern is provided, filters to
+#   processes matching that pattern.
+
+set -euo pipefail
 
 process_list="$(ps -eo 'pid command')"
 if [[ $# != 0 ]]; then

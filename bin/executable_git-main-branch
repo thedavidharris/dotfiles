@@ -1,4 +1,10 @@
 #!/bin/bash
+# =============================================================================
+# Get Main Branch Name
+# Detect if repo uses 'main' or 'master'
+# =============================================================================
+# Usage: git-main-branch
+# Example: git-main-branch
 
 set -euo pipefail
 

@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
-set -e
-set -u
-set -o pipefail
+# =============================================================================
+# Straight Quotes
+# Convert curly quotes to straight quotes
+# =============================================================================
+# Usage: echo "text" | straightquote
+# Example: echo ""Hello"" | straightquote
+#
+# Description:
+#   Converts curly quotes ("" and '') to straight quotes (" and ')
+
+set -euo pipefail
 
 # shellcheck disable=SC1112
-sed 's/[“"]/"/g; s/[''']/'"'"'/g'
+sed 's/[""]/"/g; s/[''']/'"'"'/g'

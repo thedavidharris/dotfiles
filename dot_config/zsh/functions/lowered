@@ -1,3 +1,8 @@
+# =============================================================================
+# Convert String to Lowercase
 # Convert text to lowercase
+# =============================================================================
 # Usage: echo "TEXT" | lowered
+# Example: echo "HELLO" | lowered
+
 tr '[:upper:]' '[:lower:]'

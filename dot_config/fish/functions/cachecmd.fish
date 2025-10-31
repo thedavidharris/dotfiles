@@ -1,4 +1,9 @@
-function cachecmd --description "Cache a command"
+# =============================================================================
+# Cache Command Output
+# Cache command output to avoid repeated execution
+# =============================================================================
+
+function cachecmd -d "Cache a command"
     set --local cmdfile (
         string join '_' -- $argv |
         string replace -ar '[/-]' '_' |

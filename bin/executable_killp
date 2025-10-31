@@ -1,7 +1,16 @@
 #!/bin/bash
-
+# =============================================================================
+# Kill Process
 # Find and kill processes by name or port
+# =============================================================================
 # Usage: killp <process_name_or_port>
+# Example: killp node (kills processes containing 'node')
+# Example: killp 3000 (kills process using port 3000)
+#
+# Description:
+#   Kills processes by name pattern or port number
+
+set -euo pipefail
 
 if [ $# -eq 0 ]; then
     echo "Usage: killp <process_name_or_port>"

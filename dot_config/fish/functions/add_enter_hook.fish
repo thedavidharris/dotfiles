@@ -1,4 +1,9 @@
-function add_enter_hook
+# =============================================================================
+# Add Enter Hook
+# Add functions to be executed when Enter is pressed
+# =============================================================================
+
+function add_enter_hook -d "Add functions to Enter hook"
     set -q ENTER_HOOKS || set -g ENTER_HOOKS
     for fn in $argv
         # only add if function exists and isn't already in the list

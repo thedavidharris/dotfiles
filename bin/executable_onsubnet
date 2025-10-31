@@ -1,4 +1,17 @@
 #!/usr/bin/env bash
+# =============================================================================
+# Check If On Subnet
+# Check if current IP address is on specified subnet
+# =============================================================================
+# Usage: onsubnet [--not] partial-ip-address
+# Example: onsubnet 10.10.
+# Example: onsubnet --not 192.168.0.
+#
+# Description:
+#   Checks if current IP address matches the specified partial IP address.
+#   Use --not to check if NOT on the subnet.
+
+set -euo pipefail
 
 if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]  || [[ "$1" == "" ]] ; then
   printf "Usage:\n\tonsubnet [ --not ] partial-ip-address\n\n"

@@ -1,4 +1,9 @@
-function tac --description 'Reverse cat'
+# =============================================================================
+# Reverse Cat
+# Display file contents in reverse order
+# =============================================================================
+
+function tac -d "Display file contents in reverse order"
     if type -q tac
         tac $argv
     else

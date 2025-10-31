@@ -1,6 +1,15 @@
 #!/bin/bash
+# =============================================================================
+# Destroy .DS_Store Files
 # Remove all .DS_Store files recursively
+# =============================================================================
 # Usage: ds-destroy [directory]
+# Example: ds-destroy . (defaults to current directory)
+#
+# Description:
+#   Recursively finds and removes all .DS_Store files from a directory tree
+
+set -euo pipefail
 
 DIR="${1:-.}"
 

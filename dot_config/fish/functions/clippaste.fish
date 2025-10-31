@@ -1,4 +1,9 @@
-function clippaste --description 'Paste data from clipboard'
+# =============================================================================
+# Paste from Clipboard
+# Paste data from system clipboard
+# =============================================================================
+
+function clippaste -d "Paste data from clipboard"
     set --local ostype (uname -s)
     if test $ostype = Darwin
         pbpaste

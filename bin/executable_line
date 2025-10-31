@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
-set -e
-set -u
-
+# =============================================================================
+# Print Specific Lines
+# Print the Nth line or range N through M from stdin or file
+# =============================================================================
 # Usage: line N [file] or line N,M [file]
-# Prints the Nth line or range N through M from stdin or file
+# Example: line 5 file.txt
+# Example: line 2,5 file.txt
+#
+# Description:
+#   Prints specific lines from stdin or a file. Supports single line
+#   numbers or ranges (N,M).
+
+set -euo pipefail
 
 if [[ $# -eq 1 ]]; then
   # Single line number from stdin

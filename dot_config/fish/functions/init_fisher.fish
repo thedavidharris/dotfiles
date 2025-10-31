@@ -1,7 +1,9 @@
-#
-# Setup Fisher for plugins.
-#
-function init_fisher
+# =============================================================================
+# Initialize Fisher Plugin Manager
+# Setup Fisher for plugins and configure paths
+# =============================================================================
+
+function init_fisher -d "Setup Fisher for plugins"
     set -q fisher_path || set -gx fisher_path $__fish_config_dir/.fisher
     set -q my_plugins_path || set -gx my_plugins_path $__fish_config_dir/plugins
 

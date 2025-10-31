@@ -1,14 +1,36 @@
-# Copy absolute path of file/directory to clipboard
+# =============================================================================
+# Copy Path to Clipboard
+# Copy the current directory path or specified path to clipboard
+# =============================================================================
 # Usage: copypath [file/directory]
+# Example: copypath (copies current directory)
+
+path_to_copy=""
+
 if [[ $# -eq 0 ]]; then
-  echo "Usage: copypath <file_or_directory>" >&2
+  # Copy current directory
+  path_to_copy="$PWD"
+elif [[ -e "$1" ]]; then
+  # Copy specified file/directory path
+  path_to_copy=$(realpath -s "$1")
+else
+  echo "Error: '$1' does not exist" >&2
   return 1
 fi
 
-if [[ -e "$1" ]]; then
-  realpath -s "$1" | pbcopy
-  echo "Path copied to clipboard: $(realpath -s "$1")"
+# Copy to clipboard (macOS)
+if command -v pbcopy >/dev/null 2>&1; then
+  echo -n "$path_to_copy" | pbcopy
+  echo "📋 Copied to clipboard: $path_to_copy"
+elif command -v xclip >/dev/null 2>&1; then
+  # Linux with xclip
+  echo -n "$path_to_copy" | xclip -selection clipboard
+  echo "📋 Copied to clipboard: $path_to_copy"
+elif command -v wl-copy >/dev/null 2>&1; then
+  # Wayland
+  echo -n "$path_to_copy" | wl-copy
+  echo "📋 Copied to clipboard: $path_to_copy"
 else
-  echo "File or directory not found: $1" >&2
+  echo "❌ No clipboard utility found (pbcopy, xclip, or wl-copy)" >&2
   return 1
 fi

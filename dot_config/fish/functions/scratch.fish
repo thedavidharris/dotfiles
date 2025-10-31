@@ -1,6 +1,9 @@
-# Create and edit a temporary file
-# Usage: scratch [filename]
-function scratch
+# =============================================================================
+# Create Temporary Scratch File
+# Create and edit a temporary file for quick notes or testing
+# =============================================================================
+
+function scratch -d "Create and edit a temporary file"
     if test (count $argv) -eq 0
         # Create temp file with random name
         set file (mktemp)

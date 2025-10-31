@@ -1,18 +1,17 @@
 # =============================================================================
-# Get Current Working Directory Basename
+# Copy Current Working Directory
+# Copy the full current directory path to clipboard
 # =============================================================================
 
-function cpwd -d "Copy current directory basename"
-    set -l dir_name (basename $PWD)
-
+function cpwd -d "Copy current directory path to clipboard"
     if command -v pbcopy >/dev/null 2>&1
-        echo -n $dir_name | pbcopy
-        echo "📋 Copied: $dir_name"
+        echo -n $PWD | pbcopy
+        echo "📋 Copied: $PWD"
     else if command -v xclip >/dev/null 2>&1
-        echo -n $dir_name | xclip -selection clipboard
-        echo "📋 Copied: $dir_name"
+        echo -n $PWD | xclip -selection clipboard
+        echo "📋 Copied: $PWD"
     else
-        echo $dir_name
+        echo $PWD
     end
 end
 

@@ -1,6 +1,11 @@
+# =============================================================================
+# Reload Function Source
+# Reload a function's source file
+# =============================================================================
+
 function funcfresh \
     --argument-names funcname \
-    --description 'Reload a function\'s source'
+    -d "Reload a function's source"
 
     if test (count $argv) -ne 1
         echo >&2 "funcfresh: expected 1 argument, got $(count $argv)"

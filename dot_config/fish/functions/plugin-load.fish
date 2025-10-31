@@ -1,8 +1,18 @@
+# =============================================================================
+# Load Local Plugins
+# Load fish plugins from local plugin directory
+# =============================================================================
+
 function plugin-load -d "Load local plugins"
+    if test (count $argv) -eq 0
+        echo "Usage: plugin-load <plugin>..." >&2
+        return 1
+    end
+
     for plugin in $argv
         set --local plugin_dir "$__fish_config_dir/plugins/$plugin"
         if not test -d "$plugin_dir"
-            echo >&2 "plugin-load: Plugin directory not found: '$plugin_dir'."
+            echo "Error: Plugin directory not found: '$plugin_dir'." >&2
             return 1
         end
         test -d $plugin_dir/completions; and set fish_complete_path $fish_complete_path[1] $plugin_dir/completions $fish_complete_path[2..-1]

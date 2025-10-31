@@ -1,3 +1,43 @@
-# Get current external IP address
+# =============================================================================
+# Get IP Address Information
+# Get your local and public IP addresses
+# =============================================================================
 # Usage: myip
-curl -s https://ipinfo.io/ip 2>/dev/null || curl -s https://icanhazip.com 2>/dev/null || echo "Network unavailable"
+# Example: myip
+
+echo "🌐 Network Information:"
+echo ""
+
+# Local IP (macOS)
+if command -v ipconfig >/dev/null 2>&1; then
+  local_ip=$(ipconfig getifaddr en0 2>/dev/null)
+  if [[ -n "$local_ip" ]]; then
+    echo "📍 Local IP (Wi-Fi):  $local_ip"
+  fi
+
+  ethernet_ip=$(ipconfig getifaddr en1 2>/dev/null)
+  if [[ -n "$ethernet_ip" ]]; then
+    echo "📍 Local IP (Ethernet): $ethernet_ip"
+  fi
+elif command -v hostname >/dev/null 2>&1; then
+  # Linux fallback
+  local_ip=$(hostname -I 2>/dev/null | awk '{print $1}')
+  if [[ -n "$local_ip" ]]; then
+    echo "📍 Local IP: $local_ip"
+  fi
+fi
+
+echo ""
+
+# Public IP
+echo "🌍 Fetching public IP..."
+if command -v curl >/dev/null 2>&1; then
+  public_ip=$(curl -s https://api.ipify.org 2>/dev/null)
+  if [[ -n "$public_ip" ]]; then
+    echo "🌍 Public IP: $public_ip"
+  else
+    echo "❌ Could not fetch public IP"
+  fi
+else
+  echo "❌ curl not found - cannot fetch public IP"
+fi

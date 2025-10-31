@@ -1,3 +1,0 @@
-# Git push to origin with current branch
-# Usage: gp
-git push origin "$(git branch --show-current)"

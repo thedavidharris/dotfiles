@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
-set -e
-set -u
-set -o pipefail
+# =============================================================================
+# Monitor Pasteboard
+# Monitor pasteboard/clipboard for changes and display updates
+# =============================================================================
+# Usage: pastas
+# Example: pastas
+#
+# Description:
+#   Continuously monitors the pasteboard/clipboard for changes and
+#   displays new values. Press Ctrl+C to exit.
+
+set -euo pipefail
 
 trap 'exit 0' SIGINT
 

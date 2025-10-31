@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
-set -e
-set -u
-set -o pipefail
+# =============================================================================
+# Wait For Process
+# Wait for a process to complete, preventing system sleep
+# =============================================================================
+# Usage: waitfor <pid>
+# Example: waitfor 12345
+#
+# Description:
+#   Waits for a process to complete. On macOS, prevents system sleep
+#   using caffeinate. On Linux, uses systemd-inhibit.
+
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: waitfor <pid>" >&2
+  exit 1
+fi
 
 pid="$1"
 

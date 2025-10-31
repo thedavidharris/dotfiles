@@ -1,4 +1,9 @@
-function clipcopy --description 'Copy data to clipboard'
+# =============================================================================
+# Copy to Clipboard
+# Copy data to system clipboard
+# =============================================================================
+
+function clipcopy -d "Copy data to clipboard"
     set --local ostype (uname -s)
     if test "$ostype" = Darwin
         if test (count $argv) -eq 0

@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
-set -e
-set -u
-set -o pipefail
+# =============================================================================
+# Make Shell Script
+# Create a new shell script with standard template
+# =============================================================================
+# Usage: mksh <script_name>
+# Example: mksh new-script.sh
+#
+# Description:
+#   Creates a new shell script file with standard bash template
+#   and opens it in the editor
+
+set -euo pipefail
 
 if [ ! $# -eq 1 ]; then
-  echo 'mksh takes one argument' 1>&2
+  echo "Usage: mksh <script_name>" >&2
   exit 1
 elif [ -e "$1" ]; then
-  echo "$1 already exists" 1>&2
+  echo "Error: '$1' already exists" >&2
   exit 1
 fi
 
