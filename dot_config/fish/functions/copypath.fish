@@ -3,7 +3,7 @@
 # Copy the current directory path or specified path to clipboard
 # =============================================================================
 
-function copypath -d "Copy current directory path to clipboard"
+function copypath -d "Copy current directory or specified path to clipboard"
     set -l path_to_copy
 
     if test (count $argv) -eq 0

@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# =============================================================================
+# Paste from Clipboard
+# Cross-platform clipboard paste utility
+# =============================================================================
+# Usage: pasta
+# Example: pasta
+
 set -euo pipefail
 
 if hash pbpaste 2>/dev/null; then

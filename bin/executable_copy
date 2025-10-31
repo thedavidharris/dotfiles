@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# =============================================================================
+# Copy to Clipboard
+# Cross-platform clipboard copy utility
+# =============================================================================
+# Usage: copy [file]
+# Example: echo "text" | copy
+#          copy file.txt
+
 set -euo pipefail
 
 if hash pbcopy 2>/dev/null; then
@@ -8,7 +16,7 @@ elif hash xclip 2>/dev/null; then
 elif hash putclip 2>/dev/null; then
   exec putclip
 else
-  rm -f /tmp/clipboard 2> /dev/null
+  rm -f /tmp/clipboard 2>/dev/null || true
   if [ $# -eq 0 ]; then
     cat > /tmp/clipboard
   else

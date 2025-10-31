@@ -8,9 +8,41 @@
 
 set -euo pipefail
 
-if git show-branch origin/main > /dev/null 2>&1; then
+# Check if we're in a git repository
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+  echo "master"
+  exit 0
+fi
+
+# First, check remote origin/main
+if git show-ref --verify --quiet refs/remotes/origin/main 2>/dev/null; then
   echo "main"
+  exit 0
+fi
+
+# Check local main branch
+if git show-ref --verify --quiet refs/heads/main 2>/dev/null; then
+  echo "main"
+  exit 0
+fi
+
+# Check local master branch
+if git show-ref --verify --quiet refs/heads/master 2>/dev/null; then
+  echo "master"
+  exit 0
+fi
+
+# Check remote origin/master
+if git show-ref --verify --quiet refs/remotes/origin/master 2>/dev/null; then
+  echo "master"
+  exit 0
+fi
+
+# Fallback: check git config
+config_key="$(git rev-parse --show-toplevel 2>/dev/null | xargs basename).main-branch"
+if git config --local --get "$config_key" >/dev/null 2>&1; then
+  git config --local --get "$config_key"
 else
-  config_key="$(git rootworktreehash).main-branch"
-  git config --local --get --default master "$config_key"
+  # Default fallback
+  echo "main"
 fi
