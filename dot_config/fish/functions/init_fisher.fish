@@ -33,4 +33,18 @@ function init_fisher
             builtin source $file
         end
     end
+
+    # Symlink fisher themes to make them available
+    if test -d $fisher_path/themes
+        if test -L $__fish_config_dir/themes
+            # Already a symlink, nothing to do
+        else if test -e $__fish_config_dir/themes
+            # Exists but not a symlink (directory or file), remove it first
+            rm -rf $__fish_config_dir/themes
+            ln -s $fisher_path/themes $__fish_config_dir/themes
+        else
+            # Doesn't exist, create symlink
+            ln -s $fisher_path/themes $__fish_config_dir/themes
+        end
+    end
 end

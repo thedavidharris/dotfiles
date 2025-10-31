@@ -31,4 +31,4 @@ set -q LANG; or set -Ux LANG en_US.UTF-8
 set -q LC_ALL; or set -Ux LC_ALL en_US.UTF-8
 
 # Other vars
-set -q FISH_THEME; or set -U FISH_THEME "default"
+set -q FISH_THEME; or set -U FISH_THEME "Catppuccin Macchiato"
