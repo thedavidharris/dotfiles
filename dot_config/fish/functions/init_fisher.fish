@@ -15,27 +15,22 @@ function init_fisher
         set -g fisher_paths_initialized true
     end
 
-    # Ensure Fisher is available and plugins are synchronized.
     if not test -d $fisher_path
+        functions -e fisher &>/dev/null
         mkdir -p $fisher_path
-    end
-
-    # Prefer Homebrew-installed fisher; warn if missing (no curl bootstrap).
-    if type -q fisher
         touch $__fish_config_dir/fish_plugins
-        if status is-interactive; and test -s $__fish_config_dir/fish_plugins
+        curl -sL https://git.io/fisher | source
+        if test -s $__fish_config_dir/fish_plugins
             fisher update
+        else
+            fisher install jorgebucaran/fisher
         end
-    else
-        echo "fisher not found. Install it with Homebrew: brew install fisher" 1>&2
     end
 
     for file in $fisher_path/conf.d/*.fish
-        if test -f "$file" && test -r "$file"
-            set -l basename (path basename -- "$file")
-            if ! test -f $__fish_config_dir/conf.d/$basename
-                builtin source "$file"
-            end
+        if ! test -f $__fish_config_dir/conf.d/(path basename -- $file)
+            and test -f $file && test -r $file
+            builtin source $file
         end
     end
 end
