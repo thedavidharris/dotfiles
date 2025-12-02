@@ -14,6 +14,7 @@ require "string"
 -- • Cmd+Alt+Shift+F: Reveal file in Finder
 -- • Cmd+Alt+Shift+G: Git status notification
 -- • Cmd+Alt+Shift+R: Toggle screen recording
+-- • Cmd+Alt+Ctrl+P: Toggle Privileges (admin rights, if Privileges.app installed)
 -- • Menu bar: Caffeine (☕/😴) to prevent sleep
 -- =============================================================================
 
@@ -448,6 +449,111 @@ end
 
 hs.hotkey.bind({"cmd", "alt", "shift"}, "R", toggleScreenRecording)
 
+
+-- =============================================================================
+-- PRIVILEGES AUTOMATION
+-- =============================================================================
+-- Smart Privileges toggle: Intelligently switches between Standard and Admin rights
+-- Only loads if Privileges.app is installed
+-- Hotkey: Cmd+Option+Control+P
+-- Note: Privileges.app has built-in menu bar support (enable in app settings)
+-- Reference: https://github.com/SAP/macOS-enterprise-privileges
+
+local privCLI = "/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI"
+
+-- Check if Privileges CLI exists
+local function privCLIExists()
+    return hs.fs.attributes(privCLI) ~= nil
+end
+
+-- Only load if Privileges.app is installed
+if privCLIExists() then
+    -- Function to check current privilege status
+    local function getPrivilegeStatus()
+        -- Use shell wrapper to capture output properly
+        local output, status, type, rc = hs.execute("/bin/sh -c '" .. privCLI .. " --status 2>&1'", true)
+
+        print("[Privileges] Status check - Exit code: " .. tostring(rc))
+        print("[Privileges] Status output: '" .. tostring(output) .. "'")
+
+        if output and string.len(output) > 0 then
+            local lowerOutput = string.lower(output)
+            if string.find(lowerOutput, "administrator privileges") then
+                return "admin"
+            elseif string.find(lowerOutput, "standard user privileges") then
+                return "standard"
+            end
+        end
+
+        return "unknown"
+    end
+
+    -- Function to toggle Admin rights
+    local function toggleAdmin()
+        -- Check current status
+        local status = getPrivilegeStatus()
+        print("[Privileges] Current status: " .. status)
+
+        if status == "unknown" then
+            print("[Privileges] ERROR: Could not determine privilege status")
+            hs.alert.show("⚠️ Could not determine privilege status\nCheck Hammerspoon console")
+            return
+        end
+
+        if status == "standard" then
+            -- User is Standard -> Grant Admin
+            print("[Privileges] Granting admin rights...")
+            local addTask = hs.task.new(privCLI, function(exitCode, stdOut, stdErr)
+                print("[Privileges] Add result - Exit code: " .. tostring(exitCode))
+                if stdErr and string.len(stdErr) > 0 then
+                    print("[Privileges] Add stderr: " .. stdErr)
+                end
+
+                if exitCode == 0 then
+                    hs.notify.new({
+                        title = "Privileges",
+                        informativeText = "🔓 Admin rights GRANTED",
+                        soundName = "Glass"
+                    }):send()
+                    print("[Privileges] Admin rights granted successfully")
+                else
+                    print("[Privileges] ERROR: Failed to grant admin rights")
+                    hs.alert.show("⚠️ Failed to grant admin rights")
+                end
+            end, {"--add"})
+            addTask:start()
+            addTask:waitUntilExit()
+
+        else -- status == "admin"
+            -- User is Admin -> Revoke Admin
+            print("[Privileges] Revoking admin rights...")
+            local removeTask = hs.task.new(privCLI, function(exitCode, stdOut, stdErr)
+                print("[Privileges] Remove result - Exit code: " .. tostring(exitCode))
+                if stdErr and string.len(stdErr) > 0 then
+                    print("[Privileges] Remove stderr: " .. stdErr)
+                end
+
+                if exitCode == 0 then
+                    hs.notify.new({
+                        title = "Privileges",
+                        informativeText = "🔒 Admin rights REVOKED",
+                        soundName = "Glass"
+                    }):send()
+                    print("[Privileges] Admin rights revoked successfully")
+                else
+                    print("[Privileges] ERROR: Failed to revoke admin rights")
+                    hs.alert.show("⚠️ Failed to revoke admin rights")
+                end
+            end, {"--remove"})
+            removeTask:start()
+            removeTask:waitUntilExit()
+        end
+    end
+
+    -- Bind the hotkey: Command + Option + Control + P
+    hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", toggleAdmin)
+    print("[Privileges] Automation loaded - Cmd+Opt+Ctrl+P to toggle")
+end
 
 -- =============================================================================
 -- CONFIGURATION MANAGEMENT
