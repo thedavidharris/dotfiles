@@ -36,3 +36,5 @@ fish_variables
 .aws/credentials
 .ssh/id_*
 
+# Repo-specific AGENTS.md
+AGENTS.md

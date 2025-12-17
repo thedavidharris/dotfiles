@@ -2,18 +2,18 @@
 fnox = "latest"
 go = "latest"
 java = "temurin-21.0"
-node = 'lts'
-python = ['3.12']
-ruby = '3.4'
+node = "lts"
+python = ["3.12"]
+ruby = "3.4"
+tuist = "latest"
 
 [settings]
 always_keep_download = false
 always_keep_install = false
 asdf_compat = false
-legacy_version_file = true
-plugin_autoupdate_last_check_duration = '1 week'
+plugin_autoupdate_last_check_duration = "1 week"
 trusted_config_paths = [
-    '~/Developer',
+    "~/Developer",
 ]
 verbose = false
 

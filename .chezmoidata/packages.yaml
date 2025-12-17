@@ -96,7 +96,5 @@ packages:
     - 'font-inconsolata'
     - 'font-inconsolata-go-nerd-font'
     - 'font-inconsolata-nerd-font'
+
     taps:
-      - tap: robotsandpencils/made
-        brews:
-          - xcodes
