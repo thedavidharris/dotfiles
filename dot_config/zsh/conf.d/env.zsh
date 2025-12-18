@@ -48,8 +48,8 @@ export VISUAL=code
 if command -v fzf >/dev/null 2>&1; then
   # Source fzf key bindings and completion
   eval "$(fzf --zsh)"
-  # Source official Catppuccin Macchiato theme
-  [[ -f ~/.config/fzf/catppuccin-fzf-macchiato.sh ]] && source ~/.config/fzf/catppuccin-fzf-macchiato.sh
+  # Source Catppuccin Macchiato theme for fzf
+  [[ -f "$XDG_CONFIG_HOME/fzf/catppuccin-fzf-macchiato.sh" ]] && source "$XDG_CONFIG_HOME/fzf/catppuccin-fzf-macchiato.sh"
 fi
 
 # EXA/EZA colors - inherit from LS_COLORS and enhance

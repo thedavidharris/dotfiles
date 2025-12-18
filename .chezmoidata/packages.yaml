@@ -45,6 +45,13 @@ packages:
     - 'fd'
     - 'dust'
     - 'procs'
+    - 'btop'              # Better top
+    - 'hyperfine'         # Command benchmarking
+    - 'glow'              # Markdown viewer
+    - 'tokei'             # Code statistics
+    - 'sd'                # Simpler sed
+    - 'lazygit'           # Git TUI
+    - 'duf'               # Better df
 
     # System utilities
     - 'aria2'

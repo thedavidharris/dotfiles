@@ -29,6 +29,7 @@ zsh-users/zsh-history-substring-search
 
 # Utils
 mattmc3/zsh-safe-rm
+mroth/evalcache
 
 # Custom
 ${ZDOTDIR:-$HOME}/.zaliases
