@@ -2,11 +2,6 @@
 # tools
 #
 
-# 1Password CLI integration
-if type -q op
-    alias gh="op plugin run -- gh"
-end
-
 # Enable colors for grep (if not using rg)
 if not command -v rg >/dev/null
     alias grep="grep --color=auto"
