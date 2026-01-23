@@ -57,7 +57,6 @@ packages:
     - 'aria2'
     - 'blueutil'
     - 'nmap'
-    - 'speedtest-cli'
     - 'screen'
     - 'wget'
     - 'colordiff'
@@ -77,9 +76,6 @@ packages:
     - 'exiftool'
     - 'ffmpeg'
     - 'jhead'
-
-    # Text-to-speech and accessibility
-    - 'espeak'
 
     # Linux clipboard utilities (for cross-platform scripts)
     - 'xclip'
