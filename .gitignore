@@ -1,3 +1,13 @@
 support/config/iterm2/AppSupport
 vendor
 .vscode/
+.claude/settings.local.json
+
+#Temp
+.cursor/
+.claude/
+.agents */
+
+# Local environment files
+.env
+.env.*

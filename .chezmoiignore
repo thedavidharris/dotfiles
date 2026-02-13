@@ -32,9 +32,13 @@ fish_variables
 *.key
 *.pem
 *.p12
+.env
+.env.*
 .env.local
 .aws/credentials
 .ssh/id_*
 
-# Repo-specific AGENTS.md
+# Keep repo-local guidance local to this source repo.
 AGENTS.md
+
+scripts/

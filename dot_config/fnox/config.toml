@@ -1,0 +1,4 @@
+[providers]
+onepass = { type = "1password", vault = "Work" }
+
+[secrets]

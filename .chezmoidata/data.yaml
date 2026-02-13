@@ -8,7 +8,11 @@ github:
 tools:
   editor: "nvim"
   terminal: "ghostty"
-  shell: "zsh"
+  shell: "fish"
+
+# Shared service config used by templates.
+onepassword:
+  workVault: "Work"
 
 # Color scheme preferences
 colorscheme: "catppuccin_macchiato"

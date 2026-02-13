@@ -1,122 +1,124 @@
-# AGENTS.md - AI Assistant Guide
+# AGENTS.md - Repo AI Guide
 
-> **Guide for AI assistants working with this Chezmoi dotfiles repository**
+Guide for AI assistants working in this chezmoi source repository.
+
+## Scope
+
+- This root `AGENTS.md` is repo-local guidance only.
+- It is intentionally ignored by `.chezmoiignore` and is not synced to `$HOME`.
+- Home-synced agent guides:
+  - `dot_agents/AGENTS.md` -> `~/.agents/AGENTS.md`
 
 ## Repository Overview
 
-Chezmoi-managed dotfiles for David Harris. Modern, Catppuccin-themed, with Zsh primary and Fish secondary shells.
+Chezmoi-managed dotfiles for David Harris. This repo is fish-first, with zsh as
+secondary compatibility shell.
 
-## Architecture
+## Core Stack
 
-### Core Stack
-- **Chezmoi**: Dotfile management with templating
-- **Zsh + Zephyr**: Primary shell framework
-- **Fish + Fisher**: Alternative shell
-- **Neovim + LazyVim**: Editor
-- **1Password CLI**: Secret management
-- **Mise**: Tool version management
-- **Homebrew**: Package management
+- Chezmoi for dotfile management and templates
+- Fish + Fisher (primary shell setup)
+- Zsh + Zephyr (secondary shell setup)
+- Neovim + LazyVim
+- Mise for tool versions and env activation
+- 1Password CLI/SSH agent for secrets and signing
+- Homebrew managed via `packages.yaml`
 
-### Directory Structure
+## Directory Structure
+
+<!-- GENERATED:agents-structure START -->
+```text
+.
+|-- .chezmoidata/
+|-- bin/
+|-- docs/
+|-- dot_agents/
+|-- dot_config/
+|   |-- agents/
+|   |-- bash/
+|   |-- bat/
+|   |-- brew/
+|   |-- delta/
+|   |-- eza/
+|   |-- fish/
+|   |-- fnox/
+|   |-- ghostty/
+|   |-- git/
+|   |-- mise/
+|   |-- nvim/
+|   |-- private_1Password/
+|   |-- ripgrep/
+|   |-- shell/
+|   |-- starship.toml
+|   |-- zsh/
+|-- README.md
+|-- AGENTS.md
 ```
-chezmoi.toml.tmpl           # Chezmoi config (minimal)
-.chezmoidata/
-  data.yaml                 # Personal data (name, email, tools)
-  packages.yaml             # Homebrew packages
-.chezmoiignore              # Ignored files
-bin/                        # Scripts (executable_*)
-dot_config/
-  fish/                     # Fish shell config
-  zsh/                      # Zsh shell config
-  git/config.tmpl           # Git configuration
-  nvim/                     # Neovim (LazyVim)
-  starship.toml             # Prompt config
-  ghostty/config            # Terminal config
-  brew/Brewfile.tmpl        # Homebrew bundle
-```
+<!-- GENERATED:agents-structure END -->
 
 ## Template Variables
 
-Available in `.chezmoidata/data.yaml`:
-- `{{ .name }}` - Full name
-- `{{ .email }}` - Email
-- `{{ .github.username }}` - GitHub username
-- `{{ .tools.editor }}` - Editor (nvim)
-- `{{ .colorscheme }}` - Theme (catppuccin_macchiato)
+Primary data source: `.chezmoidata/data.yaml`.
 
-Chezmoi built-ins:
-- `{{ .chezmoi.hostname }}` - Machine hostname
-- `{{ .chezmoi.os }}` - Operating system
-- `{{ .chezmoi.arch }}` - Architecture
+- `name`, `email`, `github.username`
+- `tools.editor`, `tools.terminal`, `tools.shell`
+- `colorscheme`
 
-## Key Configuration Files
+Chezmoi built-ins often used in templates:
 
-### Zsh (Primary)
-- `dot_config/zsh/dot_zshrc` - Main config with Antidote plugin loading
-- `dot_config/zsh/dot_zshenv` - Environment, PATH, XDG dirs
-- `dot_config/zsh/dot_zaliases` - Aliases and modern tool replacements
-- `dot_config/zsh/dot_zplugins` - Antidote plugin list
-- `dot_config/zsh/conf.d/env.zsh` - Additional environment settings
-- `dot_config/zsh/functions/` - Autoloaded functions
+- `.chezmoi.hostname`
+- `.chezmoi.os`
+- `.chezmoi.arch`
 
-### Fish (Secondary)
-- `dot_config/fish/config.fish` - Main config (runs after conf.d)
-- `dot_config/fish/conf.d/__init__.fish` - XDG, PATH, Fisher init
-- `dot_config/fish/conf.d/env.fish` - Environment variables
-- `dot_config/fish/conf.d/abbr.fish` - Abbreviations
-- `dot_config/fish/conf.d/tools.fish` - Tool integrations
-- `dot_config/fish/functions/` - Custom functions
-- `dot_config/fish/fish_plugins` - Fisher plugin list
+## Key Config Files
 
-### Git
-- `dot_config/git/config.tmpl` - Main git config (templated)
-- Uses Delta for diffs, difftastic for semantic diffs
-- SSH signing via 1Password
+### Fish (Primary)
 
-## Packages
+- `dot_config/fish/config.fish`
+- `dot_config/fish/conf.d/__init__.fish`
+- `dot_config/fish/conf.d/env.fish`
+- `dot_config/fish/conf.d/tools.fish`
+- `dot_config/fish/fish_plugins`
 
-Defined in `.chezmoidata/packages.yaml`, rendered to `dot_config/brew/Brewfile.tmpl`.
+### Zsh (Secondary)
 
-Key packages: `bat`, `eza`, `fd`, `fzf`, `ripgrep`, `zoxide`, `starship`, `neovim`, `delta`, `difftastic`
+- `dot_config/zsh/dot_zshenv`
+- `dot_config/zsh/dot_zshrc`
+- `dot_config/zsh/conf.d/env.zsh`
+
+### Other
+
+- `dot_config/mise/config.toml` (runtime/env config)
+- `dot_config/git/config.tmpl` (git behavior + signing)
+- `dot_config/brew/Brewfile.tmpl` (rendered from package data)
+- `docs/PRIVACY.md` (privacy/work-config policy)
+
+## Package Source of Truth
+
+`packages.yaml` is the canonical package list.
+
+<!-- GENERATED:agents-packages START -->
+- Source of truth: `.chezmoidata/packages.yaml`
+- Homebrew formulas: `64`
+- Homebrew casks: `15`
+- Homebrew taps: `0`
+- Key tools: `fish`, `mise`, `chezmoi`, `neovim`, `ripgrep`, `fd`, `eza`, `starship`
+<!-- GENERATED:agents-packages END -->
 
 ## Common Operations
 
 ```bash
-chezmoi apply        # Apply changes
-chezmoi diff         # Preview changes
-chezmoi edit FILE    # Edit managed file
-chezmoi add FILE     # Add new file
-chezmoi data         # View template data
+chezmoi diff
+chezmoi apply
+chezmoi status
+chezmoi data
+docs-gen
+docs-lint
 ```
 
-## File Naming Conventions
+## Working Rules
 
-- `dot_*` → Files starting with `.`
-- `private_*` → Files with restricted permissions
-- `executable_*` → Executable scripts
-- `*.tmpl` → Template files
-- `empty_*` → Empty placeholder files
-
-## Design Principles
-
-- **Theme**: Catppuccin Macchiato everywhere
-- **Modern tools**: `eza`>`ls`, `bat`>`cat`, `fd`>`find`, `rg`>`grep`
-- **Secrets**: 1Password CLI for all secrets
-- **Performance**: Lazy loading, cached inits
-
-## Debugging
-
-```bash
-chezmoi status                    # Check status
-chezmoi data                      # View template data
-chezmoi cat ~/.zshrc              # Preview rendered file
-time zsh -i -c exit               # Profile zsh startup
-time fish -c exit                 # Profile fish startup
-```
-
-## Credits
-
-- [mattmc3/zephyr](https://github.com/mattmc3/zephyr) - Zsh framework
-- [mattmc3/fishconf](https://github.com/mattmc3/fishconf) - Fish config patterns
-- [LazyVim](https://lazyvim.github.io/) - Neovim config
-- [Catppuccin](https://github.com/catppuccin) - Color scheme
+- Prefer fish paths/examples unless zsh-specific behavior is required.
+- Keep company/internal values out of tracked files; use env-backed values.
+- Keep README/AGENTS generated sections current via `docs-gen`.
+- Do not edit `.env` in automation; treat as local-only.

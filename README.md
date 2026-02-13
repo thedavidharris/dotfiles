@@ -1,74 +1,72 @@
 # David's Dotfiles
 
-> **Managed with [Chezmoi](https://www.chezmoi.io/)**
+Managed with [Chezmoi](https://www.chezmoi.io/). This setup is fish-first,
+with zsh kept as a secondary shell.
 
-Personal dotfiles featuring Catppuccin color scheme, Zsh with Zephyr framework, Neovim with LazyVim, and 1Password integration.
-
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install Chezmoi
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
-
-# Initialize dotfiles
 chezmoi init --apply https://github.com/thedavidharris/dotfiles.git
-exec zsh  # Restart shell
+exec fish
 ```
 
-## 🎨 Features
-
-- **Zsh** with [Zephyr](https://github.com/mattmc3/zephyr) framework
-- **Neovim** with [LazyVim](https://lazyvim.github.io/) configuration
-- **Fish** shell with Fisher plugin manager
-- **Starship** prompt with Catppuccin Macchiato theme
-- **Mise** for tool version management
-- **1Password CLI** integration for secrets
-- **Delta** for beautiful git diffs
-- **Hammerspoon** for macOS automation
-
-## 🔧 Usage
+## Daily Workflow
 
 ```bash
-# Apply dotfiles changes
-chezmoi apply
-
-# Edit configurations
-chezmoi edit ~/.zshrc
+chezmoi diff                 # Preview changes
+chezmoi apply                # Apply changes
+chezmoi edit ~/.config/fish/config.fish
+chezmoi status               # Check source vs target drift
 ```
 
-## 🎯 Customization
+## Stack
 
-- **Aliases**: `dot_config/zsh/dot_zaliases`
-- **Environment**: `dot_config/zsh/dot_zshenv`
-- **Colors**: Catppuccin theme across all tools
-- **Packages**: Defined in `.chezmoidata/packages.yaml`
+- Shell: fish (primary), zsh (secondary)
+- Editor: Neovim (LazyVim)
+- Prompt/theme: Starship + Catppuccin Macchiato
+- Tool/runtime manager: mise
+- Secrets and signing: 1Password CLI + SSH agent
+- Package manager: Homebrew (`packages.yaml` -> `Brewfile.tmpl`)
 
-## 🐛 Troubleshooting
+## Repository Snapshot
 
-- **Shell issues**: Run `exec zsh` to reload
-- **Plugin problems**: Check `~/.zsh_plugins.zsh` exists
-- **Git signing**: Ensure 1Password SSH agent is running
+<!-- GENERATED:readme-structure START -->
+- `dot_config/fish`: primary fish shell config and plugin setup
+- `dot_config/zsh`: secondary zsh compatibility config
+- `dot_config/mise`: runtime/tool versions and env injection
+- `dot_config/git`: git behavior, aliases, and signing config
+- `dot_config/brew`: Brewfile template rendered from package data
+- `dot_config/nvim`: Neovim (LazyVim) configuration
+- `dot_agents`: home-synced agent rules and skills
+- `docs`: repo documentation and privacy policy
+- `bin`: executable helper scripts
+- `.chezmoidata`: data inputs for templates and package inventory
+<!-- GENERATED:readme-structure END -->
 
-## 🙏 Credits & Sources
+## Fish Plugins
 
-This configuration draws inspiration and uses code from:
+<!-- GENERATED:readme-fish-plugins START -->
+- `catppuccin/fish`
+- `franciscolourenco/done`
+- `jorgebucaran/autopair.fish`
+- `jorgebucaran/fisher`
+- `mattmc3/macos.fish`
+- `mattmc3/magic-enter.fish`
+- `mattmc3/up.fish`
+<!-- GENERATED:readme-fish-plugins END -->
 
-- **[mattmc3/zephyr](https://github.com/mattmc3/zephyr)** - Zsh framework and configuration inspiration
-- **[mattmc3/fishconf](https://github.com/mattmc3/fishconf)** - Fish shell configuration inspiration
-- **[LazyVim/LazyVim](https://lazyvim.github.io/)** - Neovim configuration framework
-- **[jorgebucaran/fisher](https://github.com/jorgebucaran/fisher)** - Fish plugin manager
-- **[Catppuccin](https://github.com/catppuccin)** - Color scheme
-- **Zsh community plugins**:
-  - [zsh-users/zsh-completions](https://github.com/zsh-users/zsh-completions)
-  - [zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
-  - [zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
-  - [zsh-users/zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
-- **Fish plugins**:
-  - [jethrokuan/z](https://github.com/jethrokuan/z) - Directory jumping
-  - [mattmc3/macos.fish](https://github.com/mattmc3/macos.fish) - macOS utilities
-  - [mattmc3/up.fish](https://github.com/mattmc3/up.fish) - Directory navigation
-  - [jorgebucaran/autopair.fish](https://github.com/jorgebucaran/autopair.fish) - Auto-pairing
-  - [franciscolourenco/done](https://github.com/franciscolourenco/done) - Notifications
-- **[Aloxaf/fzf-tab](https://github.com/Aloxaf/fzf-tab)** - Zsh completion with fzf
-- **[romkatv/zsh-bench](https://github.com/romkatv/zsh-bench)** - Zsh benchmarking tool
-- **[mattmc3/zsh-safe-rm](https://github.com/mattmc3/zsh-safe-rm)** - Safe rm wrapper
+## Privacy
+
+See `docs/PRIVACY.md` for the current privacy/work-config policy and local-only
+patterns for internal endpoints and credentials.
+
+## Keep Docs Updated
+
+```bash
+docs-gen
+docs-lint
+```
+
+`docs-gen` refreshes generated sections in `README.md` and `AGENTS.md`.
+`docs-lint` checks that generated docs are current and referenced paths exist.

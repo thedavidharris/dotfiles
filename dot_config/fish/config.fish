@@ -37,6 +37,14 @@ if type -q prj
     end
 end
 
+# Initialize fnox
+if type -q fnox
+    if not test -r $__fish_cache_dir/fnox_activate.fish
+        fnox activate fish >$__fish_cache_dir/fnox_activate.fish
+    end
+    test -s $__fish_cache_dir/fnox_activate.fish; and source $__fish_cache_dir/fnox_activate.fish
+end
+
 #
 # Prompt
 #
