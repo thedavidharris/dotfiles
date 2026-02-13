@@ -1,9 +1,35 @@
+# -----------------------------------------------------------------------------
+# Cross-platform externals
+# -----------------------------------------------------------------------------
+
+# Antidote plugin manager for zsh compatibility shell.
 [".config/zsh/.antidote"]
-  type = "git-repo"
-  url = "https://github.com/mattmc3/antidote.git"
-  refreshPeriod = "168h"
+    type = "git-repo"
+    url = "https://github.com/mattmc3/antidote.git"
+    refreshPeriod = "168h"
+
+# Agent skills sourced from upstream repositories.
+[".agents/skills/swiftui-expert-skill"]
+    type = "archive"
+    url = "https://github.com/AvdLee/SwiftUI-Agent-Skill/archive/refs/heads/main.zip"
+    exact = true
+    stripComponents = 2
+    include = ["*/swiftui-expert-skill/**"]
+    refreshPeriod = "168h"
+
+[".agents/skills/swift-concurrency"]
+    type = "archive"
+    url = "https://github.com/AvdLee/Swift-Concurrency-Agent-Skill/archive/refs/heads/main.zip"
+    exact = true
+    stripComponents = 2
+    include = ["*/swift-concurrency/**"]
+    refreshPeriod = "168h"
 
 {{ if eq .chezmoi.os "darwin" -}}
+# -----------------------------------------------------------------------------
+# macOS-specific externals
+# -----------------------------------------------------------------------------
+
 [".hammerspoon/Spoons/SpoonInstall.spoon"]
     type = "archive"
     url = "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip"

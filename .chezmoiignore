@@ -41,4 +41,8 @@ fish_variables
 # Keep repo-local guidance local to this source repo.
 AGENTS.md
 
+# Skill content is sourced via .chezmoiexternal.toml.
+dot_agents/skills/swift-concurrency/
+dot_agents/skills/swiftui-expert-skill/
+
 scripts/
