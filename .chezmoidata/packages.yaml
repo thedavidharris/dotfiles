@@ -1,91 +1,80 @@
 packages:
   darwin:
-    # Core system tools
     brews:
+    - 'aria2'
+    - 'bat'
+    - 'btop'              # Better top
+    - 'blueutil'
+    - 'chezmoi'
+    - 'colordiff'
     - 'coreutils'
+    - 'deno'
+    - 'difftastic'
+    - 'dust'
+    - 'duf'               # Better df
+    - 'eza'
+    - 'exiftool'
+    - 'fd'
+    - 'ffmpeg'
     - 'findutils'
-    - 'gnu-sed'
-    - 'grep'
-    - 'openssh'
-    - 'readline'
-    - 'moreutils'
-
-    # Development tools
+    - 'fish'
+    - 'fzf'
+    - 'gh'
     - 'git'
     - 'git-absorb'
+    - 'git-branchless'
     - 'git-delta'
+    - 'git-extras'
     - 'git-filter-repo'
     - 'git-lfs'
     - 'git-sizer'
-    - 'gh'
-    - 'mise'
-    - 'chezmoi'
-    - 'sops'
-    - 'hk'
-
-    # Build tools
+    - 'gnu-sed'
+    - 'glow'              # Markdown viewer
     - 'gradle'
     - 'gradle-completion'
-    - 'maven'
-    - 'pkl'
-
-    # CLI utilities
-    - 'bat'
-    - 'eza'
-    - 'fzf'
-    - 'jq'
-    - 'yq'
-    - 'vivid'
-    - 'zoxide'
-    - 'starship'
-    - 'difftastic'
-    - 'neovim'
-    # Modern alternatives
-    - 'ripgrep'
-    - 'fd'
-    - 'dust'
-    - 'procs'
-    - 'btop'              # Better top
-    - 'hyperfine'         # Command benchmarking
-    - 'glow'              # Markdown viewer
-    - 'tokei'             # Code statistics
-    - 'sd'                # Simpler sed
-    - 'lazygit'           # Git TUI
-    - 'duf'               # Better df
-
-    # System utilities
-    - 'aria2'
-    - 'blueutil'
-    - 'nmap'
-    - 'screen'
-    - 'wget'
-    - 'colordiff'
-    - 'scc'
-    - 'tree-sitter'
     - 'graphviz'
-
-    # Language specific
-    - 'fish'
+    - 'grep'
+    - 'hk'
+    - 'hyperfine'         # Command benchmarking
+    - 'jhead'
+    - 'jq'
+    - 'lazygit'           # Git TUI
+    - 'mise'
+    - 'maven'
+    - 'moreutils'
+    - 'neovim'
+    - 'nmap'
+    - 'openssh'
+    - 'pkl'
+    - 'procs'
+    - 'readline'
+    - 'ripgrep'
+    - 'scc'
+    - 'sd'                # Simpler sed
     - 'shellcheck'
+    - 'sops'
+    - 'sqlite'
+    - 'starship'
     - 'swiftformat'
     - 'swiftlint'
-    - 'zsh'
-    - 'sqlite'
-
-    # Media and multimedia tools
-    - 'exiftool'
-    - 'ffmpeg'
-    - 'jhead'
-
-    # Linux clipboard utilities (for cross-platform scripts)
-    - 'xclip'
+    - 'tree-sitter'
+    - 'tmux'
+    - 'tokei'             # Code statistics
     - 'trash-cli'
+    - 'vivid'
+    - 'wget'
+    - 'xclip'
+    - 'yq'
+    - 'zoxide'
+    - 'zsh'
 
-    - 'deno'
     casks:
     - '1password'
     - '1password-cli'
     - 'charles'
+    - 'font-inconsolata'
+    - 'font-inconsolata-go-nerd-font'
+    - 'font-inconsolata-nerd-font'
     - 'ghostty'
     - 'google-chrome'
     - 'hammerspoon'
@@ -95,9 +84,5 @@ packages:
     - 'stats'
     - 'visual-studio-code'
     - 'xcodes-app'
-    # Fonts
-    - 'font-inconsolata'
-    - 'font-inconsolata-go-nerd-font'
-    - 'font-inconsolata-nerd-font'
 
     taps:

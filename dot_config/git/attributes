@@ -1,0 +1,19 @@
+# diff
+*.mobileprovision diff=provision
+*.plist diff=plist
+*.zip diff=zip
+*.json diff=json
+
+*.js   diff=javascript
+*.py   diff=python
+*.rb   diff=ruby
+*.html diff=html
+
+# Common lockfiles
+package-lock.json linguist-generated
+yarn.lock linguist-generated
+pnpm-lock.yaml linguist-generated
+
+# Minified files
+*.min.js linguist-generated
+*.min.css linguist-generated
