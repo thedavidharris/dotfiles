@@ -29,8 +29,8 @@
     ds = -c diff.external=difft show --ext-diff
     dft = -c diff.external=difft diff
 
-    # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin master"
+    # Pull in remote changes and refresh submodules recursively
+    p = !git pull --rebase --autostash && git submodule update --init --recursive --remote
 
     # Clone a repository including all submodules
     c = clone --recursive
@@ -70,27 +70,11 @@
     # Find commits by commit message
     fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
-    # Remove branches that have already been merged with master
-    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    # Remove branches that have already been merged
+    dm = delete-merged-branches
 
     # List contributors with number of commits
     contributors = shortlog --summary --numbered
-
-    # Merge GitHub pull request on top of the current branch or,
-    # if a branch name is specified, on top of the specified branch
-    mpr = "!f() { \
-        declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
-        declare branch=\"${2:-$currentBranch}\"; \
-        if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-            git fetch origin refs/pull/$1/head:pr/$1 && \
-            git checkout -B $branch && \
-            git rebase $branch pr/$1 && \
-            git checkout -B $branch && \
-            git merge pr/$1 && \
-            git branch -D pr/$1 && \
-            git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-        fi \
-    }; f"
 
     # Checkout
     co = checkout
@@ -102,14 +86,11 @@
     # Undo-commit
     undo-commit = reset --soft HEAD^
 
-    # Clean merged branches
-    clean-merged = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
-
     # Prune branches deleted from remote
     prune = fetch --prune
 
-    # Stash all files including new files not added to tracking
-    stash-all = stash save --include-untracked
+    # Stash all files including untracked files
+    stash-all = stash push --include-untracked
 
     # Prettier git logs
     glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
@@ -131,16 +112,13 @@
     refs-by-date = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)'
 
     # Stash snapshot
-    snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+    snapshot = !git stash push --include-untracked -m "snapshot: $(date)" && git stash apply "stash@{0}"
 
     # Search for a given string in all patches
     searchcommits = !"f() { query=\"$1\"; shift; git log -S\"$query\" \"$@\"; }; f \"$@\""
 
     # Show the history difference between a local branch and its remote
-    divergence = log --left-right --graph --cherry-pick --oneline $1...origin/$1
-
-    # Show what you've done since yesterday
-    standup = log --since yesterday --author $(git config user.email) --pretty=short
+    divergence = "!f() { b=\"${1:-$(git branch --show-current)}\"; git log --left-right --graph --cherry-pick --oneline \"$b...origin/$b\"; }; f"
 
     # Show which commits are safe to amend/rebase
     unpushed = log @{u}.
@@ -153,7 +131,6 @@
     whitespace = fix
 
 [branch]
-    autosetupmerge = true
     sort = -committerdate
 
 [branch "main"]
@@ -161,9 +138,6 @@
 
 [branch "master"]
     pushRemote = NOPE
-
-[checkout]
-    guess = true
 
 [commit]
     gpgsign = true
@@ -178,9 +152,6 @@
 
     # Make `git rebase` safer on macOS
     trustctime = false
-
-    # Prevent showing files whose names contain non-ASCII symbols as unversioned
-    precomposeunicode = false
 
 [credential "https://github.com"]
 	helper =
@@ -244,7 +215,7 @@
 
 [help]
     # Automatically correct and execute mistyped commands
-    autocorrect = 1
+    autocorrect = prompt
 
 [http]
     # cookiefile = ~/.gitcookies
@@ -289,7 +260,9 @@
     rebase = true
 
 [push]
-    default = current
+    default = simple
+    autoSetupRemote = true
+    useForceIfIncludes = true
 
     # Make `git push` push relevant annotated tags when pushing branches out
     followTags = true
@@ -333,6 +306,9 @@
 
 [pile]
     cleanupRemoteOnSubmitFailure = true
+
+[git-extras]
+    default-branch = main
 
 [delta]
     navigate = true    # use n and N to move between diff sections

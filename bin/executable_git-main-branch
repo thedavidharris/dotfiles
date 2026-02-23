@@ -1,48 +1,76 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # =============================================================================
 # Get Main Branch Name
-# Detect if repo uses 'main' or 'master'
+# Detect the repo's default branch
 # =============================================================================
 # Usage: git-main-branch
 # Example: git-main-branch
 
 set -euo pipefail
 
-# Check if we're in a git repository
+default_from_remote_head() {
+  local remote="$1"
+  local ref
+  ref="$(git symbolic-ref --quiet "refs/remotes/${remote}/HEAD" 2>/dev/null || true)"
+  if [[ -n "$ref" ]]; then
+    printf '%s\n' "${ref#refs/remotes/${remote}/}"
+    return 0
+  fi
+  return 1
+}
+
+# Check if we're in a git repository.
 if ! git rev-parse --git-dir >/dev/null 2>&1; then
-  echo "master"
-  exit 0
-fi
-
-# First, check remote origin/main
-if git show-ref --verify --quiet refs/remotes/origin/main 2>/dev/null; then
   echo "main"
   exit 0
 fi
 
-# Check local main branch
-if git show-ref --verify --quiet refs/heads/main 2>/dev/null; then
-  echo "main"
+# Prefer the current branch's configured remote, then fall back to origin.
+remote="origin"
+current_branch="$(git branch --show-current 2>/dev/null || true)"
+if [[ -n "$current_branch" ]]; then
+  branch_remote="$(git config --get "branch.${current_branch}.remote" || true)"
+  if [[ -n "$branch_remote" ]]; then
+    remote="$branch_remote"
+  fi
+fi
+
+# Best signal: remote HEAD symbolic ref (e.g. refs/remotes/origin/HEAD).
+if default_branch="$(default_from_remote_head "$remote")"; then
+  echo "$default_branch"
   exit 0
 fi
 
-# Check local master branch
-if git show-ref --verify --quiet refs/heads/master 2>/dev/null; then
-  echo "master"
-  exit 0
+if [[ "$remote" != "origin" ]]; then
+  if default_branch="$(default_from_remote_head "origin")"; then
+    echo "$default_branch"
+    exit 0
+  fi
 fi
 
-# Check remote origin/master
-if git show-ref --verify --quiet refs/remotes/origin/master 2>/dev/null; then
-  echo "master"
-  exit 0
-fi
-
-# Fallback: check git config
+# Backward-compatible local override (legacy key used in this dotfiles repo).
 config_key="$(git rev-parse --show-toplevel 2>/dev/null | xargs basename).main-branch"
 if git config --local --get "$config_key" >/dev/null 2>&1; then
   git config --local --get "$config_key"
+  exit 0
+fi
+
+# Fallback for detached/offline repos.
+for candidate in main master trunk develop; do
+  if git show-ref --verify --quiet "refs/heads/${candidate}" 2>/dev/null; then
+    echo "$candidate"
+    exit 0
+  fi
+
+  if git show-ref --verify --quiet "refs/remotes/${remote}/${candidate}" 2>/dev/null; then
+    echo "$candidate"
+    exit 0
+  fi
+done
+
+# Last resort.
+if git config --get init.defaultBranch >/dev/null 2>&1; then
+  git config --get init.defaultBranch
 else
-  # Default fallback
   echo "main"
 fi

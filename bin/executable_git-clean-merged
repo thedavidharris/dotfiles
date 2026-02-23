@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Git Clean Merged Branches
+# Deletes merged branches and local branches with gone upstreams
+# =============================================================================
+
+set -euo pipefail
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Not a git repository." >&2
+  exit 1
+fi
+
+git fetch --prune
+git delete-merged-branches
+
+# Also delete local branches whose upstream has been removed from the remote.
+git for-each-ref refs/heads --format='%(refname:short) %(upstream:track,nobracket)' |
+  while read -r branch tracking; do
+    if [[ "$tracking" == "gone" ]]; then
+      if ! git branch -d "$branch" >/dev/null 2>&1; then
+        echo "Skipping branch '${branch}' (not safely deletable)." >&2
+      fi
+    fi
+  done
