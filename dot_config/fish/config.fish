@@ -29,12 +29,12 @@ if type -q zoxide
     test -s $__fish_cache_dir/zoxide_init.fish; and source $__fish_cache_dir/zoxide_init.fish
 end
 
-# Initialize prject jumping with 'prj'.
+# Initialize project jumping with 'prj'.
 if type -q prj
-    set -l __prj_init (prj -i fish ^/dev/null)
-    if test -n "$__prj_init"
-        printf '%s\n' $__prj_init | source
+    if not test -r $__fish_cache_dir/prj_init.fish
+        prj -i fish >$__fish_cache_dir/prj_init.fish 2>/dev/null
     end
+    test -s $__fish_cache_dir/prj_init.fish; and source $__fish_cache_dir/prj_init.fish
 end
 
 # Initialize fnox
@@ -67,13 +67,27 @@ end
 
 # Use vivid for LS_COLORS (matches terminal theme)
 if command -v vivid >/dev/null
-    set -gx LS_COLORS (vivid generate catppuccin-macchiato)
+    if not test -r $__fish_cache_dir/vivid_ls_colors.fish
+        echo "set -gx LS_COLORS '$(vivid generate catppuccin-macchiato)'" >$__fish_cache_dir/vivid_ls_colors.fish
+    end
+    test -s $__fish_cache_dir/vivid_ls_colors.fish; and source $__fish_cache_dir/vivid_ls_colors.fish
 end
 
 #
 # Local
 #
 
-if set -q DOTFILES.local; and test -r $DOTFILES.local/fish/config.fish
-    source $DOTFILES.local/fish/config.fish
+# Local machine/work overrides (untracked)
+set -l __local_fish_dir "$XDG_CONFIG_HOME/fish/local"
+set -q DOTFILES_LOCAL_FISH_DIR; and set __local_fish_dir "$DOTFILES_LOCAL_FISH_DIR"
+
+set -l __local_conf_dir "$__local_fish_dir/conf.d"
+if test -d "$__local_conf_dir"
+    for f in $__local_conf_dir/*.fish
+        test -r "$f"; and source "$f"
+    end
+end
+
+if test -r "$__local_fish_dir/config.fish"
+    source "$__local_fish_dir/config.fish"
 end

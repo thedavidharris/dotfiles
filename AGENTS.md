@@ -34,7 +34,6 @@ secondary compatibility shell.
 |-- docs/
 |-- dot_agents/
 |-- dot_config/
-|   |-- agents/
 |   |-- bash/
 |   |-- bat/
 |   |-- brew/
@@ -99,7 +98,7 @@ Chezmoi built-ins often used in templates:
 
 <!-- GENERATED:agents-packages START -->
 - Source of truth: `.chezmoidata/packages.yaml`
-- Homebrew formulas: `64`
+- Homebrew formulas: `58`
 - Homebrew casks: `15`
 - Homebrew taps: `0`
 - Key tools: `fish`, `mise`, `chezmoi`, `neovim`, `ripgrep`, `fd`, `eza`, `starship`

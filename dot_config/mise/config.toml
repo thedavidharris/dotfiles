@@ -25,8 +25,3 @@ verbose = false
 _.file =[
   ".env",
 ]
-ANTHROPIC_AUTH_TOKEN="{{env.LITELLM_API_KEY}}"
-# Keep endpoint local so repo never stores company domains.
-ANTHROPIC_BASE_URL="{{env.ANTHROPIC_BASE_URL}}"
-CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1

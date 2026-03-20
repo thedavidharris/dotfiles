@@ -27,7 +27,32 @@ chezmoi status               # Check source vs target drift
 - Prompt/theme: Starship + Catppuccin Macchiato
 - Tool/runtime manager: mise
 - Secrets and signing: 1Password CLI + SSH agent
-- Package manager: Homebrew (`packages.yaml` -> `Brewfile.tmpl`)
+- Package managers:
+  - macOS: Homebrew (`packages.yaml` -> `Brewfile.tmpl`)
+  - WSL/Linux: apt (base dependencies) + Homebrew (shared CLI tools)
+
+## Machine-Specific Data
+
+Use local machine overrides in `~/.config/chezmoi/chezmoi.toml` for values that
+must differ across systems.
+
+```toml
+[data]
+# Optional profile hint: macos | wsl | linux
+profile = "wsl"
+
+# Optional overrides used by templates.
+ssh_signing_program = "/opt/1Password/op-ssh-sign"
+ssh_agent_sock = "~/.1password/agent.sock"
+```
+
+Template defaults are already defined for macOS and Linux/WSL, and these keys
+allow per-machine overrides when paths differ.
+
+## WSL2 Quick Start
+
+See `docs/WSL.md` for full setup, including apt bootstrap, optional Linuxbrew,
+chezmoi initialization, and SSH signing verification.
 
 ## Repository Snapshot
 

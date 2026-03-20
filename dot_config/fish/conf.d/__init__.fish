@@ -37,12 +37,25 @@ test -d $__fish_cache_dir; or mkdir -p $__fish_cache_dir
 # Remove expired cache files (older than 20 hours).
 find $__fish_cache_dir -name '*.fish' -type f -mmin +1200 -delete; or true
 
-# Setup homebrew.
+# Setup homebrew / linuxbrew.
 if not test -s $__fish_cache_dir/brew_init.fish
-    if test -e /opt/homebrew/bin/brew
-        /opt/homebrew/bin/brew shellenv >$__fish_cache_dir/brew_init.fish
+    set --local brew_bin
+    for candidate in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew
+        if test -x $candidate
+            set brew_bin $candidate
+            break
+        end
+    end
+
+    if test -z "$brew_bin"
+        set brew_bin (command -s brew 2>/dev/null)
+    end
+
+    if test -n "$brew_bin"
+        $brew_bin shellenv >$__fish_cache_dir/brew_init.fish
     end
 end
+
 test -s $__fish_cache_dir/brew_init.fish; and source $__fish_cache_dir/brew_init.fish
 
 # Add bin directories to PATH (deduped, only if they exist).

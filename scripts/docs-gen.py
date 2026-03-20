@@ -12,10 +12,15 @@ ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
 AGENTS = ROOT / "AGENTS.md"
 PACKAGES = ROOT / ".chezmoidata" / "packages.yaml"
-FISH_PLUGINS = ROOT / "dot_config" / "fish" / "fish_plugins"
+FISH_PLUGINS = ROOT / "dot_config" / "fish" / "fish_plugins.tmpl"
 
 
 def parse_yaml_list(path: Path, key: str) -> list[str]:
+    """Collect all items from every occurrence of *key* in the YAML file.
+
+    This handles the nested packages.yaml structure where ``brews:`` (etc.)
+    appears under ``shared:``, ``darwin:``, and ``linux:`` sections.
+    """
     lines = path.read_text(encoding="utf-8").splitlines()
     items: list[str] = []
     in_section = False
@@ -26,7 +31,9 @@ def parse_yaml_list(path: Path, key: str) -> list[str]:
         indent = len(line) - len(line.lstrip(" "))
 
         if not in_section:
-            if stripped == f"{key}:":
+            if stripped == f"{key}:" or stripped == f"{key}: []":
+                if stripped.endswith("[]"):
+                    continue
                 in_section = True
                 section_indent = indent
             continue
@@ -35,7 +42,14 @@ def parse_yaml_list(path: Path, key: str) -> list[str]:
             continue
 
         if indent <= section_indent and not stripped.startswith("-"):
-            break
+            # End of this section — but keep scanning for more occurrences.
+            in_section = False
+            # Re-check this line as a potential new section header.
+            if stripped == f"{key}:" or stripped == f"{key}: []":
+                if not stripped.endswith("[]"):
+                    in_section = True
+                    section_indent = indent
+            continue
 
         if stripped.startswith("-"):
             value = stripped[1:].strip()
@@ -52,7 +66,7 @@ def read_fish_plugins(path: Path) -> list[str]:
     plugins: list[str] = []
     for line in path.read_text(encoding="utf-8").splitlines():
         value = line.strip()
-        if not value or value.startswith("#"):
+        if not value or value.startswith("#") or value.startswith("{{"):
             continue
         plugins.append(value)
     return plugins
@@ -99,7 +113,8 @@ def build_readme_structure() -> str:
 
 
 def build_readme_fish_plugins() -> str:
-    plugins = read_fish_plugins(FISH_PLUGINS)
+    plugins_file = FISH_PLUGINS if FISH_PLUGINS.exists() else ROOT / "dot_config" / "fish" / "fish_plugins"
+    plugins = read_fish_plugins(plugins_file)
     return "\n".join(f"- `{plugin}`" for plugin in plugins)
 
 

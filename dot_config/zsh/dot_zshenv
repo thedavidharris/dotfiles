@@ -12,22 +12,25 @@ mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
-# Set up homebrew paths
-if [[ $(arch) == arm64* ]]; then
-  export BREW_PREFIX=/opt/homebrew
-else
-  export BREW_PREFIX=/usr/local
+# Set up homebrew/linuxbrew paths if available (check known paths first, faster than PATH search)
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
 fi
 
 # Android
-export ANDROID_HOME=$HOME/Library/Android/sdk
+if [[ "$OSTYPE" == darwin* ]]; then
+  export ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
+else
+  export ANDROID_HOME="${ANDROID_HOME:-$HOME/Android/Sdk}"
+fi
 
 # =============================================================================
 # PATH CONFIGURATION
 # =============================================================================
-
-# Set path with Homebrew
-eval "$($BREW_PREFIX/bin/brew shellenv)"
 
 # Build path array (only add directories that exist)
 path=(
@@ -37,13 +40,19 @@ path=(
     $ANDROID_HOME/platform-tools(/N)     # Android tools
     $ANDROID_HOME/tools(/N)              # Android tools
     $ANDROID_HOME/tools/bin(/N)          # Android tools
-    $BREW_PREFIX/{,s}bin(/N)             # Homebrew binaries
     /usr/local/{,s}bin(/N)               # System binaries
     /bin                                 # Core system binaries
     $path                                # Existing PATH
 )
 
+if [[ -n "$HOMEBREW_PREFIX" ]]; then
+  path=(
+      $HOMEBREW_PREFIX/{,s}bin(/N)       # Homebrew binaries
+      $path
+  )
+fi
+
 # 1Password
 # This in zsh env because of the way it aliases key commands, although probably should find a way around this
-source ~/.config/op/plugins.sh
+[[ -f ~/.config/op/plugins.sh ]] && source ~/.config/op/plugins.sh
 export BASH_ENV="$XDG_CONFIG_HOME/bash/.bash_env_aliases"

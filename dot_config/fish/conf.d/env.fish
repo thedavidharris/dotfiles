@@ -1,18 +1,20 @@
 # All variables are universals here. They can be overridden with globals in config.fish
 
-# Android SDK
-set -q ANDROID_HOME; or set -Ux ANDROID_HOME $HOME/Library/Android/sdk
+# Android SDK and browser (OS-dependent defaults).
+set --local __os (uname -s)
+switch $__os
+    case Darwin
+        set -q ANDROID_HOME; or set -Ux ANDROID_HOME $HOME/Library/Android/sdk
+        set -q BROWSER; or set -Ux BROWSER open
+    case '*'
+        set -q ANDROID_HOME; or set -Ux ANDROID_HOME $HOME/Android/Sdk
+        set -q BROWSER; or set -Ux BROWSER xdg-open
+end
 
 # Set editor variables.
 set -q PAGER; or set -Ux PAGER less
 set -q VISUAL; or set -Ux VISUAL code
 set -q EDITOR; or set -Ux EDITOR nvim
-
-# Set browser on macOS.
-switch (uname -s)
-    case Darwin
-        set -q BROWSER; or set -Ux BROWSER open
-end
 
 # XDG apps
 set -q LESSHISTFILE; or set -Ux LESSHISTFILE $XDG_DATA_HOME/lesshst

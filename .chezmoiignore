@@ -11,6 +11,11 @@ README.md
 # Hammerspoon externals
 .hammerspoon/Spoons
 
+# Do not manage macOS-only Hammerspoon config outside macOS.
+{{ if ne .chezmoi.os "darwin" -}}
+dot_hammerspoon/
+{{ end -}}
+
 # Library folder (too large/personal)
 Library/
 

@@ -1,12 +1,21 @@
-{{ range .packages.darwin.taps -}}
-tap {{ .tap | quote }}
-{{ range .brews -}}
+{{- with (index .packages "shared") -}}
+{{- range .taps }}
+tap {{ . | quote }}
+{{- end }}
+{{- range .brews }}
 brew {{ . | quote }}
-{{ end -}}
-{{ end -}}
-{{ range .packages.darwin.brews -}}
+{{- end }}
+{{- end }}
+{{- with (index .packages .chezmoi.os) -}}
+{{- range .taps }}
+tap {{ . | quote }}
+{{- end }}
+{{- range .brews }}
 brew {{ . | quote }}
-{{ end -}}
-{{ range .packages.darwin.casks -}}
+{{- end }}
+{{- if and (eq $.chezmoi.os "darwin") .casks }}
+{{- range .casks }}
 cask {{ . | quote }}
-{{ end -}}
+{{- end }}
+{{- end }}
+{{- end }}
