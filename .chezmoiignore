@@ -5,6 +5,7 @@ README.md
 
 # macOS system files
 .DS_Store
+**/.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -26,12 +27,25 @@ README.md
 # Cache and temporary files
 *.log
 *.tmp
+*.bak
+**/*.bak
+*.backup
 *~
 .#*
 
 # Shell-specific generated files
 .zsh_plugins.zsh
+.config/zsh/.zsh_plugins.zsh
 fish_variables
+.config/fish/fish_variables
+
+# Shell state (history, sessions, caches)
+.zsh_history
+.zsh_sessions
+.zsh-evalcache
+.bash_sessions
+.bash_history
+.python_history
 
 # Ignore sensitive files that shouldn't be in version control
 *.key
@@ -43,11 +57,97 @@ fish_variables
 .aws/credentials
 .ssh/id_*
 
+# SSH runtime and machine-specific files
+.ssh/agent
+.ssh/known_hosts
+.ssh/known_hosts.old
+.ssh/*.pub
+
+# Credentials and secrets
+.vault-token
+.gnupg
+
+# macOS standard home directories (never managed)
+Applications
+Desktop
+Developer
+Documents
+Downloads
+Google Drive
+Movies
+Music
+Pictures
+PrinterLogic
+Public
+
+# macOS system files
+.CFUserTextEncoding
+.Trash
+.cups
+
+# Development caches and build artifacts
+.android
+.bundle
+.cache
+.gem
+.gradle
+.hawtjni
+.local
+.m2
+.npm
+.rnd
+.swiftpm
+go
+.config/.android
+.config/gradle
+.config/swiftpm
+
+# Fish auto-managed state (installed/managed by fisher)
+.config/fish/.fisher
+.config/fish/.vscode
+.config/fish/functions/fisher.fish
+.config/fish/completions/fisher.fish
+.config/fish/themes
+.config/fish/local
+
+# Neovim lockfiles (auto-generated)
+.config/nvim/lazy-lock.json
+
+# Tool configs containing auth tokens
+.config/gh
+.config/acli
+.config/vault
+.config/op
+.config/chezmoi
+.dogrc
+
+# App-managed tool state
+.config/configstore
+.config/.vscode
+.config/Code
+.config/mole
+.config/crush
+.config/agents
+
+# iOS/Android development artifacts
+.emulator_console_auth_token
+.ios-newsreader-fusion-save
+.mobiledev
+.maestro
+
+# Other runtime state
+.workflow-cache
+.osquery
+.bitrise
+
+# Agents runtime state
+.agents/.skill-lock.json
+
+# Claude CLI state (not config)
+.claude.json
+
 # Keep repo-local guidance local to this source repo.
 AGENTS.md
-
-# Skill content is sourced via .chezmoiexternal.toml.
-dot_agents/skills/swift-concurrency/
-dot_agents/skills/swiftui-expert-skill/
+.agents/AGENTS.md
 
 scripts/

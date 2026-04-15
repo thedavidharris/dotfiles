@@ -1,2 +1,4 @@
+min-release-age=7 # days
+ignore-scripts=true
 progress=false
 save=true
