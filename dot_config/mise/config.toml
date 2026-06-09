@@ -7,10 +7,6 @@ python = ["3.12"]
 ruby = "3.4"
 tuist = "latest"
 
-"npm:xcodebuildmcp" = "beta"
-
-"pipx:DataDog/datadogpy" = "latest"
-
 [settings]
 always_keep_download = false
 always_keep_install = false

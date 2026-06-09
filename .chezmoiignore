@@ -148,6 +148,5 @@ go
 
 # Keep repo-local guidance local to this source repo.
 AGENTS.md
-.agents/AGENTS.md
 
 scripts/

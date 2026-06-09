@@ -8,21 +8,11 @@
     url = "https://github.com/mattmc3/antidote.git"
     refreshPeriod = "168h"
 
-# Agent skills sourced from upstream repositories.
-[".agents/skills/swiftui-expert-skill"]
-    type = "archive"
-    url = "https://github.com/AvdLee/SwiftUI-Agent-Skill/archive/refs/heads/main.zip"
-    exact = true
-    stripComponents = 2
-    include = ["*/swiftui-expert-skill/**"]
-    refreshPeriod = "168h"
-
-[".agents/skills/swift-concurrency"]
-    type = "archive"
-    url = "https://github.com/AvdLee/Swift-Concurrency-Agent-Skill/archive/refs/heads/main.zip"
-    exact = true
-    stripComponents = 2
-    include = ["*/swift-concurrency/**"]
+# Agent config and skills from dot_agents repo (private, requires SSH).
+# Cloned to ~/.agents/; skills reachable via root symlink at ~/.agents/skills/.
+[".agents"]
+    type = "git-repo"
+    url = "git@github.com:thedavidharris/dot_agents.git"
     refreshPeriod = "168h"
 
 [".config/bat/themes"]
