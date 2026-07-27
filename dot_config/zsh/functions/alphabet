@@ -1,4 +1,0 @@
-# Print the English alphabet
-# Usage: alphabet
-echo "abcdefghijklmnopqrstuvwxyz"
-echo "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

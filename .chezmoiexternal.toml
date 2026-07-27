@@ -2,12 +2,6 @@
 # Cross-platform externals
 # -----------------------------------------------------------------------------
 
-# Antidote plugin manager for zsh compatibility shell.
-[".config/zsh/.antidote"]
-    type = "git-repo"
-    url = "https://github.com/mattmc3/antidote.git"
-    refreshPeriod = "168h"
-
 # Agent config and skills from dot_agents repo (private, requires SSH).
 # Cloned to ~/.agents/; skills reachable via root symlink at ~/.agents/skills/.
 [".agents"]

@@ -1,8 +1,0 @@
-# =============================================================================
-# Convert String to Uppercase
-# Convert text to uppercase
-# =============================================================================
-# Usage: echo "text" | uppered
-# Example: echo "hello" | uppered
-
-tr '[:lower:]' '[:upper:]'
