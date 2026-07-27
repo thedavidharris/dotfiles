@@ -19,6 +19,3 @@ trusted_config_paths = [
 verbose = false
 
 [env]
-_.file =[
-  ".env",
-]
