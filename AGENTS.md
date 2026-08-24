@@ -79,12 +79,6 @@ Chezmoi built-ins often used in templates:
 - `dot_config/fish/conf.d/tools.fish`
 - `dot_config/fish/fish_plugins`
 
-### Zsh (Secondary)
-
-- `dot_config/zsh/dot_zshenv`
-- `dot_config/zsh/dot_zshrc`
-- `dot_config/zsh/conf.d/env.zsh`
-
 ### Other
 
 - `dot_config/mise/config.toml` (runtime/env config)
