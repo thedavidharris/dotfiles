@@ -189,7 +189,7 @@
     cachetextconv = true
 
 [diff "json"]
-    textconv = !jq --sort-keys .
+    textconv = jq --sort-keys .
 
 [difftool "difftastic"]
     # See `man git-difftool` for a description of MERGED, LOCAL and REMOTE
