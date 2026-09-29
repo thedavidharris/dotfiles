@@ -2,6 +2,7 @@ packages:
   shared:
     brews:
       - 'aria2'
+      - 'bash'
       - 'bat'
       - 'btop'              # Better top
       - 'chezmoi'
