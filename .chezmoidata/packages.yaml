@@ -29,7 +29,6 @@ packages:
       - 'git-lfs'
       - 'git-sizer'
       - 'glow'              # Markdown viewer
-      - 'gradle'
       - 'graphviz'
       - 'grep'
       - 'hk'
@@ -66,7 +65,6 @@ packages:
     brews:
       - 'blueutil'
       - 'gnu-sed'
-      - 'gradle-completion'
       - 'jhead'
       - 'nmap'
       - 'pkl'
@@ -75,6 +73,7 @@ packages:
     casks:
       - '1password'
       - '1password-cli'
+      - 'android-cli'
       - 'charles'
       - 'font-inconsolata'
       - 'font-inconsolata-go-nerd-font'

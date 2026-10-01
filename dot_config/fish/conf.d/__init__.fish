@@ -67,8 +67,6 @@ set -g prepath (
         $HOME/.local/sbin \
         $HOME/.cargo/bin \
         $ANDROID_HOME/platform-tools \
-        $ANDROID_HOME/tools \
-        $ANDROID_HOME/tools/bin \
         $HOMEBREW_PREFIX/bin \
         $HOMEBREW_PREFIX/sbin \
         /usr/local/bin \
