@@ -1,13 +1,11 @@
 # All variables are universals here. They can be overridden with globals in config.fish
 
-# Android SDK and browser (OS-dependent defaults).
+# Browser (OS-dependent defaults).
 set --local __os (uname -s)
 switch $__os
     case Darwin
-        set -q ANDROID_HOME; or set -Ux ANDROID_HOME $HOME/Library/Android/sdk
         set -q BROWSER; or set -Ux BROWSER open
     case '*'
-        set -q ANDROID_HOME; or set -Ux ANDROID_HOME $HOME/Android/Sdk
         set -q BROWSER; or set -Ux BROWSER xdg-open
 end
 

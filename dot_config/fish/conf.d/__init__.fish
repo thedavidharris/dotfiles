@@ -66,7 +66,6 @@ set -g prepath (
         $HOME/.local/bin \
         $HOME/.local/sbin \
         $HOME/.cargo/bin \
-        $ANDROID_HOME/platform-tools \
         $HOMEBREW_PREFIX/bin \
         $HOMEBREW_PREFIX/sbin \
         /usr/local/bin \
@@ -79,3 +78,6 @@ fish_add_path --prepend --move $prepath
 if status is-interactive
     init_fisher
 end
+
+# adb lives in the SDK; everything else goes through the android cli.
+fish_add_path --append (path filter $HOME/Library/Android/sdk/platform-tools $HOME/Android/Sdk/platform-tools)
