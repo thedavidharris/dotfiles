@@ -6,23 +6,16 @@ Guide for AI assistants working in this chezmoi source repository.
 
 - This root `AGENTS.md` is repo-local guidance only.
 - It is intentionally ignored by `.chezmoiignore` and is not synced to `$HOME`.
-- Home-synced agent guides:
-  - `dot_agents/AGENTS.md` -> `~/.agents/AGENTS.md`
+- Agent config is not stored here. `~/.agents` is cloned from a private repo
+  (chezmoi external) and holds `AGENTS.md`, personal skills, and `agents.base.toml`.
+- On work machines (`isWork`), a separate private work repo adds `agents.work.toml`.
+- A chezmoi script composes `~/.agents/agents.toml` from base (+ work) and runs
+  `dotagents install`. Treat `agents.toml` as generated; never run `dotagents add` on it.
 
 ## Repository Overview
 
 Chezmoi-managed dotfiles for David Harris. This repo is fish-first, with zsh as
 secondary compatibility shell.
-
-## Core Stack
-
-- Chezmoi for dotfile management and templates
-- Fish + Fisher (primary shell setup)
-- Zsh + Zephyr (secondary shell setup)
-- Neovim + LazyVim
-- Mise for tool versions and env activation
-- 1Password CLI/SSH agent for secrets and signing
-- Homebrew managed via `packages.yaml`
 
 ## Directory Structure
 
@@ -32,7 +25,6 @@ secondary compatibility shell.
 |-- .chezmoidata/
 |-- bin/
 |-- docs/
-|-- dot_agents/
 |-- dot_config/
 |   |-- bash/
 |   |-- bat/
@@ -49,42 +41,16 @@ secondary compatibility shell.
 |   |-- ripgrep/
 |   |-- shell/
 |   |-- starship.toml
-|   |-- zsh/
+|   |-- uv/
 |-- README.md
 |-- AGENTS.md
 ```
 <!-- GENERATED:agents-structure END -->
 
-## Template Variables
+## Template Data
 
-Primary data source: `.chezmoidata/data.yaml`.
-
-- `name`, `email`, `github.username`
-- `tools.editor`, `tools.terminal`, `tools.shell`
-- `colorscheme`
-
-Chezmoi built-ins often used in templates:
-
-- `.chezmoi.hostname`
-- `.chezmoi.os`
-- `.chezmoi.arch`
-
-## Key Config Files
-
-### Fish (Primary)
-
-- `dot_config/fish/config.fish`
-- `dot_config/fish/conf.d/__init__.fish`
-- `dot_config/fish/conf.d/env.fish`
-- `dot_config/fish/conf.d/tools.fish`
-- `dot_config/fish/fish_plugins`
-
-### Other
-
-- `dot_config/mise/config.toml` (runtime/env config)
-- `dot_config/git/config.tmpl` (git behavior + signing)
-- `dot_config/brew/Brewfile.tmpl` (rendered from package data)
-- `docs/PRIVACY.md` (privacy/work-config policy)
+`.chezmoidata/data.yaml` (name, email, tools, colorscheme) plus `isWork` from
+`~/.config/chezmoi/chezmoi.toml`.
 
 ## Package Source of Truth
 
@@ -92,8 +58,8 @@ Chezmoi built-ins often used in templates:
 
 <!-- GENERATED:agents-packages START -->
 - Source of truth: `.chezmoidata/packages.yaml`
-- Homebrew formulas: `58`
-- Homebrew casks: `15`
+- Homebrew formulas: `68`
+- Homebrew casks: `16`
 - Homebrew taps: `0`
 - Key tools: `fish`, `mise`, `chezmoi`, `neovim`, `ripgrep`, `fd`, `eza`, `starship`
 <!-- GENERATED:agents-packages END -->
@@ -105,13 +71,12 @@ chezmoi diff
 chezmoi apply
 chezmoi status
 chezmoi data
-docs-gen
-docs-lint
+python3 scripts/docs-gen.py
 ```
 
 ## Working Rules
 
 - Prefer fish paths/examples unless zsh-specific behavior is required.
 - Keep company/internal values out of tracked files; use env-backed values.
-- Keep README/AGENTS generated sections current via `docs-gen`.
+- Keep README/AGENTS generated sections current via `python3 scripts/docs-gen.py`.
 - Do not edit `.env` in automation; treat as local-only.

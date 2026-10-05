@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Compose ~/.agents/agents.toml from the base config (plus the work overlay on
+# work machines) and run dotagents install when the result changed.
+
+set -euo pipefail
+
+AGENTS_DIR="$HOME/.agents"
+BASE="$AGENTS_DIR/agents.base.toml"
+TARGET="$AGENTS_DIR/agents.toml"
+COMPOSED="$(mktemp)"
+trap 'rm -f "$COMPOSED"' EXIT
+
+if [[ ! -f "$BASE" ]]; then
+    echo >&2 "warning: $BASE not found, skipping agents setup"
+    exit 0
+fi
+
+cat "$BASE" > "$COMPOSED"
+{{ if .isWork -}}
+WORK="$HOME/.agents-work/agents.work.toml"
+if [[ -f "$WORK" ]]; then
+    printf '\n' >> "$COMPOSED"
+    cat "$WORK" >> "$COMPOSED"
+else
+    echo >&2 "warning: $WORK not found, composing base only"
+fi
+{{ end -}}
+
+if [[ -f "$TARGET" ]] && cmp -s "$COMPOSED" "$TARGET"; then
+    exit 0
+fi
+
+cp "$COMPOSED" "$TARGET"
+echo "Installing agent skills and MCP servers..."
+npx -y @sentry/dotagents@3 install

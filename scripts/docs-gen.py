@@ -99,7 +99,6 @@ def build_readme_structure() -> str:
         "dot_config/git": "git behavior, aliases, and signing config",
         "dot_config/brew": "Brewfile template rendered from package data",
         "dot_config/nvim": "Neovim (LazyVim) configuration",
-        "dot_agents": "home-synced agent rules and skills",
         "docs": "repo documentation and privacy policy",
         "bin": "executable helper scripts",
         ".chezmoidata": "data inputs for templates and package inventory",
@@ -121,7 +120,7 @@ def build_readme_fish_plugins() -> str:
 def build_agents_structure() -> str:
     dot_config = ROOT / "dot_config"
     children = sorted(p.name for p in dot_config.iterdir())
-    lines = ["```text", ".", "|-- .chezmoidata/", "|-- bin/", "|-- docs/", "|-- dot_agents/", "|-- dot_config/"]
+    lines = ["```text", ".", "|-- .chezmoidata/", "|-- bin/", "|-- docs/", "|-- dot_config/"]
     for name in children:
         suffix = "/" if (dot_config / name).is_dir() else ""
         lines.append(f"|   |-- {name}{suffix}")

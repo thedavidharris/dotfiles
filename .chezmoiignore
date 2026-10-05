@@ -140,13 +140,16 @@ go
 .osquery
 .bitrise
 
-# Agents runtime state
+# Agents runtime state (agents.toml is composed by run_after_30-agents.sh)
 .agents/.skill-lock.json
+.agents/agents.toml
+.agents/agents.lock
 
 # Claude CLI state (not config)
 .claude.json
 
 # Keep repo-local guidance local to this source repo.
 AGENTS.md
+CLAUDE.md
 
 scripts/

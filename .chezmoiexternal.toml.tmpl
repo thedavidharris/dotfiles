@@ -9,6 +9,14 @@
     url = "git@github.com:thedavidharris/dot_agents.git"
     refreshPeriod = "168h"
 
+{{ if .isWork -}}
+# Work agent config overlay (private, requires SSH).
+[".agents-work"]
+    type = "git-repo"
+    url = "git@github.com:thedavidharris/dot_agents_work.git"
+    refreshPeriod = "168h"
+
+{{ end -}}
 [".config/bat/themes"]
     type = "archive"
     url = "https://github.com/catppuccin/bat/archive/refs/heads/main.zip"

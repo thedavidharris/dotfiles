@@ -6,7 +6,7 @@ vendor
 #Temp
 .cursor/
 .claude/
-.agents */
+.agents/
 
 # Local environment files
 .env

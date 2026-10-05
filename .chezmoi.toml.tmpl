@@ -1,4 +1,6 @@
+{{- $isWork := promptBoolOnce . "isWork" "Is this a work machine" false -}}
 [data]
+    isWork = {{ $isWork }}
     name = "David Harris"
     email = "davidaharris@outlook.com"
     github = { username = "thedavidharris" }
