@@ -14,7 +14,7 @@ tuist = "latest"
 always_keep_download = false
 always_keep_install = false
 asdf_compat = false
-install_before = "7d"
+minimum_release_age = "7d"
 plugin_autoupdate_last_check_duration = "1 week"
 trusted_config_paths = [
     "~/Developer",
