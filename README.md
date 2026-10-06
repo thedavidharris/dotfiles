@@ -85,8 +85,8 @@ name = "swiftui-pro"
 source = "twostraws/SwiftUI-Agent-Skill"   # owner/repo; add path = "dir" if nested
 
 [[mcp]]
-name = "context7"
-url = "https://mcp.context7.com/mcp"
+name = "example"
+url = "https://example.com/mcp"
 ```
 
 Find a skill's `path` with `gh repo clone <owner/repo> /tmp/x -- --depth 1` and
