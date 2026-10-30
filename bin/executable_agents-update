@@ -6,4 +6,8 @@
 
 set -euo pipefail
 
-chezmoi apply --refresh-externals=always
+targets=("$HOME/.agents")
+[[ -d "$HOME/.agents-work" ]] && targets+=("$HOME/.agents-work")
+
+chezmoi apply --refresh-externals=always "${targets[@]}"
+chezmoi execute-template < "$(chezmoi source-path)/.chezmoiscripts/run_after_30-agents.sh.tmpl" | bash
