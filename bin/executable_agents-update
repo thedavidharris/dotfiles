@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Agents Update
+# Pull the latest dot_agents (and work overlay) and reinstall skills/MCP servers
+# =============================================================================
+
+set -euo pipefail
+
+chezmoi apply --refresh-externals=always
