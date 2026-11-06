@@ -11,7 +11,6 @@ tuist = "latest"
 "npm:ccstatusline" = "latest"
 
 [settings]
-always_keep_download = false
 always_keep_install = false
 asdf_compat = false
 minimum_release_age = "7d"
