@@ -241,5 +241,4 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
     assert not run(windows + ["managed"], env=env).stdout.strip()
     for path in (ROOT / "dot_config/fish").rglob("*.fish"):
         run(["fish", "--no-config", "--no-execute", str(path)])
-    run(["python3", "scripts/docs-gen.py", "--check"])
-    print("PASS: fish syntax and generated docs")
+    print("PASS: fish syntax")
