@@ -1,4 +1,4 @@
-{{ if includeTemplate "install-agents" . -}}
+{{ if and (ne .chezmoi.os "windows") (index . "installAgents") -}}
 #!/bin/bash
 
 # Compose ~/.agents/agents.toml from the base config (plus the work overlay on
@@ -42,7 +42,7 @@ else
 fi
 {{ end -}}
 
-if [[ -f "$TARGET" && -f "$INSTALLED" ]] && cmp -s "$COMPOSED" "$TARGET" && cmp -s "$COMPOSED" "$INSTALLED"; then
+if cmp -s "$COMPOSED" "$TARGET" && cmp -s "$COMPOSED" "$INSTALLED"; then
     exit 0
 fi
 
@@ -51,10 +51,8 @@ cp "$COMPOSED" "$TARGET"
 # Run from HOME so a caller's project config cannot select a different runtime.
 cd "$HOME"
 mise install node
-NODE_DIR="$(mise where node)"
-export PATH="$NODE_DIR/bin:$PATH"
 echo "Installing agent skills and MCP servers..."
-npx -y @sentry/dotagents@3 --user install
+mise exec node -- npx -y @sentry/dotagents@3 --user install
 
 # Record success only after installation. A failed apply must retry next time.
 mkdir -p "$(dirname "$INSTALLED")"

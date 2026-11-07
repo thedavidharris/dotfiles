@@ -1,0 +1,14 @@
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+set -euo pipefail
+
+{{ template "brew-shellenv.sh" . }}
+
+if ! command -v brew >/dev/null 2>&1; then
+    echo >&2 "Install Homebrew with this repo's install.sh, then rerun chezmoi apply."
+    exit 1
+fi
+
+brew bundle check --no-upgrade --file="$HOME/.config/brew/Brewfile" ||
+    brew bundle install --no-upgrade --file="$HOME/.config/brew/Brewfile"
+{{ end -}}

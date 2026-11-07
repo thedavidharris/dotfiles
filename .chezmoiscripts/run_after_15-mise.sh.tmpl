@@ -1,0 +1,9 @@
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+set -euo pipefail
+
+{{ template "brew-shellenv.sh" . }}
+
+cd "$HOME"
+mise install
+{{ end -}}

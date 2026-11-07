@@ -3,7 +3,7 @@
 # Cross-platform externals
 # -----------------------------------------------------------------------------
 
-{{ if includeTemplate "install-agents" . -}}
+{{ if and (ne .chezmoi.os "windows") (index . "installAgents") -}}
 # Agent config and skills from dot_agents repo (private, requires SSH).
 # Cloned to ~/.agents/; skills reachable via root symlink at ~/.agents/skills/.
 [".agents"]

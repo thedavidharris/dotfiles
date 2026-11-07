@@ -1,83 +1,21 @@
-#
-# __init__: Anything that needs to be first.
-#
+# Shared paths and defaults for interactive shells and scripts.
+set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
+set -q XDG_DATA_HOME; or set -gx XDG_DATA_HOME $HOME/.local/share
+set -q XDG_STATE_HOME; or set -gx XDG_STATE_HOME $HOME/.local/state
+set -q XDG_CACHE_HOME; or set -gx XDG_CACHE_HOME $HOME/.cache
 
-# Set XDG basedirs.
-# https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-set -q XDG_CONFIG_HOME; or set -Ux XDG_CONFIG_HOME $HOME/.config
-set -q XDG_DATA_HOME; or set -Ux XDG_DATA_HOME $HOME/.local/share
-set -q XDG_STATE_HOME; or set -Ux XDG_STATE_HOME $HOME/.local/state
-set -q XDG_CACHE_HOME; or set -Ux XDG_CACHE_HOME $HOME/.cache
-for xdgdir in (path filter -vd $XDG_CONFIG_HOME $XDG_DATA_HOME $XDG_STATE_HOME $XDG_CACHE_HOME)
-    mkdir -p $xdgdir
-end
-
-# Ensure manpath is set to something so we can add to it.
-set -q MANPATH || set -gx MANPATH ''
-
-# Add more man page paths.
-for manpath in (path filter $__fish_data_dir/man /usr/local/share/man /usr/share/man)
-    set -a MANPATH $manpath
-end
-
-# Allow subdirs for functions and completions.
-set fish_function_path (path resolve $__fish_config_dir/functions/*/) $fish_function_path
-set fish_complete_path (path resolve $__fish_config_dir/completions/*/) $fish_complete_path
-
-# Setup caching.
-if not set -q __fish_cache_dir
-    if set -q XDG_CACHE_HOME
-        set -U __fish_cache_dir $XDG_CACHE_HOME/fish
-    else
-        set -U __fish_cache_dir $HOME/.cache/fish
-    end
-end
-test -d $__fish_cache_dir; or mkdir -p $__fish_cache_dir
-
-# Remove expired cache files (older than 20 hours).
-find $__fish_cache_dir -name '*.fish' -type f -mmin +1200 -delete; or true
-
-# Setup homebrew / linuxbrew.
-if not test -s $__fish_cache_dir/brew_init.fish
-    set --local brew_bin
-    for candidate in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew
-        if test -x $candidate
-            set brew_bin $candidate
-            break
-        end
-    end
-
-    if test -z "$brew_bin"
-        set brew_bin (command -s brew 2>/dev/null)
-    end
-
-    if test -n "$brew_bin"
-        $brew_bin shellenv fish >$__fish_cache_dir/brew_init.fish
+for brew_bin in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew
+    if test -x $brew_bin
+        $brew_bin shellenv fish | source
+        break
     end
 end
 
-test -s $__fish_cache_dir/brew_init.fish; and source $__fish_cache_dir/brew_init.fish
+# Prefer Homebrew tools over older standalone installs.
+fish_add_path --global --prepend (path filter $HOME/bin $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin $HOME/.local/bin $HOME/.cargo/bin)
+fish_add_path --global --append (path filter $HOME/Library/Android/sdk/platform-tools $HOME/Android/Sdk/platform-tools)
+set -p fish_function_path $__fish_config_dir/functions/aliases
 
-# Add bin directories to PATH (deduped, only if they exist).
-set -g prepath (
-    path filter \
-        $HOME/bin \
-        $HOME/sbin \
-        $HOME/.local/bin \
-        $HOME/.local/sbin \
-        $HOME/.cargo/bin \
-        $HOMEBREW_PREFIX/bin \
-        $HOMEBREW_PREFIX/sbin \
-        /usr/local/bin \
-        /usr/local/sbin \
-        /bin
-)
-fish_add_path --prepend --move $prepath
-
-# Fisher (run after PATH/homebrew is set; only in interactive shells)
 if status is-interactive
     init_fisher
 end
-
-# adb lives in the SDK; everything else goes through the android cli.
-fish_add_path --append (path filter $HOME/Library/Android/sdk/platform-tools $HOME/Android/Sdk/platform-tools)

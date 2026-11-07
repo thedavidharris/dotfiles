@@ -1,60 +1,46 @@
 # David's Dotfiles
 
-Fish, Neovim, and developer tools for macOS and Ubuntu on WSL 2, managed with
-[chezmoi](https://www.chezmoi.io/). Homebrew installs packages and mise manages
-language runtimes.
+Fish, Neovim, and developer tools for macOS and Ubuntu on WSL 2.
+Chezmoi manages files, Homebrew installs tools, and mise provides Node.
 
-## Setup
+## Install
 
-On macOS, install the Xcode Command Line Tools with `xcode-select --install` if
-needed. On WSL, run the setup inside Ubuntu. Install [Homebrew](https://brew.sh/)
-and follow the installer's instructions to add it to your shell.
-
-```sh
-brew install chezmoi
-chezmoi init https://github.com/thedavidharris/dotfiles.git
-```
-
-Choose your machine's work or personal profile when prompted. On a work machine,
-enter the email you want Git and Fish to use. macOS system preferences are optional.
-
-### First apply on macOS
-
-Install 1Password with `brew install --cask 1password` if needed.
-Apply local files first so you can set up the SSH agent before fetching the
-private agent repos.
+First install and unlock the 1Password desktop app, enable its SSH agent and
+CLI integration, and add your GitHub SSH key. Then run this in macOS Terminal
+or inside Ubuntu on WSL.
 
 ```sh
-chezmoi diff --exclude scripts --override-data '{"offline":true}'
-chezmoi apply --exclude scripts --override-data '{"offline":true}'
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/thedavidharris/dotfiles/main/install.sh)"
 ```
 
-Unlock 1Password, enable its SSH agent, and check that your GitHub key has access
-to the private repos.
+The installer handles Homebrew and its prerequisites, asks for your machine
+profile, backs up existing managed files, and applies the setup. On a fresh Mac,
+finish any Command Line Tools installer if prompted and rerun the command.
+Backups are saved under `~/.local/state/dotfiles/backups`.
 
-### Apply dotfiles
+Private agent configs and macOS system preferences are optional. The installer
+finishes the core before fetching private agents. It installs the Mac CLI
+with Homebrew and the Windows CLI with WinGet from WSL. Approve any 1Password authentication prompts. A failed step
+can be retried by running the same command again.
 
-Preview the changes, then apply the dotfiles, Homebrew packages, and Fish plugins.
-
-```sh
-chezmoi diff
-chezmoi apply
-mise install
-fish
-```
+For an existing checkout, run `bash install.sh`. See [WSL setup](docs/WSL.md)
+for terminal and Windows settings.
 
 ## Everyday use
 
-- Preview changes with `chezmoi diff` and apply them with `chezmoi apply`.
-- Edit managed files with `chezmoi edit`, or change the package list in
-  [packages.yaml](.chezmoidata/packages.yaml).
-- Put machine overrides under `[data]` in `~/.config/chezmoi/chezmoi.toml`.
-  Use `keepLocal` to list home-relative paths chezmoi should skip.
-  On WSL, set `installAgents = true` to opt into the private agent setup.
-- Use `chezmoi init --prompt` to change the saved role or email. Init preserves
-  `[data]` but regenerates other settings, so save any custom settings first.
+```fish
+chezmoi diff          # Preview changes
+chezmoi apply         # Apply files and install missing packages
+chezmoi update        # Pull and apply repository updates
+```
 
-Run `python3 scripts/check-bootstrap.py` to check changes locally. It needs
-Python 3.11+, chezmoi, Fish, and ShellCheck and uses temporary homes.
+Edit [the Brewfile](dot_config/brew/Brewfile) directly to change packages.
+Use `mise use` in individual projects for additional language runtimes.
+Machine settings live under `[data]` in `~/.config/chezmoi/chezmoi.toml`.
+Use `chezmoi init --prompt` to change saved answers. `keepLocal` lists
+home-relative paths to leave under local control. Fish overrides go in
+`~/.config/fish/local/config.fish`.
 
-See [Privacy and work/personal setup](docs/PRIVACY.md) for how private config is stored.
+Bootstrap checks use temporary homes and mocked installers. Run
+`python3 scripts/check-bootstrap.py` with Python 3.11+, chezmoi, Fish, Ruby,
+and ShellCheck installed.

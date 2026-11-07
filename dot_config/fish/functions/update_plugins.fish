@@ -1,19 +1,7 @@
-# =============================================================================
-# Update Fish Plugins
-# Update all installed fish shell plugins
-# =============================================================================
-
-function update_plugins -d "Update all fish plugins"
-    echo "Updating fish plugins..."
-
-    # Update fisher plugins
-    if command -v fisher > /dev/null
-        echo "Updating fisher plugins..."
-        fisher update
-    else
-        echo "Error: fisher not found" >&2
+function update_plugins --description 'Update installed Fish plugins'
+    if not type -q fisher
+        echo >&2 'Run chezmoi apply to install Fisher first.'
         return 1
     end
-
-    echo "Plugin update complete!"
+    fisher update
 end

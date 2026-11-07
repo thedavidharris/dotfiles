@@ -1,0 +1,5 @@
+[tools]
+node = "lts"
+
+[settings]
+minimum_release_age = "7d"

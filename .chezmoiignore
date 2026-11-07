@@ -156,7 +156,13 @@ AGENTS.md
 CLAUDE.md
 
 scripts/
+install.sh
 .github/
+
+# WSL uses the Windows CLI to integrate with the Windows desktop app.
+{{ if not (and (eq .chezmoi.os "linux") (env "WSL_DISTRO_NAME")) -}}
+bin/op
+{{ end -}}
 
 # Machine-specific paths to keep unmanaged, relative to the home directory.
 {{ range (index . "keepLocal" | default list) -}}

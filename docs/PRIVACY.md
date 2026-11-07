@@ -14,8 +14,9 @@ hostnames, URLs, or tokens.
 
 ## Work overlay
 
+- Agent installation is opt-in on every platform through `installAgents`.
 - Work tooling (MCP servers, skills, internal config) lives in a separate private repo.
-- That repo is cloned by a gated chezmoi external only when `isWork` is true.
+- That repo is cloned by a gated chezmoi external when both `installAgents` and `isWork` are true.
 - The generated `~/.agents/agents.toml` is base plus the work overlay when present.
 
 ## Rules for tracked files

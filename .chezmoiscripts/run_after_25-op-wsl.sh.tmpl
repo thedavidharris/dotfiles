@@ -1,0 +1,10 @@
+{{ if and (eq .chezmoi.os "linux") (env "WSL_DISTRO_NAME") -}}
+#!/bin/bash
+set -euo pipefail
+
+# Use the Windows CLI for integration with the Windows 1Password desktop app.
+if ! command -v op.exe >/dev/null &&
+    ! winget.exe list --id AgileBits.1Password.CLI --exact --source winget --accept-source-agreements --disable-interactivity >/dev/null; then
+    winget.exe install --id AgileBits.1Password.CLI --exact --source winget --accept-source-agreements --accept-package-agreements --disable-interactivity
+fi
+{{ end -}}

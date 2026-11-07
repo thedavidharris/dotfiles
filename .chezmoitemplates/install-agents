@@ -1,2 +1,0 @@
-{{- $macOS := eq .chezmoi.os "darwin" -}}
-{{- if and (or $macOS (eq .chezmoi.os "linux")) (dig "installAgents" $macOS .) -}}yes{{- end -}}

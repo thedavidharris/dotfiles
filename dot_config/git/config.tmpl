@@ -148,6 +148,11 @@
 {{ end }}
 
 [core]
+{{- if index . "ssh_command" }}
+    sshCommand = {{ index . "ssh_command" | quote }}
+{{- else if and (eq .chezmoi.os "linux") (env "WSL_DISTRO_NAME") }}
+    sshCommand = ssh.exe
+{{- end }}
 {{- if $macOS }}
     editor = {{ .tools.editor | quote }}
     pager = delta
