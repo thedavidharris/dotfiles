@@ -8,6 +8,7 @@ set -eo pipefail
 if ! command -v brew &> /dev/null; then
     echo "Installing Homebrew"
 
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    installer="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$installer"
 fi
 {{ end -}}

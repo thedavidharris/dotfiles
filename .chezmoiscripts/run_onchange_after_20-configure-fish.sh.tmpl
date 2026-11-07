@@ -1,9 +1,9 @@
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 #!/bin/bash
 set -euo pipefail
 
 # Resolve fish at execution time, after Homebrew installs it.
-# fish_plugins hash: {{ include "dot_config/fish/fish_plugins.tmpl" | sha256sum }}
+# fish_plugins hash: {{ includeTemplate "dot_config/fish/fish_plugins.tmpl" . | sha256sum }}
 {{ template "brew-shellenv.sh" . }}
 
 fish --no-config <<'FISH'

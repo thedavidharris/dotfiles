@@ -5,7 +5,7 @@ return {
     opts = {
       servers = {
         sourcekit = {
-          cmd = { "xcrun", "sourcekit-lsp" },
+          cmd = vim.fn.has("mac") == 1 and { "xcrun", "sourcekit-lsp" } or { "sourcekit-lsp" },
         },
       },
     },

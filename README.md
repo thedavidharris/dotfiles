@@ -65,8 +65,8 @@ Preview and apply local dotfiles first, including SSH/1Password configuration.
 This does not run scripts or fetch external repositories:
 
 ```sh
-chezmoi diff --exclude scripts,externals
-chezmoi apply --exclude scripts,externals
+chezmoi diff --exclude scripts --override-data '{"offline":true}'
+chezmoi apply --exclude scripts --override-data '{"offline":true}'
 open -a 1Password
 ```
 
@@ -133,6 +133,48 @@ chsh -s "$fish_bin"
 
 Log out and back in for the login-shell change. This also lets Ghostty use fish as its default shell.
 
+## Ubuntu on WSL 2
+
+Run these steps inside Ubuntu, from your Linux home directory. The same Homebrew
+package list provides command-line tools on macOS and WSL. Mac apps, preferences,
+and Xcode tools are omitted on WSL.
+
+1. Install Homebrew at its [standard Linux location](https://docs.brew.sh/Homebrew-on-Linux).
+   On a fresh Ubuntu install, use `sudo apt-get install build-essential procps curl file git`
+   for Homebrew's system prerequisites. The Homebrew installer may ask for your
+   Ubuntu password to create `/home/linuxbrew/.linuxbrew`.
+2. In Bash, run:
+
+   ```bash
+   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+   brew install chezmoi
+   chezmoi init https://github.com/thedavidharris/dotfiles.git
+   ```
+
+   If you already have a checkout, use `chezmoi --source /path/to/dotfiles init`
+   and the same `--source` for subsequent commands, or set `sourceDir` in the
+   local chezmoi config. Choose the appropriate machine role when prompted.
+3. Run `chezmoi diff --exclude scripts` and review existing files before applying.
+   To keep a file under your own control, add its home-relative path to
+   `keepLocal` under `[data]` in your local chezmoi config. For example:
+
+   ```toml
+   keepLocal = [".config/fish/config.fish", ".config/mise/config.toml"]
+   ```
+
+   Run `chezmoi apply` to install packages and Fish plugins. Add the
+   `brew shellenv` line above to your Bash startup file if you want Brew
+   packages on Bash's path. The managed Fish startup files find Homebrew
+   automatically; run `fish` to try them without changing your login shell.
+   Confirm packages with `brew bundle check --file="$HOME/.config/brew/Brewfile"`.
+
+Private agent repos and their installer are opt-in on Linux. Once you have
+GitHub SSH access, set `installAgents = true` under `[data]` to enable them.
+Linux uses your normal SSH agent by default and leaves Git signing to your local
+configuration. For chezmoi-managed SSH signing, set `ssh_signing_key` and, if
+needed, `ssh_signing_program` and `ssh_agent_sock` under `[data]`. Configure
+1Password CLI separately if you use the fnox 1Password provider.
+
 ## Daily Workflow
 
 ```bash
@@ -149,9 +191,7 @@ chezmoi status               # Check source vs target drift
 - Prompt/theme: Starship + Catppuccin Macchiato
 - Tool/runtime manager: mise
 - Secrets and signing: 1Password CLI + SSH agent
-- Package managers:
-  - macOS: Homebrew (`packages.yaml` -> `Brewfile.tmpl`)
-  - Linux: templates are supported, but package/desktop provisioning is manual
+- Packages: Homebrew on macOS and Linux/WSL (`packages.yaml` -> `Brewfile.tmpl`)
 
 ## Machine-Specific Data
 

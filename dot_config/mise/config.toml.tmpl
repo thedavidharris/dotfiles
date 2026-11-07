@@ -6,7 +6,9 @@ node = "lts"
 python = ["3.12"]
 ruby = "3.4"
 rust = "latest"
+{{ if eq .chezmoi.os "darwin" -}}
 tuist = "latest"
+{{ end -}}
 
 "npm:ccstatusline" = "latest"
 

@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-PACKAGES_FILE="$HOME/.local/share/chezmoi/.chezmoidata/packages.yaml"
+PACKAGES_FILE="$(chezmoi execute-template '{{ .chezmoi.sourceDir }}')/.chezmoidata/packages.yaml"
 
 if [[ ! -f "$PACKAGES_FILE" ]]; then
     echo "❌ packages.yaml not found at: $PACKAGES_FILE"
@@ -22,8 +22,7 @@ elif command -v nvim > /dev/null; then
 elif command -v vim > /dev/null; then
     vim "$PACKAGES_FILE"
 else
-    echo "ℹ️  Opening with default editor..."
-    open "$PACKAGES_FILE"
+    "${EDITOR:-vi}" "$PACKAGES_FILE"
 fi
 
 echo ""

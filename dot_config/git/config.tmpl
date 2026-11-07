@@ -139,13 +139,20 @@
 [branch "master"]
     pushRemote = NOPE
 
+{{- $macOS := eq .chezmoi.os "darwin" }}
+{{- $signingKey := index . "ssh_signing_key" }}
+{{- $sshSigningProgram := index . "ssh_signing_program" }}
+{{ if or $macOS $signingKey }}
 [commit]
     gpgsign = true
+{{ end }}
 
 [core]
+{{- if $macOS }}
     editor = {{ .tools.editor | quote }}
     pager = delta
     fsmonitor = true
+{{- end }}
 
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
@@ -153,6 +160,7 @@
     # Make `git rebase` safer on macOS
     trustctime = false
 
+{{ if $macOS -}}
 [credential "https://github.com"]
 	helper =
 	helper = !gh auth git-credential
@@ -160,6 +168,7 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = gh auth git-credential
+{{ end }}
 
 [diff]
     renames = copies
@@ -167,9 +176,11 @@
     indentHeuristic = true
     colorMoved = zebra
 
-    # Set difftastic as the default difftool and external diff
+    # Set difftastic as the default difftool.
     tool = difftastic
+{{- if $macOS }}
     external = difft
+{{- end }}
 
 [diff "bin"]
     # Use `hexdump` to diff binary files
@@ -207,18 +218,18 @@
     column = true
     lineNumber = true
 
+{{ if or $macOS $signingKey $sshSigningProgram -}}
 [gpg]
     format = ssh
-
+{{ end -}}
+{{ if or $macOS $sshSigningProgram -}}
 [gpg "ssh"]
-{{- $sshSigningProgram := index . "ssh_signing_program" }}
 {{- if $sshSigningProgram }}
     program = {{ $sshSigningProgram | quote }}
-{{- else if eq .chezmoi.os "darwin" }}
+{{- else }}
     program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-{{- else if eq .chezmoi.os "linux" }}
-    program = "/opt/1Password/op-ssh-sign"
 {{- end }}
+{{ end }}
 
 [help]
     # Automatically correct and execute mistyped commands
@@ -305,7 +316,9 @@
 [user]
     name = {{ .name | quote }}
     email = {{ .email | quote }}
-    signingkey = {{ (index . "ssh_signing_key" | default "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcRDRRgo3g6f48cIrV8oEaDgnL5cCPtqqUo1gqI4dmj") | quote }}
+{{- if or $macOS $signingKey }}
+    signingkey = {{ ($signingKey | default "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcRDRRgo3g6f48cIrV8oEaDgnL5cCPtqqUo1gqI4dmj") | quote }}
+{{- end }}
 
 [filter "lfs"]
     clean = git-lfs clean -- %f

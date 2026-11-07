@@ -1,3 +1,4 @@
+{{ if includeTemplate "install-agents" . -}}
 #!/bin/bash
 
 # Compose ~/.agents/agents.toml from the base config (plus the work overlay on
@@ -58,3 +59,4 @@ npx -y @sentry/dotagents@3 --user install
 # Record success only after installation. A failed apply must retry next time.
 mkdir -p "$(dirname "$INSTALLED")"
 cp "$COMPOSED" "$INSTALLED"
+{{ end -}}

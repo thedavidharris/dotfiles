@@ -17,18 +17,6 @@ function init_fisher -d "Setup Fisher for plugins"
         set -g fisher_paths_initialized true
     end
 
-    if not test -d $fisher_path
-        functions -e fisher &>/dev/null
-        mkdir -p $fisher_path
-        touch $__fish_config_dir/fish_plugins
-        curl -sL https://git.io/fisher | source
-        if test -s $__fish_config_dir/fish_plugins
-            fisher update
-        else
-            fisher install jorgebucaran/fisher
-        end
-    end
-
     for file in $fisher_path/conf.d/*.fish
         if ! test -f $__fish_config_dir/conf.d/(path basename -- $file)
             and test -f $file && test -r $file
@@ -36,17 +24,8 @@ function init_fisher -d "Setup Fisher for plugins"
         end
     end
 
-    # Symlink fisher themes to make them available
-    if test -d $fisher_path/themes
-        if test -L $__fish_config_dir/themes
-            # Already a symlink, nothing to do
-        else if test -e $__fish_config_dir/themes
-            # Exists but not a symlink (directory or file), remove it first
-            rm -rf $__fish_config_dir/themes
-            ln -s $fisher_path/themes $__fish_config_dir/themes
-        else
-            # Doesn't exist, create symlink
-            ln -s $fisher_path/themes $__fish_config_dir/themes
-        end
+    # Leave existing user themes and symlinks alone.
+    if test -d $fisher_path/themes; and not test -e $__fish_config_dir/themes; and not test -L $__fish_config_dir/themes
+        ln -s $fisher_path/themes $__fish_config_dir/themes
     end
 end

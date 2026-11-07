@@ -19,7 +19,7 @@ def parse_yaml_list(path: Path, key: str) -> list[str]:
     """Collect all items from every occurrence of *key* in the YAML file.
 
     This handles the nested packages.yaml structure where ``brews:`` (etc.)
-    appears under ``shared:``, ``darwin:``, and ``linux:`` sections.
+    appears under ``shared:`` and ``darwin:`` sections.
     """
     lines = path.read_text(encoding="utf-8").splitlines()
     items: list[str] = []

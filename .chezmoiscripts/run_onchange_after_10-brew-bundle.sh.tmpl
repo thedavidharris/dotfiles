@@ -1,25 +1,17 @@
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 #!/bin/bash
 
-# Run brew bundle using the Brewfile from ~/.config/brew/
-# This script runs after files are applied when packages.yaml changes
-# packages.yaml hash: {{ .packages | toJson | sha256sum }}
+# Re-run when this machine's rendered Brewfile changes.
+# Brewfile hash: {{ includeTemplate "dot_config/brew/Brewfile.tmpl" . | sha256sum }}
 
 set -euo pipefail
 
 {{ template "brew-shellenv.sh" . }}
 
-BREWFILE="$HOME/.config/brew/Brewfile"
-
-if [[ ! -f "$BREWFILE" ]]; then
-    echo "❌ Brewfile not found at: $BREWFILE"
-    echo "This is unexpected since files should be applied first."
-    echo "You can manually run: brew-bundle install"
+if ! command -v brew >/dev/null 2>&1; then
+    echo >&2 "Install Homebrew from https://brew.sh/ and rerun chezmoi apply."
     exit 1
 fi
 
-echo "🍺 Running brew bundle from $BREWFILE..."
-brew bundle --file="$BREWFILE"
-
-echo "✅ Brew bundle completed"
+brew bundle install --no-upgrade --file="$HOME/.config/brew/Brewfile"
 {{ end -}}

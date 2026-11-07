@@ -20,7 +20,10 @@
     {{- end -}}
     {{- $email = $workEmail -}}
 {{- end -}}
-{{- $configureMacOS := promptBoolOnce . "configureMacOS" "Apply macOS system preferences (optional)" false -}}
+{{- $configureMacOS := false -}}
+{{- if eq .chezmoi.os "darwin" -}}
+    {{- $configureMacOS = promptBoolOnce . "configureMacOS" "Apply macOS system preferences (optional)" false -}}
+{{- end -}}
 {{- $_ := set $data "isWork" $isWork -}}
 {{- $_ := set $data "configureMacOS" $configureMacOS -}}
 {{- $_ := set $data "personalEmail" $personalEmail -}}

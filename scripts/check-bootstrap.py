@@ -78,9 +78,20 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
                 if ".sh.tmpl" in template.name and rendered.strip():
                     run(["bash", "-n"], input=rendered)
                     run(["shellcheck", "--severity=error", "--shell=bash", "-"], input=rendered)
+            macos = platform == "darwin"
             externals = tomllib.loads(render(".chezmoiexternal.toml.tmpl"))
-            assert (".agents-work" in externals) is work
-            assert (".hammerspoon/Spoons/SpoonInstall.spoon" in externals) is (platform == "darwin")
+            assert (".agents" in externals) is macos
+            assert (".agents-work" in externals) is (macos and work)
+            assert (".hammerspoon/Spoons/SpoonInstall.spoon" in externals) is macos
+            opted_in = tomllib.loads(render(".chezmoiexternal.toml.tmpl", {"installAgents": True}))
+            assert ".agents" in opted_in and (".agents-work" in opted_in) is work
+            assert bool(render(".chezmoiscripts/run_after_30-agents.sh.tmpl").strip()) is macos
+            brewfile = render("dot_config/brew/Brewfile.tmpl")
+            assert 'brew "fish"' in brewfile and 'brew "chezmoi"' in brewfile
+            assert ('cask "1password"' in brewfile) is macos
+            assert ('brew "coreutils"' in brewfile) is macos
+            assert brewfile.count('brew "nmap"') == brewfile.count('brew "pkl"') == 1
+            assert ("tuist" in tomllib.loads(render("dot_config/mise/config.toml.tmpl"))["tools"]) is macos
             agent_config = tomllib.loads(render("dot_config/private_1Password/private_ssh/private_agent.toml.tmpl"))
             assert agent_config["ssh-keys"][0]["vault"] == ("Work" if work else "Private")
             fnox_config = tomllib.loads(render("dot_config/fnox/config.toml.tmpl"))
@@ -96,18 +107,24 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
                 run(["bash", "-n"], input=render(macos_path, {"configureMacOS": True}))
 
             # Exercise the documented staged SSH apply before any tools/externals exist.
-            run(command + ["apply", "--exclude", "scripts,externals"], env=env)
+            offline = command[:-1] + [json.dumps({**override, "offline": True})]
+            run(offline + ["apply", "--exclude", "scripts"], env=env)
             assert (home / ".ssh/config").is_file()
-            run(command + ["apply", "--exclude", "scripts,externals"], env=env)
-            run(command + ["verify", "--exclude", "scripts,externals"], env=env)
+            run(offline + ["apply", "--exclude", "scripts"], env=env)
+            run(offline + ["verify", "--exclude", "scripts"], env=env)
             assert not (home / "docs").exists()
             assert not (home / "scripts").exists()
             assert not (home / "AGENTS.md").exists()
             assert not (home / ".github").exists()
-            assert (home / ".hammerspoon/init.lua").exists() is (platform == "darwin")
+            assert (home / ".hammerspoon/init.lua").exists() is macos
+            assert (home / ".config/1Password").exists() is macos
+            assert (home / "bin/macho-info").exists() is macos
+            assert ("IdentityAgent" in (home / ".ssh/config").read_text()) is macos
             git_config = home / ".config/git/config"
             run(["git", "config", "--file", str(git_config), "--list"])
             assert run(["git", "config", "--file", str(git_config), "user.email"]).stdout.strip() == (WORK_EMAIL if work else PERSONAL_EMAIL)
+            assert ("op-ssh-sign" in git_config.read_text()) is macos
+            assert ("fsmonitor = true" in git_config.read_text()) is macos
             identity = render("dot_config/fish/conf.d/identity.fish.tmpl")
             run(["fish", "--no-config", "--no-execute"], input=identity)
             observed = run(["fish", "--no-config"], env=dict(env, WORK_EMAIL="stale@example.test"),
@@ -115,6 +132,23 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
             expected = [WORK_EMAIL, WORK_EMAIL] if work else [PERSONAL_EMAIL, ""]
             assert observed == expected
             print(f"PASS: {platform}/{arch}, {'work' if work else 'personal'} init, render, staged apply, verify")
+
+            if not macos:
+                local_fish = home / ".config/fish/config.fish"
+                local_fish.write_text("# existing local config\n")
+                preserved = command[:-1] + [json.dumps({**override, "offline": True, "keepLocal": [".config/fish/config.fish"]})]
+                run(preserved + ["apply", "--exclude", "scripts"], env=env)
+                assert local_fish.read_text() == "# existing local config\n"
+                if not work:
+                    mock = case / "mock-bin"
+                    executable(mock / "brew", 'printf "%s\\n" "$@" > "$MOCK_BREW"\nexit "${BREW_EXIT:-0}"\n')
+                    mock_env = dict(env, PATH=f"{mock}:{env['PATH']}", MOCK_BREW=str(case / "brew.log"))
+                    bundle = render(".chezmoiscripts/run_onchange_after_10-brew-bundle.sh.tmpl")
+                    assert run(["bash"], env=dict(mock_env, BREW_EXIT="23"), input=bundle, ok=False).returncode == 23
+                    run(["bash"], env=mock_env, input=bundle)
+                    assert Path(mock_env["MOCK_BREW"]).read_text().splitlines() == [
+                        "bundle", "install", "--no-upgrade", f"--file={home}/.config/brew/Brewfile",
+                    ]
 
             if platform != "darwin" or arch != "arm64" or not work:
                 continue
@@ -200,6 +234,9 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
             assert run(["bash"], env=dict(fish_env, FISHER_EXIT="1"), input=fish_script, ok=False).returncode != 0
             print("PASS: agent retries/no-op/missing-overlay, brew failure, Fisher path/failure")
 
+    # A native Windows profile must have no managed targets, even with agents enabled.
+    windows = command[:-1] + [json.dumps({"chezmoi": {"os": "windows"}, "installAgents": True})]
+    assert not run(windows + ["managed"], env=env).stdout.strip()
     for path in (ROOT / "dot_config/fish").rglob("*.fish"):
         run(["fish", "--no-config", "--no-execute", str(path)])
     run(["python3", "scripts/docs-gen.py", "--check"])

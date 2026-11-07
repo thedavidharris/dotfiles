@@ -12,9 +12,20 @@ README.md
 # Hammerspoon externals
 .hammerspoon/Spoons
 
-# Do not manage macOS-only Hammerspoon config outside macOS.
+# macOS apps and helpers
 {{ if ne .chezmoi.os "darwin" -}}
 .hammerspoon/
+.macos/
+.config/1Password/
+bin/cleanup-system
+bin/copy-sha256
+bin/dict
+bin/ds-destroy
+bin/macho-info
+bin/ocr
+bin/sleepybear
+bin/speak
+bin/tailscale
 {{ end -}}
 
 # Library folder (too large/personal)
@@ -155,3 +166,13 @@ CLAUDE.md
 scripts/
 docs/
 .github/
+
+# Machine-specific paths to keep unmanaged, relative to the home directory.
+{{ range (index . "keepLocal" | default list) -}}
+{{ . }}
+{{ end -}}
+
+# Windows hosts are not a deployment target. WSL reports itself as Linux.
+{{ if eq .chezmoi.os "windows" -}}
+**
+{{ end -}}

@@ -1,7 +1,9 @@
+{{ if and (ne .chezmoi.os "windows") (not (index . "offline")) -}}
 # -----------------------------------------------------------------------------
 # Cross-platform externals
 # -----------------------------------------------------------------------------
 
+{{ if includeTemplate "install-agents" . -}}
 # Agent config and skills from dot_agents repo (private, requires SSH).
 # Cloned to ~/.agents/; skills reachable via root symlink at ~/.agents/skills/.
 [".agents"]
@@ -17,10 +19,10 @@
     refreshPeriod = "168h"
 
 {{ end -}}
+{{ end -}}
 [".config/bat/themes"]
     type = "archive"
     url = "https://github.com/catppuccin/bat/archive/refs/heads/main.zip"
-    exact = true
     stripComponents = 2
     include = ["*/themes/**"]
     refreshPeriod = "168h"
@@ -49,8 +51,8 @@
 ["Library/Developer/Xcode/UserData/FontAndColorThemes"]
     type = "archive"
     url = "https://github.com/catppuccin/xcode/archive/refs/heads/main.zip"
-    exact = true
     stripComponents = 2
     include = ["*/themes/**"]
     refreshPeriod = "168h"
+{{ end -}}
 {{ end -}}

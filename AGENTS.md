@@ -60,7 +60,7 @@ environment-backed work integrations. Never put the actual work address here.
 
 <!-- GENERATED:agents-packages START -->
 - Source of truth: `.chezmoidata/packages.yaml`
-- Homebrew formulas: `91`
+- Homebrew formulas: `88`
 - Homebrew casks: `18`
 - Homebrew taps: `0`
 - Key tools: `fish`, `mise`, `chezmoi`, `neovim`, `ripgrep`, `fd`, `eza`, `starship`
