@@ -1,4 +1,4 @@
-{{ if (eq .chezmoi.os "darwin") -}}
+{{ if and (eq .chezmoi.os "darwin") (index . "configureMacOS") -}}
 #!/usr/bin/env bash
 
 #
@@ -398,8 +398,7 @@ for app in "Activity Monitor" \
   "Messages" \
   "Photos" \
   "Safari" \
-  "SystemUIServer" \
-  "Terminal"; do
+  "SystemUIServer"; do
   # Use killall quietly. If an app isn't running, it will do nothing.
   killall "${app}" &> /dev/null || true
 done

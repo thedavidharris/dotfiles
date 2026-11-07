@@ -14,7 +14,7 @@ README.md
 
 # Do not manage macOS-only Hammerspoon config outside macOS.
 {{ if ne .chezmoi.os "darwin" -}}
-dot_hammerspoon/
+.hammerspoon/
 {{ end -}}
 
 # Library folder (too large/personal)
@@ -153,3 +153,5 @@ AGENTS.md
 CLAUDE.md
 
 scripts/
+docs/
+.github/

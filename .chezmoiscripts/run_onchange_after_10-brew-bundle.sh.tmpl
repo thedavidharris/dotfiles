@@ -7,6 +7,8 @@
 
 set -euo pipefail
 
+{{ template "brew-shellenv.sh" . }}
+
 BREWFILE="$HOME/.config/brew/Brewfile"
 
 if [[ ! -f "$BREWFILE" ]]; then
@@ -17,7 +19,7 @@ if [[ ! -f "$BREWFILE" ]]; then
 fi
 
 echo "🍺 Running brew bundle from $BREWFILE..."
-brew bundle --file="$HOME/.config/brew/Brewfile" || { rc=$?; echo >&2 "warning: 'brew bundle' finished with errors (exit code $rc). Continuing chezmoi tasks."; }
+brew bundle --file="$BREWFILE"
 
 echo "✅ Brew bundle completed"
 {{ end -}}

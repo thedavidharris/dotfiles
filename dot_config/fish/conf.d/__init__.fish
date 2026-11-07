@@ -52,7 +52,7 @@ if not test -s $__fish_cache_dir/brew_init.fish
     end
 
     if test -n "$brew_bin"
-        $brew_bin shellenv >$__fish_cache_dir/brew_init.fish
+        $brew_bin shellenv fish >$__fish_cache_dir/brew_init.fish
     end
 end
 

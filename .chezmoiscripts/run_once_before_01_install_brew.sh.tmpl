@@ -3,6 +3,8 @@
 
 set -eo pipefail
 
+{{ template "brew-shellenv.sh" . }}
+
 if ! command -v brew &> /dev/null; then
     echo "Installing Homebrew"
 

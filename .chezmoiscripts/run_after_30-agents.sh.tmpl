@@ -5,15 +5,18 @@
 
 set -euo pipefail
 
+{{ template "brew-shellenv.sh" . }}
+
 AGENTS_DIR="$HOME/.agents"
 BASE="$AGENTS_DIR/agents.base.toml"
 TARGET="$AGENTS_DIR/agents.toml"
+INSTALLED="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/agents-v3-installed.toml"
 COMPOSED="$(mktemp)"
 trap 'rm -f "$COMPOSED"' EXIT
 
 if [[ ! -f "$BASE" ]]; then
-    echo >&2 "warning: $BASE not found, skipping agents setup"
-    exit 0
+    echo >&2 "$BASE not found. Configure GitHub SSH access, then rerun chezmoi apply."
+    exit 1
 fi
 
 cat "$BASE" > "$COMPOSED"
@@ -23,14 +26,25 @@ if [[ -f "$WORK" ]]; then
     printf '\n' >> "$COMPOSED"
     cat "$WORK" >> "$COMPOSED"
 else
-    echo >&2 "warning: $WORK not found, composing base only"
+    echo >&2 "$WORK not found. Check access to the work overlay, then rerun chezmoi apply."
+    exit 1
 fi
 {{ end -}}
 
-if [[ -f "$TARGET" ]] && cmp -s "$COMPOSED" "$TARGET"; then
+if [[ -f "$TARGET" && -f "$INSTALLED" ]] && cmp -s "$COMPOSED" "$TARGET" && cmp -s "$COMPOSED" "$INSTALLED"; then
     exit 0
 fi
 
 cp "$COMPOSED" "$TARGET"
+# Use mise's Node even when chezmoi was launched from a fresh zsh session.
+# Run from HOME so a caller's project config cannot select a different runtime.
+cd "$HOME"
+mise install node
+NODE_DIR="$(mise where node)"
+export PATH="$NODE_DIR/bin:$PATH"
 echo "Installing agent skills and MCP servers..."
-npx -y @sentry/dotagents@latest install
+npx -y @sentry/dotagents@3 --user install
+
+# Record success only after installation. A failed apply must retry next time.
+mkdir -p "$(dirname "$INSTALLED")"
+cp "$COMPOSED" "$INSTALLED"

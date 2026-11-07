@@ -1,0 +1,4 @@
+[providers]
+onepass = { type = "1password", vault = {{ if .isWork }}{{ .onepassword.workVault | quote }}{{ else }}"Private"{{ end }} }
+
+[secrets]

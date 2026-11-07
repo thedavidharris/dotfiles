@@ -30,7 +30,7 @@
 #  https://developer.1password.com/docs/ssh/agent/config
 {{ if .isWork -}}
 [[ssh-keys]]
-vault = "Work"
+vault = {{ .onepassword.workVault | quote }}
 {{ else -}}
 [[ssh-keys]]
 vault = "Private"

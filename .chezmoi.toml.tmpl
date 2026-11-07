@@ -1,19 +1,11 @@
 {{- $isWork := promptBoolOnce . "isWork" "Is this a work machine" false -}}
+{{- $configureMacOS := promptBoolOnce . "configureMacOS" "Apply macOS system preferences (optional)" false -}}
 [data]
     isWork = {{ $isWork }}
-    name = "David Harris"
-    email = "davidaharris@outlook.com"
-    github = { username = "thedavidharris" }
+    configureMacOS = {{ $configureMacOS }}
 
-# Color scheme preferences
-colorscheme = "catppuccin_macchiato"
-
-# Tool configurations
-tools = {
-    editor = "nvim",
-    terminal = "ghostty",
-    shell = "fish"
-}
+# Shared identity, theme, and tool defaults live in .chezmoidata/data.yaml.
+# Add machine-specific overrides under [data] above, or in [data.tools].
 
 [add]
     secrets = "error"

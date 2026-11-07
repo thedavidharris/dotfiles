@@ -305,7 +305,7 @@
 [user]
     name = {{ .name | quote }}
     email = {{ .email | quote }}
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcRDRRgo3g6f48cIrV8oEaDgnL5cCPtqqUo1gqI4dmj
+    signingkey = {{ (index . "ssh_signing_key" | default "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcRDRRgo3g6f48cIrV8oEaDgnL5cCPtqqUo1gqI4dmj") | quote }}
 
 [filter "lfs"]
     clean = git-lfs clean -- %f

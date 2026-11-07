@@ -1,0 +1,21 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+# Resolve fish at execution time, after Homebrew installs it.
+# fish_plugins hash: {{ include "dot_config/fish/fish_plugins.tmpl" | sha256sum }}
+{{ template "brew-shellenv.sh" . }}
+
+fish --no-config <<'FISH'
+set -gx fisher_path $__fish_config_dir/.fisher
+set -p fish_function_path $fisher_path/functions
+mkdir -p $fisher_path; or exit 1
+if not functions -q fisher
+    curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    if test $pipestatus[1] -ne 0; or not functions -q fisher
+        exit 1
+    end
+end
+fisher update; or exit 1
+FISH
+{{ end -}}

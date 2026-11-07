@@ -14,8 +14,8 @@ Guide for AI assistants working in this chezmoi source repository.
 
 ## Repository Overview
 
-Chezmoi-managed dotfiles for David Harris. This repo is fish-first, with zsh as
-secondary compatibility shell.
+Chezmoi-managed dotfiles for David Harris. This repo is fish-first; system zsh
+is used for bootstrapping, but no zsh dotfiles are managed.
 
 ## Directory Structure
 
@@ -39,7 +39,6 @@ secondary compatibility shell.
 |   |-- nvim/
 |   |-- private_1Password/
 |   |-- ripgrep/
-|   |-- shell/
 |   |-- starship.toml
 |   |-- uv/
 |-- README.md
@@ -49,7 +48,8 @@ secondary compatibility shell.
 
 ## Template Data
 
-`.chezmoidata/data.yaml` (name, email, tools, colorscheme) plus `isWork` from
+`.chezmoidata/data.yaml` (name, email, tools, colorscheme) plus `isWork` and
+`configureMacOS` from
 `~/.config/chezmoi/chezmoi.toml`.
 
 ## Package Source of Truth
@@ -58,8 +58,8 @@ secondary compatibility shell.
 
 <!-- GENERATED:agents-packages START -->
 - Source of truth: `.chezmoidata/packages.yaml`
-- Homebrew formulas: `68`
-- Homebrew casks: `16`
+- Homebrew formulas: `91`
+- Homebrew casks: `18`
 - Homebrew taps: `0`
 - Key tools: `fish`, `mise`, `chezmoi`, `neovim`, `ripgrep`, `fd`, `eza`, `starship`
 <!-- GENERATED:agents-packages END -->
@@ -72,6 +72,7 @@ chezmoi apply
 chezmoi status
 chezmoi data
 python3 scripts/docs-gen.py
+python3 scripts/check-bootstrap.py
 ```
 
 ## Working Rules

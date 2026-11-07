@@ -1,0 +1,22 @@
+name: Check chezmoi bootstrap
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test tools
+        run: brew install chezmoi fish shellcheck
+      - name: Validate isolated bootstrap profiles and failure recovery
+        run: python3 scripts/check-bootstrap.py
