@@ -17,14 +17,6 @@ README.md
 .hammerspoon/
 .macos/
 .config/1Password/
-bin/cleanup-system
-bin/copy-sha256
-bin/dict
-bin/ds-destroy
-bin/macho-info
-bin/ocr
-bin/sleepybear
-bin/speak
 bin/tailscale
 {{ end -}}
 
@@ -164,7 +156,6 @@ AGENTS.md
 CLAUDE.md
 
 scripts/
-docs/
 .github/
 
 # Machine-specific paths to keep unmanaged, relative to the home directory.

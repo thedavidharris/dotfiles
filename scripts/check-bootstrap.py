@@ -112,13 +112,15 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
             assert (home / ".ssh/config").is_file()
             run(offline + ["apply", "--exclude", "scripts"], env=env)
             run(offline + ["verify", "--exclude", "scripts"], env=env)
-            assert not (home / "docs").exists()
+            assert (home / "docs/PRIVACY.md").is_file()
             assert not (home / "scripts").exists()
             assert not (home / "AGENTS.md").exists()
             assert not (home / ".github").exists()
             assert (home / ".hammerspoon/init.lua").exists() is macos
             assert (home / ".config/1Password").exists() is macos
-            assert (home / "bin/macho-info").exists() is macos
+            for helper in ("cleanup-system", "copy-sha256", "dict", "ds-destroy",
+                           "macho-info", "ocr", "sleepybear", "speak"):
+                assert (home / "bin" / helper).is_file()
             assert ("IdentityAgent" in (home / ".ssh/config").read_text()) is macos
             git_config = home / ".config/git/config"
             run(["git", "config", "--file", str(git_config), "--list"])
