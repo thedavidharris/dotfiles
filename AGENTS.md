@@ -48,9 +48,11 @@ is used for bootstrapping, but no zsh dotfiles are managed.
 
 ## Template Data
 
-`.chezmoidata/data.yaml` (name, email, tools, colorscheme) plus `isWork` and
-`configureMacOS` from
-`~/.config/chezmoi/chezmoi.toml`.
+`.chezmoidata/data.yaml` (name, personalEmail, tools, colorscheme) plus machine
+data in `~/.config/chezmoi/chezmoi.toml`. Init prompts for `isWork`, `workEmail`
+(work only), and `configureMacOS`; it selects the active `email` and preserves
+local `[data]` overrides. Use `.email` in shared templates and `WORK_EMAIL` in
+environment-backed work integrations. Never put the actual work address here.
 
 ## Package Source of Truth
 

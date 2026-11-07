@@ -1,11 +1,37 @@
+{{- /* Retain local overrides when init regenerates the config. */ -}}
+{{- $data := deepCopy (.chezmoi.config.data | default dict) -}}
+{{- $defaults := include ".chezmoidata/data.yaml" | fromYaml -}}
+{{- $personalEmail := index $data "personalEmail" | default $defaults.personalEmail -}}
+{{- /* Migrate a personal email override written by an older config template. */ -}}
+{{- if and (not (hasKey $data "personalEmail")) (not (index $data "isWork")) (index $data "email") -}}
+    {{- $personalEmail = index $data "email" -}}
+{{- end -}}
 {{- $isWork := promptBoolOnce . "isWork" "Is this a work machine" false -}}
+{{- $workEmail := index $data "workEmail" | default "" -}}
+{{- $email := $personalEmail -}}
+{{- if $isWork -}}
+    {{- $promptData := deepCopy . -}}
+    {{- if eq (trim $workEmail) "" -}}
+        {{- $_ := unset $promptData "workEmail" -}}
+    {{- end -}}
+    {{- $workEmail = promptStringOnce $promptData "workEmail" "Work email address" | trim -}}
+    {{- if not (regexMatch "^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$" $workEmail) -}}
+        {{- fail "Enter a non-empty work email address (for example, you@example.com). Rerun chezmoi init --prompt to change a saved answer." -}}
+    {{- end -}}
+    {{- $email = $workEmail -}}
+{{- end -}}
 {{- $configureMacOS := promptBoolOnce . "configureMacOS" "Apply macOS system preferences (optional)" false -}}
-[data]
-    isWork = {{ $isWork }}
-    configureMacOS = {{ $configureMacOS }}
+{{- $_ := set $data "isWork" $isWork -}}
+{{- $_ := set $data "configureMacOS" $configureMacOS -}}
+{{- $_ := set $data "personalEmail" $personalEmail -}}
+{{- $_ := set $data "email" $email -}}
+{{- if ne $workEmail "" -}}
+    {{- $_ := set $data "workEmail" $workEmail -}}
+{{- end -}}
 
-# Shared identity, theme, and tool defaults live in .chezmoidata/data.yaml.
-# Add machine-specific overrides under [data] above, or in [data.tools].
+# email is selected from personalEmail/workEmail according to isWork.
+# Answers and local data overrides stay on this machine, outside the source repo.
+{{ dict "data" $data | toToml }}
 
 [add]
     secrets = "error"

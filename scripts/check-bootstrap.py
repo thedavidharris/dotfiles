@@ -10,6 +10,8 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parent.parent
 CHEZMOI = shutil.which("chezmoi")
+PERSONAL_EMAIL = "davidaharris@outlook.com"
+WORK_EMAIL = "david+work@example.test"
 for tool in ("chezmoi", "fish", "shellcheck"):
     if not shutil.which(tool):
         raise SystemExit(f"Missing test dependency: {tool}")
@@ -46,19 +48,23 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
                        "--persistent-state", str(case / "state.boltdb"), "--no-tty",
                        "--override-data", json.dumps(override)]
             prompts = f"Is this a work machine={str(work).lower()},Apply macOS system preferences (optional)=false"
-            run(command + ["init", "--promptBool", prompts], env=env)
+            run(command + ["init", "--promptBool", prompts] + (["--promptString", f"Work email address={WORK_EMAIL}"] if work else []), env=env, input="")
             data = tomllib.loads(config.read_text())["data"]
-            assert data == {"isWork": work, "configureMacOS": False}
+            assert data["isWork"] is work and data["configureMacOS"] is False
+            assert data["email"] == (WORK_EMAIL if work else PERSONAL_EMAIL)
+            assert data["personalEmail"] == PERSONAL_EMAIL
+            assert ("workEmail" in data) is work
             # Re-init must not ask again, including after a hostname change.
             changed_host = command.copy()
             changed_host[-1] = json.dumps({"chezmoi": {**override["chezmoi"], "hostname": "renamed-mac"}})
             run(changed_host + ["init"], env=env, input="")
-            assert tomllib.loads(config.read_text())["data"]["isWork"] is work
+            assert tomllib.loads(config.read_text())["data"] == data
             # Explicit --prompt can change a role copied from another machine.
             alternate = prompts.replace(f"machine={str(work).lower()}", f"machine={str(not work).lower()}")
-            run(command + ["init", "--prompt", "--promptBool", alternate], env=env)
+            run(command + ["init", "--prompt", "--promptBool", alternate, "--promptString", f"Work email address={WORK_EMAIL}"], env=env)
             assert tomllib.loads(config.read_text())["data"]["isWork"] is not work
-            run(command + ["init", "--prompt", "--promptBool", prompts], env=env)
+            assert tomllib.loads(config.read_text())["data"]["email"] == (PERSONAL_EMAIL if work else WORK_EMAIL)
+            run(command + ["init", "--prompt", "--promptBool", prompts, "--promptString", f"Work email address={WORK_EMAIL}"], env=env)
 
             def render(path, extra=None):
                 cmd = command if extra is None else command[:-1] + [json.dumps({**override, **extra})]
@@ -101,18 +107,53 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
             assert (home / ".hammerspoon/init.lua").exists() is (platform == "darwin")
             git_config = home / ".config/git/config"
             run(["git", "config", "--file", str(git_config), "--list"])
+            assert run(["git", "config", "--file", str(git_config), "user.email"]).stdout.strip() == (WORK_EMAIL if work else PERSONAL_EMAIL)
+            identity = render("dot_config/fish/conf.d/identity.fish.tmpl")
+            run(["fish", "--no-config", "--no-execute"], input=identity)
+            observed = run(["fish", "--no-config"], env=dict(env, WORK_EMAIL="stale@example.test"),
+                           input=identity + '\nprintf "%s\\n" "$EMAIL" "$WORK_EMAIL"\n').stdout.splitlines()
+            expected = [WORK_EMAIL, WORK_EMAIL] if work else [PERSONAL_EMAIL, ""]
+            assert observed == expected
             print(f"PASS: {platform}/{arch}, {'work' if work else 'personal'} init, render, staged apply, verify")
 
             if platform != "darwin" or arch != "arm64" or not work:
                 continue
+
+            # Re-init preserves arbitrary local data overrides, including nested tables.
+            with config.open("a") as out:
+                out.write('\n[data.onepassword]\nworkVault = "Custom vault"\n[data.tools]\neditor = "vim"\n')
+            run(command + ["init"], env=env, input="")
+            saved = tomllib.loads(config.read_text())["data"]
+            assert saved["onepassword"]["workVault"] == "Custom vault"
+            assert saved["tools"]["editor"] == "vim"
+            # Legacy personal email overrides survive migration and work/personal switches.
+            config.write_text('[data]\nisWork = false\nconfigureMacOS = false\nemail = "personal@example.test"\n')
+            run(command + ["init"], env=env, input="")
+            assert tomllib.loads(config.read_text())["data"]["personalEmail"] == "personal@example.test"
+            run(command + ["init", "--prompt", "--promptBool", prompts,
+                           "--promptString", f"Work email address={WORK_EMAIL}"], env=env)
+            # Blank and malformed answers fail before writing a new configuration.
+            for invalid in ("", "not-an-email", "name@", "two words@example.test"):
+                bad = run(command + ["init", "--prompt", "--promptBool", prompts,
+                                     "--promptString", f"Work email address={invalid}"], env=env, ok=False)
+                assert bad.returncode != 0 and "non-empty work email address" in bad.stderr
+                assert tomllib.loads(config.read_text())["data"]["workEmail"] == WORK_EMAIL
+            # Valid email punctuation must remain literal in shell templates.
+            unusual = "david.o'neil+$cash@example.test"
+            identity = render("dot_config/fish/conf.d/identity.fish.tmpl",
+                              {"email": unusual, "workEmail": unusual})
+            observed = run(["fish", "--no-config"], env=env,
+                           input=identity + '\nprintf "%s\\n" "$EMAIL" "$WORK_EMAIL"\n').stdout.splitlines()
+            assert observed == [unusual, unusual]
+            print("PASS: email prompts, role switches, validation, literal shell values, override migration")
 
             mock = case / "mock-bin"
             node_bin = case / "node/bin"
             log = case / "npx.log"
             executable(mock / "brew", 'exit "${BREW_EXIT:-0}"\n')
             executable(mock / "mise", 'if [[ "$1" = where ]]; then printf "%s\\n" "$MOCK_NODE"; fi\n')
-            executable(node_bin / "npx", 'echo install >> "$MOCK_LOG"\nexit "${NPX_EXIT:-0}"\n')
-            mock_env = dict(env, PATH=f"{mock}:{env['PATH']}", MOCK_NODE=str(node_bin.parent), MOCK_LOG=str(log))
+            executable(node_bin / "npx", 'echo install >> "$MOCK_LOG"\nprintf "%s\\n%s\\n" "$EMAIL" "${WORK_EMAIL-}" > "$MOCK_IDENTITY"\nexit "${NPX_EXIT:-0}"\n')
+            mock_env = dict(env, PATH=f"{mock}:{env['PATH']}", MOCK_NODE=str(node_bin.parent), MOCK_LOG=str(log), MOCK_IDENTITY=str(case / "agent-identity"))
             agents = home / ".agents"
             agents.mkdir()
             (agents / "agents.base.toml").write_text('[[skills]]\nname = "base"\n')
@@ -125,6 +166,7 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
             assert not marker.exists()
             run(["bash"], env=mock_env, input=script)
             assert marker.exists() and len(log.read_text().splitlines()) == 2
+            assert Path(mock_env["MOCK_IDENTITY"]).read_text().splitlines() == [WORK_EMAIL, WORK_EMAIL]
             run(["bash"], env=mock_env, input=script)
             assert len(log.read_text().splitlines()) == 2
             (overlay / "agents.work.toml").write_text('[[skills]]\nname = "changed-work"\n')
@@ -134,6 +176,19 @@ with tempfile.TemporaryDirectory(prefix="dotfiles-check-") as directory:
             assert "changed-work" in marker.read_text()
             (overlay / "agents.work.toml").unlink()
             assert run(["bash"], env=mock_env, input=script, ok=False).returncode != 0
+            (overlay / "agents.work.toml").write_text('[[skills]]\nname = "changed-work"\n')
+            new_email = "new-work@example.test"
+            changed_identity = render(".chezmoiscripts/run_after_30-agents.sh.tmpl",
+                                      {"email": new_email, "workEmail": new_email})
+            run(["bash"], env=mock_env, input=changed_identity)
+            assert len(log.read_text().splitlines()) == 5
+            assert Path(mock_env["MOCK_IDENTITY"]).read_text().splitlines() == [new_email, new_email]
+            run(["bash"], env=mock_env, input=changed_identity)
+            assert len(log.read_text().splitlines()) == 5
+            personal_script = render(".chezmoiscripts/run_after_30-agents.sh.tmpl",
+                                     {"isWork": False, "email": PERSONAL_EMAIL})
+            run(["bash"], env=dict(mock_env, WORK_EMAIL="stale@example.test"), input=personal_script)
+            assert Path(mock_env["MOCK_IDENTITY"]).read_text().splitlines() == [PERSONAL_EMAIL, ""]
             bundle = render(".chezmoiscripts/run_onchange_after_10-brew-bundle.sh.tmpl")
             assert run(["bash"], env=dict(mock_env, BREW_EXIT="23"), input=bundle, ok=False).returncode == 23
             # Exercise fish initialization and error propagation with an offline Fisher stub.

@@ -7,6 +7,10 @@ hostnames, URLs, or tokens.
 
 - `isWork` is a per-machine chezmoi data value, prompted once in `.chezmoi.toml.tmpl`.
 - Default is false. Work-only behavior is gated with `{{ if .isWork }}`.
+- Work machines prompt for `workEmail`; the address is saved only in local
+  chezmoi config. Init selects `email` from workEmail/personalEmail for Git and
+  shell configuration. Work tools can use the `WORK_EMAIL` environment variable.
+- Role changes preserve saved addresses but select the correct active email.
 
 ## Work overlay
 

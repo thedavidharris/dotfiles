@@ -46,13 +46,18 @@ and apps in `.chezmoidata/packages.yaml` are installed during the full apply.
 chezmoi init https://github.com/thedavidharris/dotfiles.git
 ```
 
-Answer **yes** to `Is this a work machine` on a work Mac; answer **no** on a
-personal Mac. Answer **no** to the optional macOS system preferences prompt for
+Answer **yes** to `Is this a work machine` on a work Mac, then enter your **work
+email address**. On a personal Mac, answer **no**; no work email is requested.
+Answer **no** to the optional macOS system preferences prompt for
 the initial setup. These answers survive `chezmoi init` and machine renames.
 
-The work flag selects the private work agent overlay and the 1Password `Work`
-vault. It does not change the Git email or the package list automatically.
-The default Git email is the personal address in `.chezmoidata/data.yaml`.
+The work flag selects the private work agent overlay, the work vault for both
+1Password SSH and fnox, and the saved work email. Git uses this selected email;
+fish exports it as `EMAIL` and, on work machines, `WORK_EMAIL`. Agent installation
+receives the same variables even when bootstrapping from zsh. Work tools and
+private agent configs can reference `WORK_EMAIL` rather than hardcoding an address.
+The shared package list is unchanged by the role. Personal machines use
+`personalEmail` from `.chezmoidata/data.yaml` unless locally overridden.
 
 ### 3. Set up SSH before private externals
 
@@ -114,8 +119,9 @@ also machine-local steps.
 
 Git commit signing uses 1Password and the public key in the Git template. Confirm
 that key exists in the selected vault and is registered with GitHub for signing.
-For a different work email, signing key, or vault, add local overrides as below
-and reapply. Test a signed commit in a disposable repository before starting work.
+For a different work email, run `chezmoi init --prompt` and reapply. For a different
+signing key or vault, add local overrides as below and reapply. Test a signed
+commit in a disposable repository before starting work.
 
 To make fish your login shell (optional; run from fish):
 
@@ -149,7 +155,8 @@ chezmoi status               # Check source vs target drift
 
 ## Machine-Specific Data
 
-`~/.config/chezmoi/chezmoi.toml` stores `isWork` and `configureMacOS` under `[data]`.
+`~/.config/chezmoi/chezmoi.toml` stores `isWork`, `workEmail`, `personalEmail`,
+the selected `email`, and `configureMacOS` under `[data]`.
 To explicitly ask again:
 
 ```fish
@@ -159,20 +166,31 @@ chezmoi apply
 ```
 
 A renamed Mac needs no changes. A migrated config retains the old role until you
-change it. Reinitializing regenerates the config, so back up any manual overrides
-and re-add them afterward. Examples of local overrides (merge into the existing
+change it. Reinitializing preserves saved emails and manual `[data]` overrides,
+including nested tables. It regenerates other config sections, so back up any
+custom settings outside `[data]`. The active `email` is recalculated for the
+selected role; change `workEmail` or `personalEmail`, rather than editing `email`.
+Examples of local overrides (merge into the existing
 `[data]` table, do not create a second one):
 
 ```toml
 [data]
 isWork = true
 configureMacOS = false
-email = "your-work-email@example.com"
+workEmail = "your-work-email@example.com"
+personalEmail = "your-personal-email@example.com"
 ssh_signing_key = "ssh-ed25519 YOUR_PUBLIC_KEY"
 
 [data.onepassword]
 workVault = "Your work vault name"
 ```
+
+After manually editing an email, run `chezmoi init` then `chezmoi apply`, and
+start a new fish shell. Switching to personal restores the personal email and
+removes the exported `WORK_EMAIL` from new fish shells; the saved work address is
+retained locally for a future switch back. Previously open shells retain their
+old environment until restarted. These variables do not sign into accounts or
+rewrite independently managed private repositories.
 
 Keep private values out of this repository. For fish overrides use
 `~/.config/fish/local/config.fish` or `~/.config/fish/local/conf.d/*.fish`.

@@ -1,0 +1,8 @@
+# Machine identity selected by chezmoi init. Globals refresh on every new shell;
+# universal variables would retain a previous machine role or email address.
+set --global --export EMAIL {{ .email | shellQuote }}
+{{ if .isWork -}}
+set --global --export WORK_EMAIL {{ .workEmail | shellQuote }}
+{{ else -}}
+set --erase --global WORK_EMAIL
+{{ end -}}

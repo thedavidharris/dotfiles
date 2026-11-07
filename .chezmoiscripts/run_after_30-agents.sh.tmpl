@@ -7,6 +7,14 @@ set -euo pipefail
 
 {{ template "brew-shellenv.sh" . }}
 
+# Match the shell identity even when apply runs from zsh during bootstrap.
+export EMAIL={{ .email | shellQuote }}
+{{ if .isWork -}}
+export WORK_EMAIL={{ .workEmail | shellQuote }}
+{{ else -}}
+unset WORK_EMAIL
+{{ end -}}
+
 AGENTS_DIR="$HOME/.agents"
 BASE="$AGENTS_DIR/agents.base.toml"
 TARGET="$AGENTS_DIR/agents.toml"
@@ -20,6 +28,8 @@ if [[ ! -f "$BASE" ]]; then
 fi
 
 cat "$BASE" > "$COMPOSED"
+# An identity change can affect environment-backed work configuration at install time.
+printf '\n# Machine identity: {{ dict "email" .email "isWork" .isWork | toJson | sha256sum }}\n' >> "$COMPOSED"
 {{ if .isWork -}}
 WORK="$HOME/.agents-work/agents.work.toml"
 if [[ -f "$WORK" ]]; then
