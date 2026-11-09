@@ -80,7 +80,6 @@ Google Drive
 Movies
 Music
 Pictures
-PrinterLogic
 Public
 
 # macOS system files
@@ -122,7 +121,6 @@ go
 .config/vault
 .config/op
 .config/chezmoi
-.dogrc
 
 # App-managed tool state
 .config/configstore
@@ -134,14 +132,9 @@ go
 
 # iOS/Android development artifacts
 .emulator_console_auth_token
-.ios-newsreader-fusion-save
-.mobiledev
-.maestro
 
 # Other runtime state
 .workflow-cache
-.osquery
-.bitrise
 
 # Agents runtime state (agents.toml is composed by run_after_30-agents.sh)
 .agents/.skill-lock.json
