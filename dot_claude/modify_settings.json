@@ -1,0 +1,24 @@
+#!/bin/sh
+# Claude Code, plugins, and other tools also write ~/.claude/settings.json, so
+# manage only the statusLine key and pass everything else through unchanged.
+#
+# npx resolves ccstatusline@latest under npm's min-release-age, so updates arrive
+# automatically after the cooldown.
+set -eu
+
+input=$(cat)
+[ -n "$input" ] || input='{}'
+
+if ! command -v jq >/dev/null 2>&1 \
+    || ! output=$(printf '%s\n' "$input" | jq --indent 2 '.statusLine = {
+        "type": "command",
+        "command": "npx -y ccstatusline@latest",
+        "padding": 0,
+        "refreshInterval": 10
+    }' 2>/dev/null); then
+    # Leave the file alone rather than fail apply or clobber invalid JSON.
+    printf '%s\n' "$input"
+    exit 0
+fi
+
+printf '%s\n' "$output"

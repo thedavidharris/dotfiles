@@ -1,0 +1,38 @@
+{{- /*
+  ccstatusline layout that mirrors the Starship prompt: the directory in cyan, then
+  "on  branch" in magenta and changes in red, hidden outside git. Colors are the 16 ANSI
+  names (colorLevel 1), so the terminal's Catppuccin theme supplies the actual shades,
+  as it does for Starship.
+
+  Machine-specific status commands go in local chezmoi data, outside this repo:
+    [data]
+    statuslineCommands = ["/path/to/command"]
+  Each one that exists gets its own line, with the command's colors kept.
+*/ -}}
+{{- $commands := list -}}
+{{- range (index . "statuslineCommands" | default list) -}}
+{{-   if stat . -}}{{- $commands = append $commands . -}}{{- end -}}
+{{- end -}}
+{
+  "version": 4,
+  "lines": [
+    [
+      { "id": "cwd", "type": "current-working-dir", "color": "cyan", "bold": true, "rawValue": true, "metadata": { "segments": "3", "abbreviateHome": "true" } },
+      { "id": "git-on", "type": "custom-text", "customText": "on ", "merge": "no-padding", "metadata": { "hide": "merge-target-hidden" } },
+      { "id": "git-icon", "type": "custom-text", "customText": "\ue0a0 ", "color": "magenta", "bold": true, "merge": "no-padding", "metadata": { "hide": "merge-target-hidden" } },
+      { "id": "git-branch", "type": "git-branch", "color": "magenta", "bold": true, "rawValue": true, "metadata": { "hide": "no-git" } },
+      { "id": "git-changes", "type": "git-changes", "color": "red", "bold": true, "metadata": { "hide": "no-git,zero" } },
+      { "id": "sep-model", "type": "custom-text", "customText": "|", "color": "brightBlack" },
+      { "id": "model", "type": "model", "color": "blue", "rawValue": true },
+      { "id": "sep-context", "type": "custom-text", "customText": "|", "color": "brightBlack" },
+      { "id": "context", "type": "context-percentage", "color": "brightBlack" }
+    ]
+{{- range $i, $command := $commands }},
+    [
+      { "id": "command-{{ $i }}", "type": "custom-command", "commandPath": {{ $command | toJson }}, "timeout": 1000, "preserveColors": true }
+    ]
+{{- end }}
+  ],
+  "colorLevel": 1,
+  "defaultSeparator": " "
+}

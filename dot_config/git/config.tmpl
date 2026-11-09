@@ -325,6 +325,11 @@
     signingkey = {{ ($signingKey | default "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcRDRRgo3g6f48cIrV8oEaDgnL5cCPtqqUo1gqI4dmj") | quote }}
 {{- end }}
 
+# The dotfiles repo is public, so commit to it as the personal identity even on
+# work machines.
+[includeIf "gitdir:{{ .chezmoi.sourceDir }}/"]
+    path = personal.inc
+
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
